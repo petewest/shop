@@ -8,4 +8,6 @@ class User < ActiveRecord::Base
   before_save { self.email.downcase! }
 
   has_secure_password
+
+  has_many :sessions, inverse_of: :user, dependent: :destroy
 end

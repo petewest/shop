@@ -1,0 +1,8 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: :one
+  ip_addr: 127.0.0.1
+  remember_token: MyString
+  expires_at: 2014-03-26 19:50:05
+
