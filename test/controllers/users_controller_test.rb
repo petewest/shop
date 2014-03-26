@@ -24,6 +24,8 @@ class UsersControllerTest < ActionController::TestCase
       post :create, user: valid.except(:password)
     end
     assert_equal "New user creation failed", flash[:danger]
+    get :new
+    assert_not_equal "New user creation failed", flash[:danger]
   end
 
 

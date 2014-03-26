@@ -9,7 +9,7 @@ class UsersController < ApplicationController
       flash[:success]="Welcome #{@user.name}"
       redirect_to root_path
     else
-      flash[:danger]="New user creation failed"
+      flash.now[:danger]="New user creation failed"
       render 'new'
     end
   end

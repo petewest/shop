@@ -1,0 +1,25 @@
+<% provide(:title, "Sign up") %>
+
+<%= content_tag(:h1, "Sign up") %>
+
+<div class="row">
+	<div class="col-md-6">
+		<%= form_for :session, url: sessions_path do |f| %>
+			<%= render 'shared/form_error', object: f.object %>
+			<div class="form-group">
+				<%= f.label :email %>
+				<%= f.text_field :email, class: "form-control" %>
+			</div>
+			<div class="form-group">
+				<%= f.label :password %>
+				<%= f.password_field :password, class: "form-control" %>
+			</div>
+			<div class="checkbox">
+				<label>
+					<%= f.check_box :remember %> Keep me logged in
+				</label>
+			</div>
+		<% end %>
+	</div>
+
+</div>
