@@ -1,3 +1,7 @@
 <% flash.each do |key, value| %>
+<% case key
+when "notice"
+	key="warning"
+end %>
 <%= content_tag(:div, value, class: "alert alert-#{key}") %>
 <% end %>

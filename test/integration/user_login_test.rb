@@ -45,6 +45,16 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     assert_not_equal "Incorrect login", flash[:danger]
   end
 
+  test "should redirect back to original page after login when trying to access protected page" do
+    user=User.new(valid_user)
+    user.save
+    get signout_path
+    assert_equal signout_url, session[:return_to]
+    post sessions_path, session: valid_session_params
+    assert_response :redirect
+    assert_redirected_to signout_url
+  end
+
 
   private
     def valid_user

@@ -83,7 +83,4 @@ module SessionsHelper
       redirect_to signin_url, notice: "Please sign in."
     end
   end
-  def admin_user
-    redirect_to(root_url) unless is_admin?
-  end
 end

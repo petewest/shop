@@ -11,8 +11,12 @@
 		</div>
 		<div class="collapse navbar-collapse" id="navbar">
 			<ul class="nav navbar-nav pull-right">
+				<% if signed_in? %>
+					<li><%= link_to "Sign out", signout_path %></li>
+				<% else %>
 				<li><%= link_to "Sign in", signin_path %></li>
 				<li><%= link_to "Sign up", signup_path %></li>
+				<% end %>
 			</ul>
 		</div>
 	</div>
