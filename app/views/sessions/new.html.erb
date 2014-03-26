@@ -1,6 +1,6 @@
-<% provide(:title, "Sign up") %>
+<% provide(:title, "Sign in") %>
 
-<%= content_tag(:h1, "Sign up") %>
+<%= content_tag(:h1, "Sign in") %>
 
 <div class="row">
 	<div class="col-md-6">
@@ -18,6 +18,9 @@
 				<label>
 					<%= f.check_box :remember %> Keep me logged in
 				</label>
+			</div>
+			<div class="form-group">
+				<%= f.submit "Login", data: {disable_with: "Attempting login"}, class: "btn btn-default" %>
 			</div>
 		<% end %>
 	</div>

@@ -8,7 +8,7 @@ class StaticPagesControllerTest < ActionController::TestCase
     assert_select "title", "Shop!"
     assert_select "nav"
     assert_select "a[href=#{root_url}]", "Shop!"
-    assert_select 'a[href=#]', "Sign in"
+    assert_select "a[href=#{signin_path}]", "Sign in"
     assert_select "a[href=#{signup_path}]", "Sign up"
   end
 
