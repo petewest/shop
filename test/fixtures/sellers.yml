@@ -1,8 +1,0 @@
-
-
-seller:
-  name: "Seller user"
-  email: "seller@reseller.com"
-  password_digest: test_digest
-  type: Seller
-
