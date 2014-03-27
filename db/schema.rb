@@ -11,7 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140327145545) do
+ActiveRecord::Schema.define(version: 20140327151525) do
+
+  create_table "products", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.integer  "seller_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "products", ["seller_id"], name: "index_products_on_seller_id", using: :btree
 
   create_table "sessions", force: true do |t|
     t.integer  "user_id"

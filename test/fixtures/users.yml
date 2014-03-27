@@ -4,3 +4,14 @@ one:
   email: email@email.com
   name: Pete
   address: Somewhere
+
+seller:
+  name: "Seller user"
+  email: "seller@reseller.com"
+  password_digest: test_digest
+  type: Seller
+
+buyer:
+  email: buyer_only@email.com
+  name: Buyer beware
+
