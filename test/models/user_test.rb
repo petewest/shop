@@ -76,6 +76,11 @@ class UserTest < ActiveSupport::TestCase
     assert_not user.valid?
   end
 
+  test "should be a User" do
+    user=User.first
+    assert user.is_a? User
+  end
+
 
 
   private
