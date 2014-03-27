@@ -83,4 +83,10 @@ module SessionsHelper
       redirect_to signin_url, notice: "Please sign in."
     end
   end
+  def signed_in_admin
+    unless signed_in? and current_user.is_a? Seller
+      store_location
+      redirect_to signin_url, notice: "Please sign in to a seller account"
+    end
+  end
 end
