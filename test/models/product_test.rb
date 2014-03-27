@@ -22,6 +22,11 @@ class ProductTest < ActiveSupport::TestCase
     end
   end
 
+  test "should not be valid without name" do
+    product=Product.new(valid.except(:name))
+    assert_not product.valid?
+  end
+
 
   private
     def valid
