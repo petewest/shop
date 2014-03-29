@@ -40,4 +40,37 @@ class ProductsControllerTest < ActionController::TestCase
     assert_select "form"
   end
 
+  test "should not create new product when not signed in" do
+    assert_no_difference "Product.count" do
+      post :create, product: valid
+    end
+    assert_response :redirect
+  end
+
+  test "should not create new product when signed in as buyer" do
+    sign_in users(:buyer)
+    assert_no_difference "Product.count" do
+      post :create, product: valid
+    end
+    assert_response :redirect
+  end
+
+  test "should create new product when signed in as seller" do
+    sign_in users(:seller)
+    assert_difference "Product.count" do
+      post :create, product: valid
+    end
+    assert_response :redirect
+    assert_not_nil assigns(:product)
+    assert_redirected_to assigns(:product)
+    assert_equal "New product created", flash[:success]
+  end
+
+
+
+  private
+    def valid
+      @product||={name: "New product test", description: "Test description", seller: users(:seller)}
+    end
+
 end
