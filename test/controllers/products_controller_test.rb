@@ -71,7 +71,6 @@ class ProductsControllerTest < ActionController::TestCase
     assert_no_difference "Product.count" do
       post :create, product: valid.except(:name)
     end
-    assert_not_nil assigns(:product)
     assert_template :new
     assert_equal "Product creation failed", flash[:danger]
     assert_select ".field_with_errors"
