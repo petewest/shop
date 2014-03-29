@@ -16,4 +16,28 @@ class ProductsControllerTest < ActionController::TestCase
     end
   end
 
+  test "should not get new page without being logged in" do
+    get :new
+    assert_response :redirect
+    assert_redirected_to signin_path
+    assert_equal "Please sign in to a seller account", flash[:notice]
+  end
+
+  test "should not get new page when signed in as buyer" do
+    sign_in users(:buyer)
+    get :new
+    assert_response :redirect
+    assert_redirected_to signin_path
+    assert_equal "Please sign in to a seller account", flash[:notice]
+  end
+
+  test "should get new page when signed in as seller" do
+    sign_in users(:seller)
+    get :new
+    assert_response :success
+    assert_not_nil assigns(:product)
+    assert_select "h1", "Create new product"
+    assert_select "form"
+  end
+
 end
