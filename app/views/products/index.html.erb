@@ -1,0 +1,9 @@
+<% provide(:title, "All products") %>
+
+<%= content_tag(:h1, "All products") %>
+
+<div class="product_list">
+	<%= render @products %>
+</div>
+
+<%= will_paginate %>

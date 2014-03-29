@@ -5,3 +5,10 @@ tshirt:
   description: Awesome clothes
   seller: :seller
 
+<% 99.times do |i| %>
+product_<%=i%>:
+  name: Some product <%=i%>
+  description: More awesome products
+  seller: :seller
+
+<% end %>
