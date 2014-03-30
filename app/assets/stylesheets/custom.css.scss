@@ -5,10 +5,24 @@
   @extend .has-error;
 }
 
-.product_card {
+.product_list {
 	@extend .row;
 }
+.product_card {
+	@extend .col-lg-3, .col-md-4, .col-sm-6, .col-xs-12;
+}
 
-.product_name {
-	@extend .col-lg-2, .col-md-3, .col-sm-6, .col-xs-12;
+.product_card_name {
+	@extend .col-md-12;
+}
+
+.product_card_description {
+	@extend .col-md-12;
+}
+
+.seller_actions {
+	@extend .pull-right;
+}
+
+.product_page_description {
 }

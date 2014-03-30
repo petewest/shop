@@ -33,6 +33,10 @@ module SessionsHelper
     user==current_user
   end
 
+  def signed_in_seller?
+    current_user.is_a? Seller
+  end
+
   def current_session
     if @current_session.nil?
       if session[:remember_token]
@@ -84,7 +88,7 @@ module SessionsHelper
     end
   end
   def signed_in_seller
-    unless signed_in? and current_user.is_a? Seller
+    unless signed_in_seller?
       store_location
       redirect_to signin_url, notice: "Please sign in to a seller account"
     end
