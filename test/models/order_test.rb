@@ -48,6 +48,20 @@ class OrderTest < ActiveSupport::TestCase
     assert_not order.save
   end
 
+  test "should respond to line_items" do
+    order=Order.new
+    assert_respond_to order, :line_items
+  end
+
+  test "should have pending scope" do
+    assert_respond_to Order, :pending
+  end
+
+  test "pending scope should only contain pending orders" do
+    pending_orders=Order.pending
+    assert pending_orders.all?{ |o| o.status.in? %w(placed paid) }
+  end
+
   private
     def valid
       @order||={user: users(:buyer)}
