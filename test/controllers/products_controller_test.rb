@@ -107,6 +107,32 @@ class ProductsControllerTest < ActionController::TestCase
     assert_select "a[href=#{edit_product_path(product)}]", 0
   end
 
+  test "should not delete item for not logged in user" do
+    product=products(:tshirt)
+    assert_no_difference "Product.count" do
+      delete :destroy, id: product.id
+    end
+    assert_response :redirect
+  end
+
+  test "should not delete item for buyer user" do
+    sign_in users(:buyer)
+    product=products(:tshirt)
+    assert_no_difference "Product.count" do
+      delete :destroy, id: product.id
+    end
+    assert_response :redirect
+  end
+
+  test "should delete item for not seller" do
+    sign_in users(:seller)
+    product=products(:tshirt)
+    assert_difference "Product.count", -1 do
+      delete :destroy, id: product.id
+    end
+    assert_response :redirect
+  end
+
 
 
   private

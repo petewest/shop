@@ -25,6 +25,15 @@ class ProductsController < ApplicationController
     
   end
 
+  def destroy
+    if @product.destroy
+      flash[:success]="Product deleted"
+    else
+      flash[:danger]="Product deletion failed"
+    end
+    redirect_to products_path
+  end
+
 
   private
     def product_params
