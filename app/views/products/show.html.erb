@@ -1,9 +1,6 @@
 <% provide(:title, @product.name) %>
 
-<%= seller_actions do %>
-	<%= link_to "Edit", edit_product_path(@product), class: "btn btn-default" %>
-	<%= link_to "Delete", product_path(@product), method: :delete, data: {confirm: "Are you sure you wish to delete this product?"}, class: "btn btn-danger" %>
-<% end if signed_in_seller? %>
+<%= action_bar(@product, title: "Seller actions") if signed_in_seller? %>
 
 <%= content_tag(:h1, @product.name) %>
 
