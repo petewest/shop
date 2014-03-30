@@ -81,6 +81,11 @@ class UserTest < ActiveSupport::TestCase
     assert user.is_a? User
   end
 
+  test "should respond to orders" do
+    user=User.new
+    assert_respond_to user, :orders
+  end
+
 
 
   private

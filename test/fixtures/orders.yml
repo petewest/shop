@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+placed:
+  user: :buyer
+  status: 1
+  placed_at: 2014-03-30 17:13:24
+  paid_at: 
+  dispatched_at: 
+
+paid:
+  user: :buyer
+  status: 2
+  placed_at: 2014-03-30 17:13:24
+  paid_at: 2014-03-30 17:13:24
+  dispatched_at:
