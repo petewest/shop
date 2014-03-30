@@ -39,8 +39,13 @@ class OrderTest < ActiveSupport::TestCase
   test "should have a status of cart on save (if none other set)" do
     order=Order.new(valid)
     assert_not_nil order.save
-    assert_equal Order.statuses[:cart], order.status
+    assert_equal "cart", order.status
     assert order.cart?
+  end
+
+  test "should not save without user" do
+    order=Order.new(valid.except(:user))
+    assert_not order.save
   end
 
   private

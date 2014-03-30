@@ -10,5 +10,5 @@ class User < ActiveRecord::Base
   has_secure_password
 
   has_many :sessions, inverse_of: :user, dependent: :destroy
-  has_many :orders, inverse_of: :user, dependent: :nullify
+  has_many :orders, inverse_of: :user, dependent: :destroy
 end
