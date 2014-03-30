@@ -9,7 +9,13 @@ Rails.application.routes.draw do
   get '/signup' => 'users#new'
   resources :users, only: [:create]
 
-  resources :products
+  concern :buyable do
+    member do
+      post 'buy'
+    end
+  end
+
+  resources :products, concerns: :buyable
 
 
   # The priority is based upon order of creation: first created -> highest priority.

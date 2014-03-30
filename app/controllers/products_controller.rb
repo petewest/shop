@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :signed_in_seller, except: [:index, :show]
+  before_action :signed_in_seller, except: [:index, :show, :buy]
   before_action :product_from_params, except: [:index, :new, :create]
 
   def index
@@ -44,6 +44,17 @@ class ProductsController < ApplicationController
       flash.now[:danger]="Product detail update failed"
       render 'edit'
     end
+  end
+
+  def buy
+    quantity=params[:quantity].to_i
+    if quantity<=0
+      flash[:warning]="Quantity needed"
+    else
+      flash[:success]="#{view_context.pluralize(quantity, @product.name)} added to cart"
+      add_to_cart(@product, quantity)
+    end
+    redirect_to products_path
   end
 
 

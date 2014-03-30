@@ -14,4 +14,5 @@ end
 
 class ActionController::TestCase
   include SessionsHelper
+  include CartHelper
 end

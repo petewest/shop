@@ -194,6 +194,23 @@ class ProductsControllerTest < ActionController::TestCase
     assert_equal users(:seller), product.seller
   end
 
+  test "should be able to buy" do
+    product=products(:tshirt)
+    assert_difference "current_cart.count" do
+      put :buy, id: product.id, quantity: 1
+    end
+    assert_not_nil cookies[:cart]
+    assert_equal [{id: product.id, quantity: 1}], cookies[:cart]
+  end
+
+  test "should not be able to buy without quantity" do
+    product=products(:tshirt)
+    assert_no_difference "current_cart.count" do
+      put :buy, id: product.id, quantity: 0
+    end
+    assert_equal flash[:warning], "Quantity needed"
+  end
+
 
 
   private
