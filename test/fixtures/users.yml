@@ -11,6 +11,13 @@ seller:
   password_digest: test_digest
   type: Seller
 
+seller2:
+  name: "Seller user"
+  email: "seller2@reseller.com"
+  password_digest: test_digest
+  type: Seller
+
+
 buyer:
   email: buyer_only@email.com
   name: Buyer beware

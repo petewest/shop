@@ -22,7 +22,6 @@ class ProductsController < ApplicationController
   end
 
   def show
-    
   end
 
   def destroy
@@ -32,6 +31,19 @@ class ProductsController < ApplicationController
       flash[:danger]="Product deletion failed"
     end
     redirect_to products_path
+  end
+
+  def edit
+  end
+
+  def update
+    if @product.update_attributes(product_params)
+      flash[:success]="Product details saved"
+      redirect_to @product
+    else
+      flash.now[:danger]="Product detail update failed"
+      render 'edit'
+    end
   end
 
 

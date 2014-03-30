@@ -63,10 +63,11 @@ class ProductsControllerTest < ActionController::TestCase
     assert_response :redirect
     assert_not_nil assigns(:product)
     assert_redirected_to assigns(:product)
+    assert_equal users(:seller), assigns(:product).seller
     assert_equal "New product created", flash[:success]
   end
 
-  test "should create new product when product invalid" do
+  test "should not create new product when product invalid" do
     sign_in users(:seller)
     assert_no_difference "Product.count" do
       post :create, product: valid.except(:name)
@@ -124,7 +125,7 @@ class ProductsControllerTest < ActionController::TestCase
     assert_response :redirect
   end
 
-  test "should delete item for not seller" do
+  test "should delete item for seller" do
     sign_in users(:seller)
     product=products(:tshirt)
     assert_difference "Product.count", -1 do
@@ -133,11 +134,71 @@ class ProductsControllerTest < ActionController::TestCase
     assert_response :redirect
   end
 
+  test "should allow seller to edit" do
+    sign_in users(:seller)
+    product=products(:tshirt)
+    get :edit, id: product.id
+    assert_response :success
+    assert_select "h1", "Edit #{product.name}"
+    assert_select "form"
+  end
+
+  test "should not allow buyer to edit" do
+    sign_in users(:buyer)
+    product=products(:tshirt)
+    get :edit, id: product.id
+    assert_response :redirect
+    assert_select "form", 0
+  end
+
+  test "should update for seller" do
+    sign_in users(:seller)
+    product=products(:tshirt)
+    old_name=product.name
+    patch :update, id: product.id, product: {name: "new name"}
+    product.reload
+    assert_not_nil assigns(:product)
+    assert_equal "new name", product.name
+    assert_not_equal old_name, product.name
+    assert_redirected_to product
+  end
+
+  test "should not update for buyer" do
+    sign_in users(:buyer)
+    product=products(:tshirt)
+    old_name=product.name
+    patch :update, id: product.id, product: {name: "new name"}
+    product.reload
+    assert_not_equal "new name", product.name
+    assert_equal old_name, product.name
+    assert_response :redirect
+  end
+
+  test "should not update with invalid details" do
+    sign_in users(:seller)
+    product=products(:tshirt)
+    old_name=product.name
+    patch :update, id: product.id, product: {name: ""}
+    product.reload
+    assert_equal old_name, product.name
+    assert_template :edit
+  end
+
+  test "should not change seller" do
+    sign_in users(:seller)
+    product=products(:tshirt)
+    old_name=product.name
+    patch :update, id: product.id, product: {name: product.name, description: product.description, seller_id: users(:seller2).id}
+    product.reload
+    assert_not_equal users(:seller2), product.seller
+    assert_equal users(:seller), product.seller
+  end
+
 
 
   private
     def valid
-      @product||={name: "New product test", description: "Test description", seller: users(:seller)}
+      @product||={name: "New product test", description: "Test description"}
     end
 
 end
