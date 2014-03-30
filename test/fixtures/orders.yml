@@ -2,28 +2,28 @@
 
 placed:
   user: :buyer
-  status: 1
+  status: <%= Order.statuses[:placed] %>
   placed_at: 2014-03-30 17:13:24
   paid_at: 
   dispatched_at: 
 
 paid:
   user: :buyer
-  status: 2
+  status: <%= Order.statuses[:paid] %>
   placed_at: 2014-03-30 17:13:24
   paid_at: 2014-03-30 17:13:24
   dispatched_at:
 
 cart:
   user: :buyer
-  status: 0
+  status: <%= Order.statuses[:cart] %>
   placed_at:
   paid_at: 
   dispatched_at: 
 
 dispatched:
   user: :buyer
-  status: 3
+  status: <%= Order.statuses[:dispatched] %>
   placed_at: 2014-03-30 17:13:24
   paid_at: 2014-03-30 17:13:24
   dispatched_at: 2014-03-30 17:13:24
