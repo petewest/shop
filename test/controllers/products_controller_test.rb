@@ -196,17 +196,15 @@ class ProductsControllerTest < ActionController::TestCase
 
   test "should be able to buy" do
     product=products(:tshirt)
-    assert_difference "current_cart.count" do
-      put :buy, id: product.id, quantity: 1
-    end
+    put :buy, id: product.id, cart: {quantity: 1}
     assert_not_nil cookies[:cart]
-    assert_equal [{id: product.id, quantity: 1}], cookies[:cart]
+    assert_equal [{id: product.id, quantity: 1}].to_json, cookies[:cart]
   end
 
   test "should not be able to buy without quantity" do
     product=products(:tshirt)
     assert_no_difference "current_cart.count" do
-      put :buy, id: product.id, quantity: 0
+      put :buy, id: product.id, cart: {quantity: 0}
     end
     assert_equal flash[:warning], "Quantity needed"
   end

@@ -1,4 +1,5 @@
 <div class="product_card">
 	<div class="product_card_name"><%= link_to product.name, product %></div>
 	<div class="product_card_description"><%= product.description if !product.description.blank? %></div>
+	<div class="product_card_purchase"><%= render 'add_to_cart', object: product %></div>
 </div>
