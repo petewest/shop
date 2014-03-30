@@ -31,9 +31,11 @@ class LineItemTest < ActiveSupport::TestCase
     assert_not line_item.save
   end
 
-  test "should not save if order status is anything other than cart" do
-    line_item=LineItem.new(valid.merge(order: orders(:paid)))
-    assert_not line_item.save
+  test "should not save if order status is paid or dispatched" do
+    line_item_paid=LineItem.new(valid.merge(order: orders(:paid)))
+    line_item_dispatched=LineItem.new(valid.merge(order: orders(:dispatched)))
+    assert_not line_item_paid.save
+    assert_not line_item_dispatched.save
   end
 
   private

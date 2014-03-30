@@ -12,6 +12,6 @@ class LineItem < ActiveRecord::Base
 
   private
     def order_status_on_save
-      return false if order.try(:status)!="cart"
+      return false unless %w(cart placed).include?(order.try(:status))
     end
 end
