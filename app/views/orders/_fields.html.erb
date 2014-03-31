@@ -9,6 +9,7 @@
         </div>
         <div class="col-md-1">
           <%= item.number_field :quantity, class: "form-control", disabled: true%>
+          <%= item.hidden_field :quantity %>
         </div>
       </div>
     <% end %>
