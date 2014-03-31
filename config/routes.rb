@@ -16,9 +16,10 @@ Rails.application.routes.draw do
   end
 
   resources :products, concerns: :buyable
-  get '/cart' => 'cart#show'
+  get '/cart' => 'cart#index'
   get '/checkout' => 'orders#new'
   resources :orders, except: :destroy
+  resources :cart, only: [:index, :destroy, :update]
 
 
   # The priority is based upon order of creation: first created -> highest priority.

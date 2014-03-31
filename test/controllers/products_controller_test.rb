@@ -200,7 +200,7 @@ class ProductsControllerTest < ActionController::TestCase
       put :buy, id: product.id, cart: {quantity: 1}
     end
     assert_not_nil cookies[:cart]
-    assert_equal [{line_id: 1, product_id: product.id, quantity: 1}].to_json, cookies[:cart]
+    assert_equal Hash(product_id: product.id, quantity: 1).stringify_keys, current_cart.first[1]
     #assert_select '#cart_count' # no idea why this test is failing
   end
   test "should be able to buy (js)" do
@@ -209,7 +209,7 @@ class ProductsControllerTest < ActionController::TestCase
       put :buy, format: :js, id: product.id, cart: {quantity: 1}
     end
     assert_not_nil cookies[:cart]
-    assert_equal [{line_id: 1, product_id: product.id, quantity: 1}].to_json, cookies[:cart]
+    assert_equal Hash(product_id: product.id, quantity: 1).stringify_keys, current_cart.first[1]
     assert_equal "1 #{product.name} added to cart", flash[:success]
   end
 

@@ -1,6 +1,6 @@
 module CartHelper
   def current_cart
-    cookies.permanent[:cart]=[].to_json if cookies[:cart].blank?
+    cookies.permanent[:cart]={}.to_json if cookies[:cart].blank?
     @current_cart=JSON.parse(cookies[:cart])
   end
 
@@ -10,8 +10,12 @@ module CartHelper
 
   def add_to_cart(item, quantity)
     cart_now=current_cart
-    cart_now<<{line_id: current_cart.count+1, product_id: item.id, quantity: quantity}
+    cart_now[SecureRandom.hex(5)]={product_id: item.id, quantity: quantity}
     self.current_cart=cart_now
+  end
+
+  def remove_from_cart(line_id)
+    self.current_cart=current_cart.except(line_id)
   end
 
 end

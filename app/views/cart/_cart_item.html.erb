@@ -1,0 +1,5 @@
+<% product=@products.first{|p| p.id==cart_item["product_id"]} %>
+<div class="row">
+	<%= product.name %>
+	<%= cart_item["quantity"] %>
+</div>
