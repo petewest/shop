@@ -13,7 +13,11 @@ class CartController < ApplicationController
   end
 
   def update
-    self.current_cart=current_cart.merge(params[:id] => current_cart[params[:id]].merge(cart_params)) if current_cart.has_key?(params[:id])
+    if !current_cart.has_key?(params[:id]) or params[:quantity].to_i<=0
+      flash[:warning]="Error saving changes"
+    else
+      self.current_cart=current_cart.merge(params[:id] => current_cart[params[:id]].merge(cart_params))
+    end
     respond_to do |format|
       format.html {redirect_to cart_path}
     end
