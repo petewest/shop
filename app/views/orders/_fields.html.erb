@@ -7,16 +7,8 @@
         <div class="col-md-offset-2 col-md-3">
           <%= item.object.product.name %>
         </div>
-        <div class="col-md-2">
-          <div class="input-group">
-            <span class="input-group-btn">
-              <button class="btn btn-default">-</button>
-            </span>
-            <%= item.text_field :quantity, class: "form-control"%>
-            <span class="input-group-btn">
-              <button class="btn btn-default">+</button>
-            </span>
-          </div>
+        <div class="col-md-1">
+          <%= item.number_field :quantity, class: "form-control"%>
         </div>
         <div class="col-md-2">
           <div class="checkbox">
@@ -26,5 +18,4 @@
       </div>
     <% end %>
   </div>
-  <%= f.submit "Place order", data: {disable_with: "Placing order"}, class: "btn btn-default" %>
 <% end %>
