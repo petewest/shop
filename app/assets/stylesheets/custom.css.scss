@@ -33,3 +33,11 @@
 
 .buy_button {
 }
+
+.cart_container {
+
+}
+
+.cart_container>div:nth-child(odd) {
+	background-color: $table-bg-accent;
+}

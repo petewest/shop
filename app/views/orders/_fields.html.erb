@@ -1,16 +1,28 @@
 <%= form_for @order do |f| %>
   <%= render 'shared/form_error', object: f.object %>
-  <div id="line_items">
+  <div id="line_items" class="cart_container">
     <%= f.fields_for :line_items do |item| %>
-      <%= item.hidden_field :product_id %>
-      <div class="form-group">
-        <label class="control-label">
+      <div class="row">
+        <%= item.hidden_field :product_id %>
+        <div class="col-md-offset-2 col-md-3">
           <%= item.object.product.name %>
-        </label>
-        <%= item.text_field :quantity, class: "form-control"%>
-      </div>
-      <div class="form-group">
-        <label><%= item.check_box :_destroy %>Remove</label>
+        </div>
+        <div class="col-md-2">
+          <div class="input-group">
+            <span class="input-group-btn">
+              <button class="btn btn-default">-</button>
+            </span>
+            <%= item.text_field :quantity, class: "form-control"%>
+            <span class="input-group-btn">
+              <button class="btn btn-default">+</button>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-2">
+          <div class="checkbox">
+            <label><%= item.check_box :_destroy %> Remove</label>
+          </div>
+        </div>
       </div>
     <% end %>
   </div>
