@@ -8,11 +8,10 @@ class OrdersController < ApplicationController
   def cart
     @order=Order.new(status: :cart)
     @order.line_items=order_from_cart
-    render 'show'
   end
 
   private
     def order_from_cart
-      line_item_params.dup
+      line_item_params.map{|li| LineItem.new(li) }
     end
 end

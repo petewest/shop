@@ -4,6 +4,7 @@ class Order < ActiveRecord::Base
   has_many :products, through: :line_items, inverse_of: :orders
   
   validates :user, presence: true
+  accepts_nested_attributes_for :line_items, allow_destroy: true
 
   enum status: [:cart, :placed, :paid, :dispatched]
 
