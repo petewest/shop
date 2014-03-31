@@ -1,10 +1,7 @@
 module OrdersHelper
   def current_cart
-    if @current_cart.nil?
-      cookies.permanent[:cart]=[].to_json if cookies[:cart].blank?
-      @current_cart=JSON.parse(cookies[:cart])
-    end
-    @current_cart
+    cookies.permanent[:cart]=[].to_json if cookies[:cart].blank?
+    @current_cart=JSON.parse(cookies[:cart])
   end
 
   def current_cart=(cart)
