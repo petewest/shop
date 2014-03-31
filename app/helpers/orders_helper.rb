@@ -1,4 +1,4 @@
-module CartHelper
+module OrdersHelper
   def current_cart
     if @current_cart.nil?
       cookies.permanent[:cart]=[].to_json if cookies[:cart].blank?
