@@ -31,6 +31,11 @@ class LineItemTest < ActiveSupport::TestCase
     assert_not line_item.save
   end
 
+  test "should set quantity to be one when missing" do
+    line_item=LineItem.new(valid.except(:quantity))
+    assert_equal 1, line_item.quantity
+  end
+
   test "should not save if order status is paid or dispatched" do
     line_item_paid=LineItem.new(valid.merge(order: orders(:paid)))
     line_item_dispatched=LineItem.new(valid.merge(order: orders(:dispatched)))
