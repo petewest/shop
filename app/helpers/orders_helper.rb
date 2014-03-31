@@ -10,7 +10,11 @@ module OrdersHelper
 
   def add_to_cart(item, quantity)
     cart_now=current_cart
-    cart_now<<{id: item.id, quantity: quantity}
+    cart_now<<{product_id: item.id, quantity: quantity}
     self.current_cart=cart_now
+  end
+
+  def line_item_params
+    current_cart.map{ |item| ActionController::Parameters.new(item).permit(:product_id, :quantity) }
   end
 end
