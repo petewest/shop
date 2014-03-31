@@ -1,5 +1,12 @@
-<% product=@products.first{|p| p.id==cart_item["product_id"]} %>
-<div class="row">
-	<%= product.name %>
-	<%= cart_item["quantity"] %>
+<% product=@products.find{|p| p.id==cart_item["product_id"]} %>
+<div class="row" id="<%=id%>">
+	<div class="col-md-offset-2 col-md-3">
+		<%= product.name %>
+	</div>
+	<div class="col-md-1">
+		<%= cart_item["quantity"] %>
+	</div>
+	<div class="col-md-2">
+		<%= button_to "Remove", {action: :destroy, id: id}, method: :delete, remote: true, class: "btn btn-default" %>
+	</div>
 </div>

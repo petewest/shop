@@ -3,7 +3,7 @@
 <%= content_tag(:h1, "Shopping cart") %>
 
 <div class="cart_container">
-	<% current_cart.each_value do |cart_item| %>
-		<%= render 'cart_item', cart_item: cart_item %>
+	<% current_cart.each do |id, cart_item| %>
+		<%= render 'cart_item', id: id, cart_item: cart_item %>
 	<% end %>
 </div>
