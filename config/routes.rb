@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   end
 
   resources :products, concerns: :buyable
-  get '/cart' => 'orders#cart'
+  get '/cart' => 'cart#show'
   get '/checkout' => 'orders#new'
   resources :orders, except: :destroy
 

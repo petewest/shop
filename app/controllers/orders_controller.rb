@@ -1,12 +1,8 @@
 class OrdersController < ApplicationController
-  before_action :signed_in_user, except: :cart
+  before_action :signed_in_user
 
   def new
     @order=Order.new
-  end
-
-  def cart
-    @order=Order.new(status: :cart)
     @order.line_items=order_from_cart
   end
 

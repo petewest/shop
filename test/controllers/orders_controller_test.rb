@@ -7,9 +7,4 @@ class OrdersControllerTest < ActionController::TestCase
     assert_redirected_to signin_path
   end
 
-  test "should get cart without login" do
-    get :cart
-    assert_response :success
-  end
-
 end
