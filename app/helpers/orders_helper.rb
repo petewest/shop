@@ -10,7 +10,7 @@ module OrdersHelper
 
   def add_to_cart(item, quantity)
     cart_now=current_cart
-    cart_now<<{product_id: item.id, quantity: quantity}
+    cart_now<<{line_id: current_cart.count+1, product_id: item.id, quantity: quantity}
     self.current_cart=cart_now
   end
 
