@@ -25,7 +25,7 @@ class CartControllerTest < ActionController::TestCase
     product=products(:tshirt)
     add_to_cart(product, 1)
     id=current_cart.map{|k,v| k}.first
-    patch :update, id: id, quantity: "2"
+    patch :update, id: id, cart: {quantity: "2"}
     assert_equal Hash(product_id: product.id, quantity: "2").stringify_keys, current_cart[id]
   end
 
@@ -33,7 +33,7 @@ class CartControllerTest < ActionController::TestCase
     product=products(:tshirt)
     add_to_cart(product, 1)
     id=current_cart.map{|k,v| k}.first
-    patch :update, id: id, product_id: products(:product_1).id
+    patch :update, id: id, cart: {product_id: products(:product_1).id}
     assert_equal Hash(product_id: product.id, quantity: 1).stringify_keys, current_cart[id]
   end
 

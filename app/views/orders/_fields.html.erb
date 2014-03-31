@@ -8,14 +8,14 @@
           <%= item.object.product.name %>
         </div>
         <div class="col-md-1">
-          <%= item.number_field :quantity, class: "form-control"%>
-        </div>
-        <div class="col-md-2">
-          <div class="checkbox">
-            <label><%= item.check_box :_destroy %> Remove</label>
-          </div>
+          <%= item.number_field :quantity, class: "form-control", disabled: true%>
         </div>
       </div>
     <% end %>
+  </div>
+  <div class="btn-group pull-right">
+    <%= link_to "Continue shopping", products_path, class: "btn btn-default" %>
+    <%= link_to "Change order", cart_index_path, class: "btn btn-default" %>
+    <%= f.submit "Place order", data: {disable_with: 'Placing order'}, class: "btn btn-primary" %>
   </div>
 <% end %>

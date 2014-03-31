@@ -3,8 +3,18 @@
 	<div class="col-md-offset-2 col-md-3">
 		<%= product.name %>
 	</div>
-	<div class="col-md-1">
-		<%= cart_item["quantity"] %>
+	<div class="col-md-2">
+		<%= form_for :cart, url: cart_path(id), action: :update, method: :patch, remote: true, class: "form-inline" do |f| %>
+			<div class="input-group">
+				<div class="input-group-btn">
+					<%= f.button "-", class: "btn btn-default", name: "subtract", value: "-" %>
+				</div>
+				<%= f.text_field :quantity, value: cart_item["quantity"], class: "form-control" %>
+				<div class="input-group-btn">
+					<%= f.button "+", class: "btn btn-default", name: "add", value: "+" %>
+				</div>
+			</div>
+		<% end %>
 	</div>
 	<div class="col-md-2">
 		<%= button_to "Remove", {action: :destroy, id: id}, method: :delete, remote: true, class: "btn btn-default" %>
