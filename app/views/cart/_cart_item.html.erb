@@ -5,13 +5,14 @@
 	</div>
 	<div class="col-md-2">
 		<%= form_for :cart, url: cart_path(id), action: :update, method: :patch, remote: true, class: "form-inline" do |f| %>
+			<div class="hidden"><%= f.submit "Save", class: "hidden" %></div>
 			<div class="input-group">
 				<div class="input-group-btn">
-					<%= f.button "-", class: "btn btn-default", name: "subtract", value: "-" %>
+					<%= f.button "-", type: "submit", class: "btn btn-default", name: "change_quantity", value: "-" %>
 				</div>
 				<%= f.text_field :quantity, value: cart_item["quantity"], class: "form-control" %>
 				<div class="input-group-btn">
-					<%= f.button "+", class: "btn btn-default", name: "add", value: "+" %>
+					<%= f.button "+", type: "submit", class: "btn btn-default", name: "change_quantity", value: "+" %>
 				</div>
 			</div>
 		<% end %>

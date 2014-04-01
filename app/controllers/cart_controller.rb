@@ -19,6 +19,8 @@ class CartController < ApplicationController
       flash.now[:warning]="Error saving changes"
     else
       @cart_item.merge!(cart_params)
+      @cart_item["quantity"]=@cart_item["quantity"].to_i+1 if params[:change_quantity]=="+"
+      @cart_item["quantity"]=@cart_item["quantity"].to_i-1 if params[:change_quantity]=="-"
       self.current_cart=current_cart.merge(params[:id] => @cart_item)
       flash.now[:success]="Cart updated"
     end
