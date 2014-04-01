@@ -8,6 +8,7 @@ class ProductsController < ApplicationController
 
   def new
     @product=Product.new
+    @product.images.new
   end
 
   def create
@@ -63,7 +64,7 @@ class ProductsController < ApplicationController
 
   private
     def product_params
-      params.require(:product).permit(:name, :description)
+      params.require(:product).permit(:name, :description, images_attributes: [:id, :image, :_destroy])
     end
     def product_from_params
       @product=Product.find(params[:id])
