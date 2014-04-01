@@ -1,8 +1,8 @@
 <%= form_for :cart, url: [:buy, object], remote: true, html: {class: "form-inline"} do |f| %>
-	<div class="quantity_field">
+	<div class="input-group">
 		<%= f.text_field :quantity, class: "form-control", value: "1" %>
-	</div>
-	<div class="buy_button">
-		<%= f.submit "Add to cart", data: {disable_with: 'Adding...'}, class: "btn btn-default" %>
+		<div class="input-group-btn">
+			<%= f.submit "Buy", data: {disable_with: 'Adding...'}, class: "btn btn-default" %>
+		</div>
 	</div>
 <% end %>

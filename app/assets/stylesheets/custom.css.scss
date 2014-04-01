@@ -9,33 +9,16 @@
 	@extend .row;
 }
 .product_card {
-	@extend .col-lg-3, .col-md-4, .col-sm-6, .col-xs-12;
+	@extend .col-lg-4, .col-md-4, .col-sm-6, .col-xs-12;
 }
 
-.product_card_name {
-	@extend .col-md-12;
-}
-
-.product_card_description {
-	@extend .col-md-12;
+.product_card_image {
+	border: 1px solid grey;
+	padding: 2px;
 }
 
 .action_bar {
 	@extend .pull-right;
-}
-
-.product_page_description {
-}
-
-.quantity_field {
-	@extend .col-md-3
-}
-
-.buy_button {
-}
-
-.cart_container {
-
 }
 
 .cart_container>div:nth-child(odd) {

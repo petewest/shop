@@ -4,7 +4,7 @@ class Image < ActiveRecord::Base
   validates :product, presence: true
 
   has_attached_file :image, styles: {
-    thumb: '100x100>',
+    thumb: '100x100#',
     preview: '200x200>',
     medium: '400x400>'
   }
