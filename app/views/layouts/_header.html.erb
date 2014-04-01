@@ -12,11 +12,19 @@
 		<div class="collapse navbar-collapse" id="navbar">
 			<ul class="nav navbar-nav pull-right">
 				<li><%= render 'shared/cart_count' %></li>
+				<% if signed_in_seller? %>
+					<li class="dropdown">
+						<a href='#' class="dropdown-toggle" data-toggle="dropdown">Seller <span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><%= link_to "New product", new_product_path %></li>
+						</ul>
+					</li>
+				<% end %>
 				<% if signed_in? %>
 					<li><%= link_to "Sign out", signout_path %></li>
 				<% else %>
-				<li><%= link_to "Sign in", signin_path %></li>
-				<li><%= link_to "Sign up", signup_path %></li>
+					<li><%= link_to "Sign in", signin_path %></li>
+					<li><%= link_to "Sign up", signup_path %></li>
 				<% end %>
 			</ul>
 		</div>

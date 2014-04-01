@@ -12,4 +12,11 @@ class StaticPagesControllerTest < ActionController::TestCase
     assert_select "a[href=#{signup_path}]", "Sign up"
   end
 
+  test "should show seller menu when logged in as seller" do
+    sign_in users(:seller)
+    get :home
+    assert_select "a", "Seller"
+    assert_select "a[href=#{new_product_path}]"
+  end
+
 end
