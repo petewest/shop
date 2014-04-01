@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   get 'static_pages/home'
 
-  root 'static_pages#home'
+  root 'products#index'
 
   get '/signin' => 'sessions#new'
   get '/signout' => 'sessions#destroy'
