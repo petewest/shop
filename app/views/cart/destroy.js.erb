@@ -1,3 +1,5 @@
-jQuery("#<%= params[:id] %>").remove();
+jQuery("#<%= params[:id] %>").slideToggle("slow", function() {
+	jQuery("#<%= params[:id] %>").remove();
+});
 <%= render 'shared/refresh_flash' %>
 <%= render 'shared/refresh_cart_count' %>
