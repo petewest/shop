@@ -1,4 +1,5 @@
 class Product < ActiveRecord::Base
+  include Costable
   belongs_to :seller, inverse_of: :products
   validates :seller, presence: true
   validates :name, presence: true
@@ -10,7 +11,6 @@ class Product < ActiveRecord::Base
   has_many :images, inverse_of: :product, dependent: :destroy
   has_one :main_image, ->{main}, class_name: "Image"
 
-  has_one :cost, as: :costable
 
   accepts_nested_attributes_for :images, allow_destroy: true
 end

@@ -1,4 +1,5 @@
 class LineItem < ActiveRecord::Base
+  include Costable
   belongs_to :product, inverse_of: :line_items
   belongs_to :order, inverse_of: :line_items
 
@@ -8,7 +9,6 @@ class LineItem < ActiveRecord::Base
 
   before_save :order_status_on_save
 
-  has_one :cost, as: :costable
 
 
 

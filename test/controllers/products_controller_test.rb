@@ -222,6 +222,13 @@ class ProductsControllerTest < ActionController::TestCase
     assert_equal flash[:warning], "Quantity needed"
   end
 
+  test "should create cost item" do
+    sign_in users(:seller)
+    assert_difference "Cost.count" do
+      post :create, product: valid.merge(cost_attributes: {currency_id: currencies(:gbp).id, value: 200})
+    end
+  end
+
 
 
   private
