@@ -1,13 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  costable_id: 
-  costable_type: Costable
-  currency_id: 
-  value: 1
+  costable: tshirt (Product)
+  currency: :gbp
+  value: 20
 
 two:
-  costable_id: 
-  costable_type: Costable
-  currency_id: 
-  value: 1
+  costable: one (LineItem)
+  currency: :gbp
+  value: 18

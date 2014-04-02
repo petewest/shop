@@ -31,8 +31,18 @@ class CostTest < ActiveSupport::TestCase
     assert_not cost.save
   end
 
+  test "should allow line_item" do
+    cost=Cost.new(valid.merge(costable: line_items(:two)))
+    assert cost.save
+  end
+
+  test "should not allow duplicate costables" do
+    cost=costs(:one).dup
+    assert_not cost.save
+  end
+
   private
     def valid
-      @cost||={currency: currencies(:gbp), costable: products(:tshirt), value: 20}
+      @cost||={currency: currencies(:gbp), costable: products(:product_20), value: 20}
     end
 end
