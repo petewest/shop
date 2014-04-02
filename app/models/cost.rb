@@ -4,7 +4,7 @@ class Cost < ActiveRecord::Base
 
   validates :costable_id, uniqueness: {scope: :costable_type}
   validates :currency, presence: true
-  validates :value, presence: true, numericality: {only_integer: true}
+  validates :value, presence: true, numericality: true
 
   before_save :validate_costable
 
