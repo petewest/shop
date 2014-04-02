@@ -43,9 +43,24 @@ class LineItemTest < ActiveSupport::TestCase
     assert_not line_item_dispatched.save
   end
 
+  test "should respond to copy_cost_from_product" do
+    line_item=LineItem.new
+    assert_respond_to line_item, :copy_cost_from_product
+  end
+
+  test "should copy_cost_from_product" do
+    line_item=LineItem.new(valid.except(:cost_attributes))
+    line_item.copy_cost_from_product
+    assert line_item.valid?
+    assert_not_nil line_item.cost
+    assert_equal line_item.product.cost.currency, line_item.cost.currency
+    assert_equal line_item.product.cost.value, line_item.cost.value
+  end
+
+
   private
     def valid
-      @line_item||={product: products(:tshirt), order: orders(:cart), quantity: 1}
+      @line_item||={product: products(:tshirt), order: orders(:cart), quantity: 1, cost_attributes: {currency: currencies(:gbp), value: 200}}
     end
 
 end

@@ -36,11 +36,6 @@ class CostTest < ActiveSupport::TestCase
     assert cost.save
   end
 
-  test "should allow order" do
-    cost=Cost.new(valid.merge(costable: orders(:placed)))
-    assert cost.save
-  end
-
   test "should not allow duplicate costables" do
     cost=costs(:one).dup
     assert_not cost.save

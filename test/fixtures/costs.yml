@@ -9,3 +9,8 @@ two:
   costable: one (LineItem)
   currency: :gbp
   value: 18
+
+three:
+  costable: product_1 (Product)
+  currency: :gbp
+  value: 200

@@ -225,7 +225,7 @@ class ProductsControllerTest < ActionController::TestCase
   test "should create cost item" do
     sign_in users(:seller)
     assert_difference "Cost.count" do
-      post :create, product: valid.merge(cost_attributes: {currency_id: currencies(:gbp).id, value: 200})
+      post :create, product: valid
     end
   end
 
@@ -233,7 +233,7 @@ class ProductsControllerTest < ActionController::TestCase
 
   private
     def valid
-      @product||={name: "New product test", description: "Test description"}
+      @product||={name: "New product test", description: "Test description", cost_attributes: {currency_id: currencies(:gbp).id, value: 200}}
     end
 
 end

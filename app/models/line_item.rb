@@ -10,6 +10,9 @@ class LineItem < ActiveRecord::Base
   before_save :order_status_on_save
 
 
+  def copy_cost_from_product
+    self.cost=product.cost.dup
+  end
 
 
   private

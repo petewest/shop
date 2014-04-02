@@ -9,6 +9,7 @@ class OrdersController < ApplicationController
   def create
     @order=current_user.orders.new(order_params)
     @order.status=:placed
+    copy_cost_to_line_items(@order)
     if @order.save
       flash[:success]="Thank you for your order."
       self.current_cart={}
@@ -26,6 +27,10 @@ class OrdersController < ApplicationController
 
     def order_params
       params.require(:order).permit(line_items_attributes: [:product_id, :quantity])
+    end
+
+    def copy_cost_to_line_items(order)
+      order.line_items.each(&:copy_cost_from_product)
     end
 
       def line_item_params
