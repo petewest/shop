@@ -1,6 +1,7 @@
 class CartController < ApplicationController
+
   def index
-    @products=Product.find(current_cart.map{|k,v| v["product_id"]})
+    @line_items=line_items_from_cart
   end
 
   def destroy
@@ -14,7 +15,6 @@ class CartController < ApplicationController
 
   def update
     @cart_item=current_cart[params[:id]]
-    @products=[Product.find(@cart_item["product_id"])]
     if !@cart_item or params[:cart][:quantity].to_i<=0
       flash.now[:warning]="Error saving changes"
     else
@@ -22,6 +22,8 @@ class CartController < ApplicationController
       @cart_item["quantity"]=@cart_item["quantity"].to_i+1 if params[:change_quantity]=="+"
       @cart_item["quantity"]=@cart_item["quantity"].to_i-1 if params[:change_quantity]=="-"
       self.current_cart=current_cart.merge(params[:id] => @cart_item)
+      @line_items=line_items_from_cart
+      @line_item=@line_items.find{|i| i.product_id==@cart_item["product_id"]}
       flash.now[:success]="Cart updated"
     end
     respond_to do |format|

@@ -1,0 +1,31 @@
+<% id=current_cart.find{|k,v| v["product_id"]==line_item.product_id}[0] %>
+<tr id="<%=id%>">
+	<td class="col-md-6">
+		<%= line_item.product.name %>
+	</td>
+	<td class="col-md-3">
+		<div class="col-md-6">
+		<%= form_for :cart, url: cart_path(id), action: :update, method: :patch, remote: true, class: "form-inline" do |f| %>
+			<div class="hidden"><%= f.submit "Save", class: "hidden" %></div>
+			<div class="input-group">
+				<div class="input-group-btn">
+					<%= f.button "-", type: "submit", class: "btn btn-default", name: "change_quantity", value: "-" %>
+				</div>
+				<%= f.text_field :quantity, value: line_item.quantity, class: "form-control" %>
+				<div class="input-group-btn">
+					<%= f.button "+", type: "submit", class: "btn btn-default", name: "change_quantity", value: "+" %>
+				</div>
+			</div>
+		<% end %>
+		</div>
+		<div class="col-md-6">
+			<%= button_to "Remove", {action: :destroy, id: id}, method: :delete, remote: true, class: "btn btn-default" %>
+		</div>	
+	</td>
+	<td class="text-right">
+		<%= cost_to_currency(line_item.product.cost) %>
+	</td>
+	<td class="text-right">
+		<%= cost_to_currency(line_item.cost) %>
+	</td>
+</tr>

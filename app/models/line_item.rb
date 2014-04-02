@@ -12,6 +12,9 @@ class LineItem < ActiveRecord::Base
 
   def copy_cost_from_product
     self.cost=product.cost.dup
+    self.cost.value*=quantity
+    #return self for method chaining
+    self
   end
 
 

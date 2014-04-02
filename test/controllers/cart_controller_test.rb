@@ -19,6 +19,7 @@ class CartControllerTest < ActionController::TestCase
     assert_difference "current_cart.count", -1 do
       delete :destroy, format: :js, id: current_cart.map{|k,v| k}.first
     end
+    assert_response :success
   end
 
   test "should change quantity" do
@@ -27,6 +28,16 @@ class CartControllerTest < ActionController::TestCase
     id=current_cart.map{|k,v| k}.first
     patch :update, id: id, cart: {quantity: "2"}
     assert_equal Hash(product_id: product.id, quantity: "2").stringify_keys, current_cart[id]
+    assert_response :redirect
+  end
+
+  test "should change quantity (js)" do
+    product=products(:tshirt)
+    add_to_cart(product, 1)
+    id=current_cart.map{|k,v| k}.first
+    patch :update, format: :js, id: id, cart: {quantity: "2"}
+    assert_equal Hash(product_id: product.id, quantity: "2").stringify_keys, current_cart[id]
+    assert_response :success
   end
 
   test "should not change product id" do

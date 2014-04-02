@@ -3,7 +3,7 @@ class OrdersController < ApplicationController
 
   def new
     @order=Order.new
-    @order.line_items=order_from_cart
+    @order.line_items=line_items_from_cart
   end
 
   def create
@@ -21,10 +21,7 @@ class OrdersController < ApplicationController
   end
 
   private
-    def order_from_cart
-      line_item_params.map{|li| LineItem.new(li) }
-    end
-
+    
     def order_params
       params.require(:order).permit(line_items_attributes: [:product_id, :quantity])
     end
@@ -32,8 +29,4 @@ class OrdersController < ApplicationController
     def copy_cost_to_line_items(order)
       order.line_items.each(&:copy_cost_from_product)
     end
-
-      def line_item_params
-        current_cart.map{ |key, item| ActionController::Parameters.new(item).permit(:product_id, :quantity) }
-      end
 end

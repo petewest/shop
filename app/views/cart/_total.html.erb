@@ -1,0 +1,6 @@
+<tr id="total">
+<td colspan="3">Total</td>
+<td class="text-right">
+	<%= @line_items.map(&:cost).group_by(&:currency_id).map{|k,v| "#{Currency.find(k).iso_code}: #{v.map(&:value).sum}" }.join(", ") %>
+</td>
+</tr>

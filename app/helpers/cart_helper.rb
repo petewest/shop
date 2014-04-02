@@ -28,4 +28,12 @@ module CartHelper
     self.current_cart=current_cart.except(line_id)
   end
 
+  def line_items_from_cart
+    line_item_params.map{|li| LineItem.new(li).copy_cost_from_product }
+  end
+
+  def line_item_params
+    current_cart.map{ |key, item| ActionController::Parameters.new(item).permit(:product_id, :quantity) }
+  end
+
 end
