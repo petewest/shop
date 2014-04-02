@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  costable_id: 
+  costable_type: Costable
+  currency_id: 
+  value: 1
+
+two:
+  costable_id: 
+  costable_type: Costable
+  currency_id: 
+  value: 1

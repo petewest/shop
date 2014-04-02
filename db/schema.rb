@@ -11,7 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140402092510) do
+ActiveRecord::Schema.define(version: 20140402102525) do
+
+  create_table "costs", force: true do |t|
+    t.integer  "costable_id"
+    t.string   "costable_type"
+    t.integer  "currency_id"
+    t.integer  "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "costs", ["costable_id", "costable_type"], name: "index_costs_on_costable_id_and_costable_type", using: :btree
+  add_index "costs", ["currency_id"], name: "index_costs_on_currency_id", using: :btree
 
   create_table "currencies", force: true do |t|
     t.string   "iso_code"
