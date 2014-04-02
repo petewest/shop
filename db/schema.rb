@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20140402105127) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "costs", force: true do |t|
     t.integer  "costable_id"
     t.string   "costable_type"
