@@ -1,11 +1,12 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  iso_code: MyString
-  symbol: MyString
-  decimal_places: 1
+gbp:
+  iso_code: GBP
+  symbol: £
+  decimal_places: 2
 
-two:
-  iso_code: MyString
-  symbol: MyString
-  decimal_places: 1
+usd:
+  iso_code: USD
+  symbol: $
+  decimal_places: 2
+

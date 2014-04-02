@@ -11,7 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140401193423) do
+ActiveRecord::Schema.define(version: 20140402084250) do
+
+  create_table "currencies", force: true do |t|
+    t.string   "iso_code"
+    t.string   "symbol"
+    t.integer  "decimal_places"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "images", force: true do |t|
     t.integer  "product_id"
