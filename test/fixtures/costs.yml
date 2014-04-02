@@ -10,7 +10,10 @@ two:
   currency: :gbp
   value: 18
 
-three:
-  costable: product_1 (Product)
+<% 99.times do |i| %>
+cost_<%=i%>:
+  costable: product_<%=i%> (Product)
   currency: :gbp
-  value: 200
+  value: <%= Random.new.rand * (Random.new.rand * 1000) %>
+
+<% end %>

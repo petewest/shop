@@ -229,6 +229,13 @@ class ProductsControllerTest < ActionController::TestCase
     end
   end
 
+  test "should create cost item with float" do
+    sign_in users(:seller)
+    assert_difference "Cost.count" do
+      post :create, product: valid.merge(cost_attributes: {currency_id: currencies(:gbp).id, value: 20.5})
+    end
+  end
+
 
 
   private

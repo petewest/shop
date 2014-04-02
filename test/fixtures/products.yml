@@ -12,3 +12,7 @@ product_<%=i%>:
   seller: :seller
 
 <% end %>
+
+nocost:
+  name: Product without cost item
+  seller: :seller

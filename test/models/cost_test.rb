@@ -49,6 +49,6 @@ class CostTest < ActiveSupport::TestCase
 
   private
     def valid
-      @cost||={currency: currencies(:gbp), costable: products(:product_20), value: 20}
+      @cost||={currency: currencies(:gbp), costable: products(:nocost), value: 20}
     end
 end
