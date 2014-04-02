@@ -38,6 +38,10 @@ class CurrencyTest < ActiveSupport::TestCase
     assert currency.save
   end
 
+  test "should have an iso code of exactly 3 characters long" do
+    assert %w(tw four).none?{|c| Currency.new(valid.merge(iso_code: c)).valid? }
+  end
+
   private
     def valid
       @currency||={iso_code: "AUD", symbol: "AU$", decimal_places: 2}
