@@ -236,7 +236,14 @@ class ProductsControllerTest < ActionController::TestCase
     end
   end
 
-
+  test "should strip thousand seperator from cost" do
+    sign_in users(:seller)
+    assert_difference "Cost.count" do
+      post :create, product: valid.merge(cost_attributes: {currency_id: currencies(:gbp).id, value: "2#{I18n.t("number.format.delimiter")}000.5"})
+    end
+    assert assigns(:product)
+    assert_equal 2000.5, assigns(:product).cost.value
+  end
 
   private
     def valid
