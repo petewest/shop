@@ -16,4 +16,8 @@ module ApplicationHelper
     html<<%Q{</div></div>}
     html.html_safe
   end
+
+  def cost_to_currency(cost)
+    number_to_currency(cost.value/(10**cost.currency.decimal_places), unit: cost.currency.symbol, precision: cost.currency.decimal_places)
+  end
 end
