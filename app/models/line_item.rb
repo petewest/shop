@@ -8,6 +8,8 @@ class LineItem < ActiveRecord::Base
 
   before_save :order_status_on_save
 
+  has_one :cost, as: :costable
+
 
 
   private

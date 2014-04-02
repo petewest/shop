@@ -41,6 +41,12 @@ class CostTest < ActiveSupport::TestCase
     assert_not cost.save
   end
 
+  test "should not allow costables to be items without a reverse relationship" do
+    assert_raises ActiveRecord::InverseOfAssociationNotFoundError do
+      cost=Cost.new(valid.merge(costable: users(:buyer)))
+    end
+  end
+
   private
     def valid
       @cost||={currency: currencies(:gbp), costable: products(:product_20), value: 20}
