@@ -38,6 +38,7 @@ class ProductsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:product)
     assert_select "h1", "Create new product"
     assert_select "form"
+    assert_select "select.currency", 1
   end
 
   test "should not create new product when not signed in" do
