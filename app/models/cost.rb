@@ -10,10 +10,7 @@ class Cost < ActiveRecord::Base
     def costable_new?
       #stolen from stack overflow to skip this validation if the parent item is new
       if new_record? and !costable and costable_type
-        costable=nil
-        ObjectSpace.each_object(costable_type.constantize) do |o|
-          costable=o if o.cost==self unless costable
-        end
+        costable=ObjectSpace.each_object(costable_type.constantize).find{|o| o.cost==self} 
       end
       costable
     end
