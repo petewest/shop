@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140402084250) do
+ActiveRecord::Schema.define(version: 20140402092510) do
 
   create_table "currencies", force: true do |t|
     t.string   "iso_code"
@@ -20,6 +20,8 @@ ActiveRecord::Schema.define(version: 20140402084250) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "currencies", ["iso_code"], name: "index_currencies_on_iso_code", unique: true, using: :btree
 
   create_table "images", force: true do |t|
     t.integer  "product_id"

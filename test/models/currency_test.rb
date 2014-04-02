@@ -26,6 +26,12 @@ class CurrencyTest < ActiveSupport::TestCase
     assert_not currency.save
   end
 
+  test "should not allow duplicate iso codes" do
+    currency=Currency.new(valid)
+    currency.iso_code=currencies(:gbp).iso_code
+    assert_not currency.save
+  end
+
   private
     def valid
       @currency||={iso_code: "AUD", symbol: "AU$", decimal_places: 2}
