@@ -54,7 +54,7 @@ class ProductsController < ApplicationController
       flash[:warning]="Quantity needed"
     else
       flash.now[:success]="#{view_context.pluralize(quantity, @product.name)} added to cart"
-      add_to_cart(@product, quantity)
+      add_to_cart(product: @product, quantity: quantity)
     end
     respond_to do |format|
       format.html { redirect_to products_path }

@@ -11,7 +11,7 @@ class LineItem < ActiveRecord::Base
 
 
   def copy_cost_from_product
-    if (cost.nil? or cost.new_record?) and product.cost
+    if (cost.nil? or quantity_changed?) and product.cost
       self.cost=product.cost.dup
       self.cost.value*=quantity
     end
