@@ -100,6 +100,20 @@ class OrderTest < ActiveSupport::TestCase
     assert_equal 10, order.costs.last.value
   end
 
+  test "should change class when changing status" do
+    order=Cart.create(valid)
+    id=order.id
+    assert order.is_a?(Cart)
+    order.placed!
+    assert_equal "placed", order.status
+    assert_raises ActiveRecord::RecordNotFound do
+      order.reload
+    end
+    order=Order.find(id)
+    assert_not_nil order
+    assert_not order.is_a?(Cart)
+  end
+
   private
     def valid
       @order||={user: users(:buyer)}

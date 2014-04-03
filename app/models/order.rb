@@ -11,6 +11,8 @@ class Order < ActiveRecord::Base
 
   before_save {self.status||=:cart}
 
+  before_save :check_type
+
   def costs
     line_items.map(&:cost).group_by(&:currency_id).map do |currency_id, items|
       Cost.new(currency_id: currency_id, value: items.map(&:value).sum)
@@ -20,4 +22,10 @@ class Order < ActiveRecord::Base
   def self.pending
     where(status: [self.statuses[:placed], self.statuses[:paid]])
   end
+
+
+  private 
+    def check_type
+      self.type=((status=="cart") ? "Cart" : nil) if status_changed?
+    end
 end
