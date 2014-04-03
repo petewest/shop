@@ -11,6 +11,12 @@ class Order < ActiveRecord::Base
 
   before_save {self.status||=:cart}
 
+  def costs
+    line_items.map(&:cost).group_by(&:currency_id).map do |currency_id, items|
+      Cost.new(currency_id: currency_id, value: items.map(&:value).sum)
+    end if line_items.any?
+  end
+
   def self.pending
     where(status: [self.statuses[:placed], self.statuses[:paid]])
   end

@@ -5,6 +5,11 @@ tshirt:
   description: Awesome clothes
   seller: :seller
 
+mug:
+  name: Mug
+  description: A mug with logo
+  seller: :seller
+
 <% 99.times do |i| %>
 product_<%=i%>:
   name: Some product <%=i%>
@@ -12,6 +17,10 @@ product_<%=i%>:
   seller: :seller
 
 <% end %>
+
+other_currency:
+  name: Product with another currency
+  seller: :seller
 
 nocost:
   name: Product without cost item

@@ -62,6 +62,34 @@ class OrderTest < ActiveSupport::TestCase
     assert pending_orders.all?{ |o| o.status.in? %w(placed paid) }
   end
 
+  test "should respond to costs" do
+    order=Order.new
+    assert_respond_to order, :costs
+  end
+
+  test "should contain sum of line items in cost" do
+    order=Order.new
+    products=[products(:tshirt)]
+    order.products=products
+    order.line_items.first.quantity=2
+    order.line_items.each(&:copy_cost_from_product)
+    assert_equal 1, order.costs.count
+    assert currencies(:gbp), order.costs.first.currency
+    assert_equal products.first.cost.value*2, order.costs.first.value
+  end
+
+  test "should combine costs by currency" do
+    order=Order.new
+    products=[products(:tshirt), products(:other_currency), products(:mug)]
+    order.products=products
+    order.line_items.first.quantity=2
+    order.line_items.each(&:copy_cost_from_product)
+    assert_equal 2, order.costs.count
+    assert currencies(:gbp), order.costs.first.currency
+    assert_equal 55, order.costs.first.value
+    assert_equal 10, order.costs.last.value
+  end
+
   private
     def valid
       @order||={user: users(:buyer)}
