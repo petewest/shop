@@ -86,6 +86,11 @@ class UserTest < ActiveSupport::TestCase
     assert_respond_to user, :orders
   end
 
+  test "should respond to carts" do
+    user=User.new
+    assert_respond_to user, :carts
+  end
+
 
 
   private

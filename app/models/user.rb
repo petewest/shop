@@ -11,4 +11,5 @@ class User < ActiveRecord::Base
 
   has_many :sessions, inverse_of: :user, dependent: :destroy
   has_many :orders, inverse_of: :user, dependent: :destroy
+  has_many :carts, inverse_of: :user
 end
