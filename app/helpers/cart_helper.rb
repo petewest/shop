@@ -14,9 +14,6 @@ module CartHelper
   end
 
   def add_to_cart(item_hash)
-    #match hash will be every item in the product hash except quantity
-    #this way it'll only increase the quantity when everything else is the same
-    match_hash=item_hash.except(:quantity).keys
     #do we have an existing item?
     current_line_item=current_cart.line_items.find_or_initialize_by(item_hash.except(:quantity))
     current_line_item.assign_attributes(quantity: item_hash[:quantity])

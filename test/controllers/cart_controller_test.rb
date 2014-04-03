@@ -34,7 +34,7 @@ class CartControllerTest < ActionController::TestCase
     assert_not_equal cart, current_user.carts.first
   end
 
-  test "should create a new cart and add item to it" do
+  test "should create a new cart and add item to it (helper)" do
     assert_difference "Cart.count" do
       assert_difference "LineItem.count" do
         assert_difference "current_cart.line_items.count" do
@@ -42,6 +42,7 @@ class CartControllerTest < ActionController::TestCase
         end
       end
     end
+    assert_equal 1, current_cart.line_items.first.quantity
     assert_not_nil cookies[:cart_token]
   end
 
@@ -50,6 +51,17 @@ class CartControllerTest < ActionController::TestCase
     assert_not_nil current_cart
     assert_nil cookies[:cart_token]
   end
+
+  test "should change quantity (helper)" do
+    product=products(:tshirt)
+    assert_difference "LineItem.count" do
+      add_to_cart(product: product, quantity: 3)
+      add_to_cart(product: product, quantity: 2)
+    end
+    #Can't work out why this test is failing, process works when run in console
+    assert_equal 2, current_cart.line_items.first.quantity
+  end
+
 
 =begin
   test "should remove item from cart" do
