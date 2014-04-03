@@ -1,7 +1,8 @@
 module CartHelper
   def current_cart
-    cookies.permanent[:cart]={}.to_json if cookies[:cart].blank?
-    @current_cart=JSON.parse(cookies[:cart])
+    @current_cart=Cart.find_by_cart_token(cookies[:cart_token]) if cookies[:cart_token]
+    @current_cart||=current_user.carts.first if signed_in? and current_user.carts.any?
+    @current_cart||=Cart.new
   end
 
   def current_cart=(cart)
