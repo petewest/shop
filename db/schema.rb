@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140402203733) do
+ActiveRecord::Schema.define(version: 20140403180557) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "costs", force: true do |t|
     t.integer  "costable_id"
@@ -67,8 +70,11 @@ ActiveRecord::Schema.define(version: 20140402203733) do
     t.datetime "dispatched_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "type"
+    t.string   "cart_token"
   end
 
+  add_index "orders", ["cart_token"], name: "index_orders_on_cart_token", unique: true, where: "((type)::text = 'Cart'::text)", using: :btree
   add_index "orders", ["status"], name: "index_orders_on_status", using: :btree
   add_index "orders", ["user_id"], name: "index_orders_on_user_id", using: :btree
 
