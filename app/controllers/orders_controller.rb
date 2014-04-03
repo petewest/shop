@@ -2,17 +2,14 @@ class OrdersController < ApplicationController
   before_action :signed_in_user
 
   def new
-    @order=Order.new
-    @order.line_items=line_items_from_cart
+    @order=current_cart
   end
 
   def create
     @order=current_user.orders.new(order_params)
-    @order.status=:placed
-    copy_cost_to_line_items(@order)
     if @order.save
+      @order.placed!
       flash[:success]="Thank you for your order."
-      self.current_cart={}
       redirect_to @order
     else
       flash[:danger]="Order creation failed"
