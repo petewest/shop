@@ -43,9 +43,19 @@ class OrderTest < ActiveSupport::TestCase
     assert order.cart?
   end
 
-  test "should not save without user" do
+  test "should save without user" do
     order=Order.new(valid.except(:user))
-    assert_not order.save
+    assert order.save
+  end
+
+  test "should not save without user in non-cart states" do
+    order=Order.new(valid.except(:user))
+    order.status=Order.statuses[:cart]
+    assert order.valid?
+    assert Order.statuses.except(:cart).none?{ |s,i|
+      order.status=Order.statuses[s]
+      order.valid?
+    }
   end
 
   test "should respond to line_items" do
