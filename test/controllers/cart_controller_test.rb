@@ -47,7 +47,8 @@ class CartControllerTest < ActionController::TestCase
 
   test "should fail gracefully if cookie set incorrectly" do
     cookies[:cart_token]="elephant"
-    assert_not_nil current_user
+    assert_not_nil current_cart
+    assert_nil cookies[:cart_token]
   end
 
 =begin
