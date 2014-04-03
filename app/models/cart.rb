@@ -1,0 +1,2 @@
+class Cart < Order
+end

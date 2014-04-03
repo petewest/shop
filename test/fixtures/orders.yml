@@ -20,6 +20,7 @@ cart:
   placed_at:
   paid_at: 
   dispatched_at: 
+  type: Cart
 
 dispatched:
   user: :buyer
