@@ -7,19 +7,22 @@ class LineItem < ActiveRecord::Base
   validates :product, presence: true
   validates :order, presence: true
 
-  before_save :order_status_on_save
+  before_save :set_up_on_save
 
 
   def copy_cost_from_product
-    self.cost=product.cost.dup
-    self.cost.value*=quantity
+    if (cost.nil? or cost.new_record?) and product.cost
+      self.cost=product.cost.dup
+      self.cost.value*=quantity
+    end
     #return self for method chaining
     self
   end
 
 
   private
-    def order_status_on_save
+    def set_up_on_save
       return false unless %w(cart placed).include?(order.try(:status))
+      copy_cost_from_product
     end
 end
