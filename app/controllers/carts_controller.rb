@@ -12,4 +12,8 @@ class CartsController < ApplicationController
     self.current_cart=nil
     redirect_to root_url
   end
+
+  def update
+    redirect_to products_path
+  end
 end

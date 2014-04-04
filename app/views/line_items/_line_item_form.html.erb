@@ -3,33 +3,9 @@
 	<% if f.object.errors.any? %>
 		<%= render 'shared/form_error', object: f.object %>
 	<% end %>
-	<div class="cart_product">
-		<div class="form-group">
-		<label class="label-control"><%= line_item_form.product.name %></label>
-		<%= f.hidden_field :product_id %>
-		</div>
-	</div>
-	<div class="cart_actions">
-		<div class="form-group">
-			<%= f.text_field :quantity, value: line_item_form.quantity, class: "form-control", data: {total_field: "total_cost_#{css_id(line_item_form)}", item_cost: line_item_form.product.cost.value} %>
-		</div>
-	</div>
-	<div class="cart_line_item text-right">
-		<%= cost_to_currency(line_item_form.product.cost) %>
-	</div>
-	<div class="cart_line_cost text-right">
-		<%= line_item_form.product.cost.currency.symbol %>
-		<span id="total_cost_<%=css_id(line_item_form)%>">
-		<%= line_item_form.cost.value if line_item_form.cost %>
-		</span>
-	</div>
+	<%= render 'line_items/line_item_fields', f: f %>
 	<div class="cart_save_button">
-		<%= f.submit "Save", class: "btn btn-default" %>
+		<%= f.submit class: "btn btn-default" %>
 	</div>
 <% end %>
 </div>
-<!--
-		<div class="col-md-6">
-			<%= button_to "Remove", line_item_form, method: :delete, remote: true, class: "btn btn-default" if !line_item_form.new_record? %>
-		</div>	
--->

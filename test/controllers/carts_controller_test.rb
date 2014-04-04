@@ -70,4 +70,14 @@ class CartsControllerTest < ActionController::TestCase
     assert_select "h1"
     assert_not_nil assigns(:cart)
   end
+
+  test "should update line items" do
+    patch :update, valid
+    assert_response :success
+  end
+
+  private
+    def valid
+      @cart={line_item_attributes: {product_id: products(:tshirt), quantity: 2}}
+    end
 end

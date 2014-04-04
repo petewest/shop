@@ -3,5 +3,16 @@
 <%= content_tag(:h1, "Shopping cart") %>
 
 <%= render 'table_header' %>
-<%= render partial: 'line_items/line_item_form', collection: @cart.line_items %>
+<%= form_for @cart do |f| %>
+	<%= f.fields_for :line_items do |li| %>
+		<div class="row">
+			<%= render 'line_items/line_item_fields', f: li %>
+		</div>
+	<% end %>
+	<div class="btn-group pull-right">
+	    <%= link_to "Continue shopping", products_path, class: "btn btn-default" %>
+	    <%= f.submit "Update basket", class: "btn btn-default" %>
+	    <%= f.submit "Place order", class: "btn btn-primary" %>
+	  </div>
+<% end %>
 <%= render 'table_footer' %>
