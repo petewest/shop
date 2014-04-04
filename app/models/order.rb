@@ -7,7 +7,7 @@ class Order < ActiveRecord::Base
   validates :user, presence: true, if:  -> { status and status!="cart" }
   accepts_nested_attributes_for :line_items, allow_destroy: true
 
-  enum status: [:cart, :placed, :paid, :dispatched, :cancelled]
+  enum status: {cart: 0, checkout: 10, placed: 20, paid: 30, dispatched: 40, cancelled: 100}
 
   before_save {self.status||=:cart}
 
