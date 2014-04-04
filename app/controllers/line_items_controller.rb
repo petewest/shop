@@ -14,7 +14,11 @@ class LineItemsController < ApplicationController
         format.js
       end
     else
-      flash.now[:danger]="Error adding item to cart"
+      if @line_item_duplicate=current_cart.line_items.find_by(line_item_params.except(:quantity))
+        @line_item_duplicate.errors[:product_id]=@line_item.errors[:product_id]
+      else
+        flash.now[:danger]="Error adding item to cart"
+      end
       render 'new'
     end
   end

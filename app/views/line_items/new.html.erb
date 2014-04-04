@@ -2,6 +2,6 @@
 <% provide(:modal_style, "modal-lg") %>
 
 <%= render 'carts/table_header' %>
-<%= render 'line_item_form', line_item_form: @line_item %>
+<%= render 'line_item_form', line_item_form: @line_item_duplicate || @line_item %>
 <%= render 'carts/table_footer' %>
 

@@ -12,6 +12,14 @@ class LineItemsControllerTest < ActionController::TestCase
     assert_redirected_to products_path
   end
 
+  test "should present original item when adding an item already in basket" do
+    post :create, line_item: valid
+    assert_no_difference "LineItem.count" do
+      post :create, line_item: valid
+    end
+    assert_not_nil assigns(:line_item_duplicate)
+  end
+
   private
     def valid
       @line_item||={product_id: products(:tshirt).id, quantity: 1}
