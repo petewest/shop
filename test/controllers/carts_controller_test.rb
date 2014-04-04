@@ -68,5 +68,6 @@ class CartsControllerTest < ActionController::TestCase
     get :show
     assert_response :success
     assert_select "h1"
+    assert_not_nil assigns(:cart)
   end
 end
