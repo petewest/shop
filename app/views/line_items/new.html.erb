@@ -1,10 +1,7 @@
 <% provide(:title, "Add item to cart") %>
+<% provide(:modal_style, "modal-lg") %>
 
-<div class="row">
-<div class="col-md-6">
 <%= render 'table_header' %>
 <%= render 'line_item_form', line_item: @line_item %>
 <%= render 'table_footer' %>
-</div>
-</div>
 

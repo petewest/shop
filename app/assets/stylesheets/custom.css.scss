@@ -21,6 +21,26 @@
 	@extend .pull-right;
 }
 
-.cart_container>div:nth-child(odd) {
+.cart_container>form:nth-child(odd) {
 	background-color: $table-bg-accent;
+}
+
+.cart_product {
+	@extend .col-md-4;
+}
+
+.cart_actions {
+	@extend .col-md-3;
+}
+
+.cart_line_item {
+	@extend .col-md-2;
+}
+
+.cart_line_cost {
+	@extend .col-md-2;
+}
+
+.cart_save_button {
+	@extend .col-md-1;
 }
