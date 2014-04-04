@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
   concern :buyable do
     member do
-      post 'buy'
+      get 'buy' => 'line_items#new'
     end
   end
 
