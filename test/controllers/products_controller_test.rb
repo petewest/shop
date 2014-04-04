@@ -218,6 +218,12 @@ class ProductsControllerTest < ActionController::TestCase
     assert_equal 2000.5, assigns(:product).cost.value
   end
 
+  test "should have id modal" do
+    get :index
+    assert_response :success
+    assert_select "div#modal"
+  end
+
   private
     def valid
       @product||={name: "New product test", description: "Test description", cost_attributes: {currency_id: currencies(:gbp).id, value: 200}}
