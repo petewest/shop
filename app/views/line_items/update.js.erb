@@ -1,0 +1,2 @@
+<%= render 'shared/refresh_flash' %>
+jQuery("#<%=css_id(@line_item) %>").replaceWith("<%= escape_javascript(render 'line_item_form', line_item_form: @line_item) %>");

@@ -8,7 +8,7 @@ class LineItemsController < ApplicationController
     self.current_cart=current_cart if current_cart.save
     @line_item=current_cart.line_items.new(line_item_params)
     if @line_item.save
-      flash[:success]="#{@line_item.product.name} added to cart"
+      flash.now[:success]="#{@line_item.product.name} added to cart"
       respond_to do |format|
         format.html { redirect_to products_path }
         format.js
@@ -19,6 +19,20 @@ class LineItemsController < ApplicationController
       else
         flash.now[:danger]="Error adding item to cart"
       end
+      render 'new'
+    end
+  end
+
+  def update
+    @line_item=current_cart.line_items.find(params[:id])
+    if @line_item.update_attributes(line_item_params)
+      flash.now[:success]="Cart updated"
+      respond_to do |format|
+        format.html { redirect_to products_path }
+        format.js
+      end
+    else
+      flash[:danger]="Cart item update failed"
       render 'new'
     end
   end

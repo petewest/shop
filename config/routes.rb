@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   resource :cart, only: [:show, :destroy]
   resources :carts, only: [:index]
 
-  resources :line_items, only: [:show, :create, :destroy]
+  resources :line_items, only: [:show, :create, :destroy, :update]
   
 
   # The priority is based upon order of creation: first created -> highest priority.

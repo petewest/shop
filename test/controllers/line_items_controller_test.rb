@@ -20,6 +20,27 @@ class LineItemsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:line_item_duplicate)
   end
 
+  test "should update line item quantity" do
+    sign_in users(:buyer)
+    line_item=line_items(:one)
+    patch :update, id: line_item.id, line_item: valid.merge(quantity: 3)
+    assert_response :redirect
+    assert_redirected_to products_path
+    assert_equal "Cart updated", flash[:success]
+    assert_equal 3, assigns(:line_item).quantity
+  end
+
+  test "should not update quantity for other users items" do
+    sign_in users(:without_cart)
+    line_item=users(:buyer).orders.first.line_items.first
+    assert_raises ActiveRecord::RecordNotFound do
+      patch :update, id: line_item.id, line_item: valid.merge(quantity: 5)
+    end
+    assert_nil assigns(:line_item)
+    line_item.reload
+    assert_not_equal 5, line_item.quantity
+  end
+
   private
     def valid
       @line_item||={product_id: products(:tshirt).id, quantity: 1}
