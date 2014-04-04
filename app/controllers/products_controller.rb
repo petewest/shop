@@ -48,21 +48,6 @@ class ProductsController < ApplicationController
     end
   end
 
-  def buy
-    quantity=params.try(:[],:cart).try(:[],:quantity).to_i
-    if quantity<=0
-      flash[:warning]="Quantity needed"
-    else
-      flash.now[:success]="#{view_context.pluralize(quantity, @product.name)} added to cart"
-      add_to_cart(product: @product, quantity: quantity)
-    end
-    respond_to do |format|
-      format.html { redirect_to products_path }
-      format.js
-    end
-  end
-
-
   private
     def product_params
       params[:product][:cost_attributes][:value].gsub!(/#{I18n.t("number.parse")}/,"") if params.try(:[], :product).try(:[], :cost_attributes).try(:[], :value)

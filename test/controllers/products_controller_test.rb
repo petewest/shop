@@ -195,33 +195,6 @@ class ProductsControllerTest < ActionController::TestCase
     assert_equal users(:seller), product.seller
   end
 
-  test "should be able to buy" do
-    product=products(:tshirt)
-    assert_difference "current_cart.count" do
-      put :buy, id: product.id, cart: {quantity: 1}
-    end
-    assert_not_nil cookies[:cart]
-    assert_equal Hash(product_id: product.id, quantity: 1).stringify_keys, current_cart.first[1]
-    #assert_select '#cart_count' # no idea why this test is failing
-  end
-  test "should be able to buy (js)" do
-    product=products(:tshirt)
-    assert_difference "current_cart.count" do
-      put :buy, format: :js, id: product.id, cart: {quantity: 1}
-    end
-    assert_not_nil cookies[:cart]
-    assert_equal Hash(product_id: product.id, quantity: 1).stringify_keys, current_cart.first[1]
-    assert_equal "1 #{product.name} added to cart", flash[:success]
-  end
-
-  test "should not be able to buy without quantity" do
-    product=products(:tshirt)
-    assert_no_difference "current_cart.count" do
-      put :buy, id: product.id, cart: {quantity: 0}
-    end
-    assert_equal flash[:warning], "Quantity needed"
-  end
-
   test "should create cost item" do
     sign_in users(:seller)
     assert_difference "Cost.count" do
