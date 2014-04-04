@@ -63,4 +63,10 @@ class CartsControllerTest < ActionController::TestCase
       delete :destroy
     end
   end
+
+  test "should show current cart" do
+    get :show
+    assert_response :success
+    assert_select "h1"
+  end
 end
