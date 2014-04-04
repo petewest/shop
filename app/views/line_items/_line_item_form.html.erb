@@ -1,5 +1,8 @@
 <div class="row" id="<%=css_id(line_item)%>">
 <%= form_for line_item, remote: true, html: {class: "form-inline"} do |f| %>
+	<% if f.object.errors.any? %>
+		<%= render 'shared/form_error', object: f.object %>
+	<% end %>
 	<div class="cart_product">
 		<div class="form-group">
 		<label class="label-control"><%= line_item.product.name %></label>
