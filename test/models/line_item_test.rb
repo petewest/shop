@@ -57,10 +57,17 @@ class LineItemTest < ActiveSupport::TestCase
     assert_equal line_item.product.cost.value, line_item.cost.value
   end
 
+  test "should not allow duplicate products in same order" do
+    line_item=LineItem.new(valid)
+    line_item.save
+    line_item=line_item.dup
+    assert_not line_item.save
+  end
+
 
   private
     def valid
-      @line_item||={product: products(:tshirt), order: orders(:cart), quantity: 1, cost_attributes: {currency: currencies(:gbp), value: 200}}
+      @line_item||={product: products(:product_20), order: orders(:cart), quantity: 1, cost_attributes: {currency: currencies(:gbp), value: 200}}
     end
 
 end

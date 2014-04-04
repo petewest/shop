@@ -7,6 +7,8 @@ class LineItem < ActiveRecord::Base
   validates :product, presence: true
   validates :order, presence: true
 
+  validates :product_id, uniqueness: {scope: :order_id, message: "item already in order, update quantity and try again"}
+
   before_save :set_up_on_save
 
 
