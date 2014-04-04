@@ -43,3 +43,7 @@
 .cart_save_button {
 	@extend .col-md-1;
 }
+
+.cart_header>div {
+	font-weight: bold;
+}
