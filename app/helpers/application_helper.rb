@@ -20,4 +20,8 @@ module ApplicationHelper
   def cost_to_currency(cost)
     number_to_currency(cost.value, unit: cost.currency.symbol, precision: cost.currency.decimal_places) if cost
   end
+
+  def css_id(item)
+    "#{item.class.name.parameterize}_#{item.new_record? ? 'new' : item.id }"
+  end
 end

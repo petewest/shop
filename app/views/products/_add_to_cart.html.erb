@@ -1,8 +1,1 @@
-<%= form_for :cart, url: [:buy, object], remote: true, html: {class: "form-inline"} do |f| %>
-	<div class="input-group">
-		<%= f.text_field :quantity, class: "form-control", value: "1" %>
-		<div class="input-group-btn">
-			<%= f.submit "Buy", data: {disable_with: 'Adding...'}, class: "btn btn-default" %>
-		</div>
-	</div>
-<% end %>
+<%= link_to "Buy", [object, :buy], class: "btn btn-default" %>

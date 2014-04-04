@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   get '/checkout' => 'orders#new'
   resources :orders, except: :destroy
   resources :cart, only: [:index, :destroy, :update]
+
+  resources :line_items, only: [:show, :create, :destroy]
   
 
   # The priority is based upon order of creation: first created -> highest priority.

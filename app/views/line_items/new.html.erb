@@ -1,1 +1,9 @@
-<% provide(:title, "Buy") %>
+<% provide(:title, "Add item to cart") %>
+
+<%= content_tag(:h1, "Add item to cart") %>
+
+<%= render 'table_header' %>
+<%= render 'line_item_form', line_item: @line_item %>
+<%= render 'table_footer' %>
+
+

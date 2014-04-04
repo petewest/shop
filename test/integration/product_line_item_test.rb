@@ -14,4 +14,11 @@ class ProductLineItemTest < ActionDispatch::IntegrationTest
     assert_not_nil assigns(:line_item)
     assert_select "form"
   end
+
+  test "should render without layout if modal" do
+    product=products(:tshirt)
+    get url_for [product, :buy, modal: true]
+    assert_response :success
+    assert_template 'layouts/modal'
+  end
 end
