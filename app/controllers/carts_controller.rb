@@ -14,6 +14,21 @@ class CartsController < ApplicationController
   end
 
   def update
-    redirect_to products_path
+    @cart=current_cart
+    if @cart.update_attributes(cart_params)
+      flash[:success]="Cart updated"
+    else
+      flash.now[:danger]="Couldn't update cart contents"
+      render 'show'
+    end
+    redirect_to cart_path
   end
+
+
+
+
+  private
+    def cart_params
+      params.require(:cart).permit(line_items_attributes: [:id, :product_id, :quantity, :_destroy])
+    end
 end

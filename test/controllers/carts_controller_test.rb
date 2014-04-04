@@ -72,12 +72,30 @@ class CartsControllerTest < ActionController::TestCase
   end
 
   test "should update line items" do
-    patch :update, valid
-    assert_response :success
+    self.current_cart=orders(:cart)
+    line_item=current_cart.line_items.first
+    old_quantity=line_item.quantity
+    patch :update, cart: {line_items_attributes: [{id: line_item.id, product_id: line_item.product_id, quantity: old_quantity*2}]}
+    line_item.reload
+    assert_not_equal old_quantity, line_item.quantity
+    assert_equal old_quantity*2, line_item.quantity
+    assert_response :redirect
+    assert_redirected_to cart_path
+  end
+
+  test "should remove line item using _destroy" do
+    self.current_cart=orders(:cart)
+    line_item=current_cart.line_items.first
+    old_quantity=line_item.quantity
+    assert_difference "LineItem.count", -1 do
+      patch :update, cart: {line_items_attributes: [{id: line_item.id, product_id: line_item.product_id, quantity: old_quantity*2, _destroy: '1'}]}
+    end
+    assert_response :redirect
+    assert_redirected_to cart_path
   end
 
   private
     def valid
-      @cart={line_item_attributes: {product_id: products(:tshirt), quantity: 2}}
+      @cart||={line_items_attributes: [{product_id: products(:tshirt), quantity: 2}]}
     end
 end
