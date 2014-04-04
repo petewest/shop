@@ -8,7 +8,7 @@
 	</div>
 	<div class="cart_actions">
 		<div class="form-group">
-			<%= f.text_field :quantity, value: line_item.quantity, class: "form-control" %>
+			<%= f.text_field :quantity, value: line_item.quantity, class: "form-control", data: {total_field: "total_cost_#{css_id(line_item)}", item_cost: line_item.product.cost.value} %>
 		</div>
 	</div>
 	<div class="cart_line_item text-right">
