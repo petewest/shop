@@ -10,9 +10,7 @@ Rails.application.routes.draw do
   resources :users, only: [:create]
 
   concern :buyable do
-    member do
-      get 'buy' => 'line_items#new'
-    end
+    get 'buy' => 'line_items#new'
   end
 
   resources :products, concerns: :buyable
