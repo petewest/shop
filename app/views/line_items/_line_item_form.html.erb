@@ -1,5 +1,5 @@
+<div class="row" id="<%=css_id(line_item)%>">
 <%= form_for line_item, remote: true, html: {class: "form-inline"} do |f| %>
-	<div class="row" id="<%=css_id(line_item)%>">
 	<div class="cart_product">
 		<div class="form-group">
 		<label class="label-control"><%= line_item.product.name %></label>
@@ -23,8 +23,8 @@
 	<div class="cart_save_button">
 		<%= f.submit "Save", class: "btn btn-default" %>
 	</div>
-	</div>
 <% end %>
+</div>
 <!--
 		<div class="col-md-6">
 			<%= button_to "Remove", {action: :destroy, id: id}, method: :delete, remote: true, class: "btn btn-default" if !line_item.new_record? %>
