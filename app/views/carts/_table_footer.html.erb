@@ -1,3 +1,4 @@
+</div>
 <div class="row">
 	<div class="cart_product">
 	</div>
@@ -7,9 +8,8 @@
 		Total cost:
 	</div>
 	<div class="cart_line_cost text-right">
-		<%= @cart.costs.map(&method(:cost_to_currency)).join if @cart %>
+		<%= @cart.costs.map(&method(:cost_to_currency)).join if @cart.try(:costs) %>
 	</div>
 	<div class="clearfix"></div>
-</div>
 </div>
 </div>

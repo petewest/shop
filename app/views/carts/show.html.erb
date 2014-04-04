@@ -2,8 +2,8 @@
 
 <%= content_tag(:h1, "Shopping cart") %>
 
-<%= render 'table_header' %>
 <%= form_for @cart do |f| %>
+	<%= render 'table_header' %>
 	<%= f.fields_for :line_items do |li| %>
 		<div class="row">
 			<%= render 'line_items/line_item_fields', f: li %>
@@ -14,5 +14,5 @@
 	    <%= link_to "Continue shopping", products_path, class: "btn btn-default" %>
 	    <%= f.submit "Update basket", class: "btn btn-default" %>
 	    <%= f.submit "Checkout", class: "btn btn-primary" %>
-	  </div>
+	</div>
 <% end %>
