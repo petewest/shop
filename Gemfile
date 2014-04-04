@@ -12,7 +12,7 @@ gem 'coffee-rails', '~> 4.0.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer',  platforms: :ruby
 
-gem 'bootstrap-sass', '3.0.3.0'
+gem 'bootstrap-sass', '3.1.1.0'
 gem 'bcrypt-ruby', '3.1.2'
 
 

@@ -34,7 +34,7 @@ GEM
       nokogiri (>= 1.4.4)
       uuidtools (~> 2.1)
     bcrypt-ruby (3.1.2)
-    bootstrap-sass (3.0.3.0)
+    bootstrap-sass (3.1.1.0)
       sass (~> 3.2)
     bootstrap-will_paginate (0.0.10)
       will_paginate
@@ -143,7 +143,7 @@ PLATFORMS
 DEPENDENCIES
   aws-sdk
   bcrypt-ruby (= 3.1.2)
-  bootstrap-sass (= 3.0.3.0)
+  bootstrap-sass (= 3.1.1.0)
   bootstrap-will_paginate (= 0.0.10)
   coffee-rails (~> 4.0.0)
   jbuilder (~> 2.0)
