@@ -10,9 +10,10 @@ module CartHelper
   end
 
   def current_cart=(cart)
-    if cart.save
+    if !cart.new_record? or cart.save
+      puts "Setting cookie"
       cookies.permanent[:cart_token]=cart.cart_token
-      true
+      cart
     else
       puts "Save failed"
       false
