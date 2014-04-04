@@ -1,7 +1,8 @@
 require 'test_helper'
 
 class LineItemsControllerTest < ActionController::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  test "should show new page" do
+    get :new
+    assert_response :success
+  end
 end

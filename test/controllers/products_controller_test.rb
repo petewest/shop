@@ -218,6 +218,11 @@ class ProductsControllerTest < ActionController::TestCase
     assert_equal 2000.5, assigns(:product).cost.value
   end
 
+  test "should route to line item controller on buy" do
+    product=products(:tshirt)
+    assert_routing '/products/1/buy', controller: 'line_items', action: 'new', id: "1"
+  end
+
   private
     def valid
       @product||={name: "New product test", description: "Test description", cost_attributes: {currency_id: currencies(:gbp).id, value: 200}}
