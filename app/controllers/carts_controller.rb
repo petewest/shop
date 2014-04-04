@@ -1,4 +1,6 @@
 class CartsController < ApplicationController
+  before_action :signed_in_user, only: [:checkout]
+
   def show
     @cart=current_cart
   end
@@ -16,6 +18,7 @@ class CartsController < ApplicationController
   def update
     @cart=current_cart
     if @cart.update_attributes(cart_params)
+      redirect_to checkout_path and return if params[:commit]=="Checkout"
       flash[:success]="Cart updated"
     else
       flash.now[:danger]="Couldn't update cart contents"
@@ -24,8 +27,9 @@ class CartsController < ApplicationController
     redirect_to cart_path
   end
 
-
-
+  def checkout
+    @cart=current_cart
+  end
 
   private
     def cart_params

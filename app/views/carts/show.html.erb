@@ -9,10 +9,10 @@
 			<%= render 'line_items/line_item_fields', f: li %>
 		</div>
 	<% end %>
+	<%= render 'table_footer' %>
 	<div class="btn-group pull-right">
 	    <%= link_to "Continue shopping", products_path, class: "btn btn-default" %>
 	    <%= f.submit "Update basket", class: "btn btn-default" %>
 	    <%= f.submit "Checkout", class: "btn btn-primary" %>
 	  </div>
 <% end %>
-<%= render 'table_footer' %>

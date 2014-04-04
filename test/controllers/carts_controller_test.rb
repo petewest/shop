@@ -72,7 +72,7 @@ class CartsControllerTest < ActionController::TestCase
   end
 
   test "should update line items" do
-    self.current_cart=orders(:cart)
+    sign_in users(:buyer)
     line_item=current_cart.line_items.first
     old_quantity=line_item.quantity
     patch :update, cart: {line_items_attributes: [{id: line_item.id, product_id: line_item.product_id, quantity: old_quantity*2}]}
@@ -92,6 +92,31 @@ class CartsControllerTest < ActionController::TestCase
     end
     assert_response :redirect
     assert_redirected_to cart_path
+  end
+
+  test "should update and go to checkout on Checkout" do
+    self.current_cart=orders(:cart)
+    line_item=current_cart.line_items.first
+    old_quantity=line_item.quantity
+    patch :update, commit: "Checkout", cart: {line_items_attributes: [{id: line_item.id, product_id: line_item.product_id, quantity: old_quantity*2}]}
+    line_item.reload
+    assert_not_equal old_quantity, line_item.quantity
+    assert_equal old_quantity*2, line_item.quantity
+    assert_response :redirect
+    assert_redirected_to checkout_path
+  end
+
+  test "should ask for sign in on checkout" do
+    get :checkout
+    assert_response :redirect
+    assert_redirected_to signin_path
+  end
+
+  test "should allow checkout when signed in" do
+    sign_in users(:buyer)
+    get :checkout
+    assert_response :success
+    assert_not_nil assigns(:cart)
   end
 
   private

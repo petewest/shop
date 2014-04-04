@@ -1,0 +1,13 @@
+<% provide(:title, "Checkout") %>
+
+<%= content_tag(:h1, "Checkout") %>
+
+<%= content_tag(:h4, "Please confirm the following order") %>
+
+<%= content_tag(:h5, "Clicking confirm will take you to the payment page") %>
+
+<%= render 'table_header' %>
+
+<%= render @cart.line_items %>
+
+<%= render 'table_footer' %>
