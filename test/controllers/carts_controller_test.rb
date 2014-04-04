@@ -41,4 +41,26 @@ class CartsControllerTest < ActionController::TestCase
       delete :destroy
     end
   end
+
+  test "should clear cookie without login" do
+    cookies[:cart_token]="cart_token_for_cart"
+    delete :destroy
+    assert_nil cookies[:cart_token]
+  end
+
+  test "should clear cart when logged in if belongs to user" do
+    sign_in Cart.first.user
+    assert_difference "Cart.count",-1 do
+      delete :destroy
+    end
+  end
+
+  test "should not clear cart if it belongs to a different user" do
+    sign_in users(:seller)
+    cookies[:cart_token]=orders(:cart).cart_token
+    assert_not_equal current_user, current_cart.user
+    assert_no_difference "Cart.count" do
+      delete :destroy
+    end
+  end
 end
