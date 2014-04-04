@@ -16,7 +16,8 @@ Rails.application.routes.draw do
   resources :products, concerns: :buyable
   get '/checkout' => 'orders#new'
   resources :orders, except: :destroy
-  resources :cart, only: [:index, :destroy, :update]
+  resource :cart, only: [:show, :destroy]
+  resources :cart, only: [:index]
 
   resources :line_items, only: [:show, :create, :destroy]
   

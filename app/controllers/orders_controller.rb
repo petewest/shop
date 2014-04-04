@@ -10,6 +10,7 @@ class OrdersController < ApplicationController
     if @order.save
       @order.placed!
       flash[:success]="Thank you for your order."
+      self.current_cart=nil
       redirect_to @order
     else
       flash[:danger]="Order creation failed"

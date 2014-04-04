@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   layout :check_modal
 
   include SessionsHelper
-  include CartHelper
+  include CartsHelper
 
   private
     def check_modal

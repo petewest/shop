@@ -22,3 +22,7 @@ buyer:
   email: buyer_only@email.com
   name: Buyer beware
 
+without_cart:
+  email: user@user.com
+  name: User without cart
+

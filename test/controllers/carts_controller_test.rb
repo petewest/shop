@@ -1,11 +1,6 @@
 require 'test_helper'
 
-class CartControllerTest < ActionController::TestCase
-  #test "should get cart without login" do
-  #  get :index
-  #  assert_response :success
-  #end
-
+class CartsControllerTest < ActionController::TestCase
   test "should get set current_cart to be a new Cart when no history present" do
     cart=nil
     assert_no_difference "Cart.count" do
@@ -40,4 +35,10 @@ class CartControllerTest < ActionController::TestCase
     assert_nil cookies[:cart_token]
   end
 
+  test "should not destroy without login" do
+    cookies[:cart_token]="cart_token_for_cart"
+    assert_no_difference "Cart.count" do
+      delete :destroy
+    end
+  end
 end

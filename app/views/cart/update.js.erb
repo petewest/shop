@@ -1,3 +1,0 @@
-jQuery("#<%= params[:id] %>").replaceWith("<%= escape_javascript(render 'line_item', line_item: @line_item) %>");
-jQuery("#total").replaceWith("<%= escape_javascript(render 'total') %>");
-<%= render 'shared/refresh_flash' %>

@@ -1,4 +1,4 @@
-module CartHelper
+module CartsHelper
   def current_cart
     begin
       @current_cart||=Cart.find_by_cart_token!(cookies[:cart_token]) if cookies[:cart_token]
@@ -10,9 +10,12 @@ module CartHelper
   end
 
   def current_cart=(cart)
-    if !cart.new_record? or cart.save
+    if cart.nil?
+      cookies[:cart_token]=nil
+      @current_cart=cart
+    elsif !cart.new_record? or cart.save
       cookies.permanent[:cart_token]=cart.cart_token
-      cart
+      @current_cart=cart
     else
       false
     end

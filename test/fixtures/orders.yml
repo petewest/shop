@@ -21,6 +21,7 @@ cart:
   paid_at: 
   dispatched_at: 
   type: Cart
+  cart_token: cart_token_for_cart
 
 dispatched:
   user: :buyer
