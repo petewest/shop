@@ -23,3 +23,6 @@ en:
   hello: "Hello world"
   number:
     parse: '[^.\d]'
+  time:
+    formats:
+      default: '%a, %d %b %Y %H:%M'

@@ -4,6 +4,9 @@
 		<span class="order_status">
 			Status: <%= order.status %>
 		</span>
+		<span class="status_date">
+			<%= " on #{l(order.send(order.status + '_at'))}" if order.try(order.status+'_at') %>
+		</span>
 	</div>
 	<div class="order_body">
 		<div class="order_summary">
