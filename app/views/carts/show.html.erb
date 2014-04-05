@@ -2,6 +2,7 @@
 
 <%= content_tag(:h1, "Shopping cart") %>
 
+<% if @cart.line_items.any? %>
 <%= form_for @cart do |f| %>
 	<%= render 'table_header' %>
 	<%= f.fields_for :line_items, include_id: false do |li| %>
@@ -17,4 +18,9 @@
 	    <%= f.submit "Update basket", class: "btn btn-default" %>
 	    <%= f.submit "Checkout", class: "btn btn-primary" %>
 	</div>
+<% end %>
+
+<% else %>
+<%= content_tag(:h4, "Cart empty!") %>
+<%= link_to "Go shopping", products_path, class: "btn btn-default" %>
 <% end %>

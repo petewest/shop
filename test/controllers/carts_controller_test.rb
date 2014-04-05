@@ -156,6 +156,12 @@ class CartsControllerTest < ActionController::TestCase
     assert_not_equal orders(:cart), current_cart
   end
 
+  test "should tell you basket is empty" do
+    get :show
+    assert_select "form input[type=submit]", 0
+    assert_select "a[href=#{products_path}]", "Go shopping"
+  end
+
   private
     def valid
       @cart||={line_items_attributes: [{product_id: products(:tshirt), quantity: 2}]}
