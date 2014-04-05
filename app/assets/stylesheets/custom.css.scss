@@ -47,3 +47,59 @@
 .cart_header>div {
 	font-weight: bold;
 }
+
+.order_item {
+	@extend .panel;
+}
+
+.order_body {
+	@extend .panel-body;
+}
+
+.order_id {
+	@extend .panel-heading;
+}
+
+.order_status_cart {
+	@extend .panel-info;
+	>.order_id>a {
+		color: inherit;
+	}
+}
+
+.order_status_placed {
+	@extend .panel-warning;
+	>.order_id>a {
+		color: inherit;
+	}
+}
+
+.order_status_paid {
+	@extend .panel-info;
+	>.order_id>a {
+		color: inherit;
+	}
+}
+
+.order_status_dispatched {
+	@extend .panel-success;
+	>.order_id>a {
+		color: inherit;
+	}
+}
+
+.order_status {
+	margin-left: 10px;
+}
+
+.order_summary {
+	@extend .col-md-6, .col-sm-6, .col-xs-12;
+}
+
+.order_total {
+	@extend .col-md-2, .col-sm-3, .col-xs-6;
+}
+
+.order_actions {
+	@extend .col-md-2, .col-sm-3, .col-xs-6, .pull-right;
+}

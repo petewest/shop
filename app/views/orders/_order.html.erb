@@ -1,24 +1,26 @@
 <div class="order_item order_status_<%= order.status%>">
 	<div class="order_id">
 		Order ID: <%= link_to order.id, order %>
+		<span class="order_status">
+			Status: <%= order.status %>
+		</span>
 	</div>
-	<div class="order_status">
-		Status: <%= order.status %>
-	</div>
-	<div class="order_summary">
-		<%= render partial: 'line_item_summary', collection: order.line_items %>
-	</div>
-	<div class="order_total">
-		Total cost: <%= cost_to_currency(*order.costs) %>
-	</div>
-	<div class="order_actions">
-		<% if order.is_a? Cart %>
-			<%= form_for order, url: set_current_order_path(order) do |f| %>
-				<div class="btn-group-vertical">
-					<%= f.submit "Continue shopping", class: "btn btn-default" %>
-					<%= f.submit "Checkout", class: "btn btn-primary" %>
-				</div>
+	<div class="order_body">
+		<div class="order_summary">
+			<%= render partial: 'line_item_summary', collection: order.line_items %>
+		</div>
+		<div class="order_total">
+			Total cost: <%= cost_to_currency(*order.costs) %>
+		</div>
+		<div class="order_actions">
+			<% if order.is_a? Cart %>
+				<%= form_for order, url: set_current_order_path(order) do |f| %>
+					<div class="btn-group-vertical">
+						<%= f.submit "Continue shopping", class: "btn btn-default" %>
+						<%= f.submit "Checkout", class: "btn btn-primary" %>
+					</div>
+				<% end %>
 			<% end %>
-		<% end %>
+		</div>
 	</div>
 </div>
