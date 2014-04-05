@@ -1,0 +1,16 @@
+<div class="order_item order_status_<%= order.status%>">
+	<div class="order_id">
+		Order ID: <%= link_to order.id, order %>
+	</div>
+	<div class="order_status">
+		Status: <%= order.status %>
+	</div>
+	<div class="order_summary">
+		<%= render partial: 'line_item_summary', collection: order.line_items %>
+	</div>
+	<div class="order_total">
+		Total cost: <%= cost_to_currency(order) %>
+	</div>
+	<div class="order_actions">
+	</div>
+</div>

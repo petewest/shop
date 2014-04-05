@@ -2,36 +2,32 @@ require 'test_helper'
 
 class OrdersControllerTest < ActionController::TestCase
   test "should redirect without login" do
-    get :new
+    get :index
     assert_response :redirect
     assert_redirected_to signin_path
   end
 
-  test "should create order when valid" do
-    sign_in users(:without_cart)
-    assert_difference "Order.count" do
-      assert_difference "LineItem.count",2 do
-        put :create, order: valid
-      end
+  test "should show page after login" do
+    sign_in users(:buyer)
+    get :index
+    assert_response :success
+  end
+
+  test "should show a list of all the users orders" do
+    sign_in users(:buyer)
+    order_count=users(:buyer).orders.count
+    cart_count=users(:buyer).orders.cart.count
+    line_item_count=users(:buyer).orders.map(&:line_items).map(&:count).sum
+    get :index
+    assert_not_nil assigns(:orders)
+    assert_not assigns(:orders).include?(orders(:cart_without_user))
+    assert_equal order_count, assigns(:orders).count
+    assert_select "div.order_list" do
+      assert_select ".order_item", order_count
+      assert_select ".order_status_cart", cart_count
+      assert_select ".order_summary div.order_line_item", line_item_count
     end
-    assert_not_nil assigns(:order)
-    assert_nil cookies[:cart_token]
-    assert_equal 0, current_cart.line_items.count
   end
 
-  test "should not create order when not signed in" do
-    assert_no_difference "Order.count" do
-      assert_no_difference "LineItem.count" do
-        put :create, order: valid
-      end
-    end
-  end
-
-
-
-  private
-  def valid
-    @order||={line_items_attributes: [{product_id: products(:tshirt).id, quantity: 3}, {product_id: products(:product_1).id, quantity: 1}]}
-  end
 
 end

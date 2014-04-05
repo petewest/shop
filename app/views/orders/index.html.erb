@@ -1,0 +1,7 @@
+<% provide(:title, "Order history") %>
+
+<%= content_tag(:h1, "Order history") %>
+
+<div class="order_list">
+	<%= render partial: 'order', collection: @orders %>
+</div>
