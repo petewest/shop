@@ -4,8 +4,10 @@
 		<%= render 'shared/form_error', object: f.object %>
 	<% end %>
 	<%= render 'line_items/line_item_fields', f: f %>
-	<div class="cart_save_button">
-		<%= f.submit class: "btn btn-default" %>
+	<div class="row">
+		<div class="cart_save_button pull-right">
+			<%= f.submit "Add to cart", class: "btn btn-default" %>
+		</div>
 	</div>
 <% end %>
 </div>

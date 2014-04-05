@@ -13,6 +13,8 @@ class Order < ActiveRecord::Base
 
   before_save :pre_save
 
+  default_scope -> {includes(line_items: [:product, :currency])}
+
   def costs
     line_items.group_by(&:currency).map do |currency, items|
       Hash(currency: currency, cost: items.map(&:cost).sum)
