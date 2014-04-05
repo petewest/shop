@@ -7,6 +7,8 @@ module CartsHelper
     end
     @current_cart||=current_user.carts.first if signed_in? and current_user.carts.any?
     @current_cart||=Cart.new(user: current_user)
+    @current_cart=Cart.new(user: current_user) if @current_cart.user and @current_cart.user!=current_user
+    @current_cart
   end
 
   def current_cart=(cart)
