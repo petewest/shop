@@ -17,10 +17,12 @@ module ApplicationHelper
     html.html_safe
   end
 
-  def cost_to_currency(item)
-    currency=Currency.find(item[:currency_id])
-    cost=item[:cost] || item.cost
-    number_to_currency(cost, unit: currency.symbol, precision: currency.decimal_places)
+  def cost_to_currency(*items)
+    items.map do |item|
+      currency=Currency.find(item[:currency_id])
+      cost=item[:cost] || item.cost
+      number_to_currency(cost, unit: currency.symbol, precision: currency.decimal_places)
+    end.join
   end
 
   def css_id(item)

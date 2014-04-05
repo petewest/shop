@@ -9,7 +9,7 @@
 		<%= render partial: 'line_item_summary', collection: order.line_items %>
 	</div>
 	<div class="order_total">
-		Total cost: <%= cost_to_currency(order) %>
+		Total cost: <%= cost_to_currency(*order.costs) %>
 	</div>
 	<div class="order_actions">
 	</div>

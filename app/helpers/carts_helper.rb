@@ -1,7 +1,7 @@
 module CartsHelper
   def current_cart
     begin
-      @current_cart||=Cart.find_by_cart_token!(cookies[:cart_token]) if cookies[:cart_token]
+      @current_cart||=Cart.find_by_cart_token!(cookies[:cart_token]) if !cookies[:cart_token].blank?
     rescue ActiveRecord::RecordNotFound => exception
       cookies[:cart_token]=nil
     end
