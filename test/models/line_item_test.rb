@@ -83,7 +83,7 @@ class LineItemTest < ActiveSupport::TestCase
     line_item=LineItem.new(valid)
     line_item.quantity=2
     line_item.save
-    assert_equal line_item.product.cost, line_item.unit_cost
+    assert_equal line_item.product.unit_cost, line_item.unit_cost
     assert_equal line_item.product.cost*line_item.quantity, line_item.cost
   end
 

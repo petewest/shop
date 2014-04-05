@@ -5,14 +5,14 @@ tshirt:
   description: Awesome clothes
   seller: :seller
   currency: :gbp
-  cost: 20
+  unit_cost: 2000
 
 mug:
   name: Mug
   description: A mug with logo
   seller: :seller
   currency: :gbp
-  cost: 10
+  unit_cost: 1000
 
 <% 99.times do |i| %>
 product_<%=i%>:
@@ -20,7 +20,7 @@ product_<%=i%>:
   description: More awesome products
   seller: :seller
   currency: :gbp
-  cost: 20
+  unit_cost: 2000
 
 <% end %>
 
@@ -28,4 +28,4 @@ other_currency:
   name: Product with another currency
   seller: :seller
   currency: :usd
-  cost: 30
+  unit_cost: 3000

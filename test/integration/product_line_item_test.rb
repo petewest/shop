@@ -9,7 +9,7 @@ class ProductLineItemTest < ActionDispatch::IntegrationTest
 
   test "should show new line item page" do
     product=products(:tshirt)
-    item_cost=product.cost/10.0**product.currency.decimal_places
+    item_cost=product.cost
     get url_for [product, :buy]
     assert_response :success
     assert_not_nil assigns(:line_item)

@@ -49,8 +49,8 @@ class ProductsController < ApplicationController
 
   private
     def product_params
-      params[:product][:cost].gsub!(/#{I18n.t("number.parse")}/,"") if params.try(:[], :product).try(:[], :cost)
-      params.require(:product).permit(:name, :description, :currency_id, :cost, images_attributes: [:id, :image, :_destroy])
+      params[:product][:unit_cost].gsub!(/#{I18n.t("number.parse")}/,"") if params.try(:[], :product).try(:[], :unit_cost)
+      params.require(:product).permit(:name, :description, :currency_id, :unit_cost, images_attributes: [:id, :image, :_destroy])
     end
     def product_from_params
       @product=Product.find(params[:id])

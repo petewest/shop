@@ -20,7 +20,7 @@ module ApplicationHelper
   def cost_to_currency(item)
     currency=Currency.find(item[:currency_id])
     cost=item[:cost] || item.cost
-    number_to_currency(cost / (10.0**currency.decimal_places), unit: currency.symbol, precision: currency.decimal_places)
+    number_to_currency(cost, unit: currency.symbol, precision: currency.decimal_places)
   end
 
   def css_id(item)

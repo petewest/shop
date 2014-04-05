@@ -197,9 +197,9 @@ class ProductsControllerTest < ActionController::TestCase
 
   test "should strip thousand seperator from cost" do
     sign_in users(:seller)
-    post :create, product: valid.merge(currency_id: currencies(:gbp).id, cost: "2#{I18n.t("number.format.delimiter")}000")
+    post :create, product: valid.merge(currency_id: currencies(:gbp).id, unit_cost: "2#{I18n.t("number.format.delimiter")}000")
     assert assigns(:product)
-    assert_equal 2000, assigns(:product).cost
+    assert_equal 2000, assigns(:product).unit_cost
   end
 
   test "should have id modal" do
@@ -210,7 +210,7 @@ class ProductsControllerTest < ActionController::TestCase
 
   private
     def valid
-      @product||={name: "New product test", description: "Test description", currency_id: currencies(:gbp).id, cost: 200}
+      @product||={name: "New product test", description: "Test description", currency_id: currencies(:gbp).id, unit_cost: 200}
     end
 
 end

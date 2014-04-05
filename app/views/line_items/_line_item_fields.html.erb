@@ -6,15 +6,15 @@
 </div>
 <div class="cart_actions">
 	<div class="form-group">
-		<%= f.text_field :quantity, value: f.object.quantity, class: "form-control", data: {total_field: "total_cost_#{css_id(f.object)}", item_cost: (f.object.product.cost/10.0**f.object.product.currency.decimal_places)} %>
+		<%= f.text_field :quantity, value: f.object.quantity, class: "form-control", data: {total_field: "total_cost_#{css_id(f.object)}", item_cost: f.object.product.cost} %>
 	</div>
 </div>
 <div class="cart_line_item text-right">
-	<%= cost_to_currency(f.object.product) %>
+	<%= cost_to_currency(f.object) %>
 </div>
 <div class="cart_line_cost text-right">
 	<%= f.object.product.currency.symbol -%>
-<span id="total_cost_<%=css_id(f.object)%>"><%= f.object.cost/10.0**f.object.product.currency.decimal_places if f.object.cost %>
+<span id="total_cost_<%=css_id(f.object)%>"><%= f.object.cost %>
 	</span>
 </div>
 <% if !f.object.new_record? %>

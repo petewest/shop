@@ -4,7 +4,7 @@ class Product < ActiveRecord::Base
   validates :seller, presence: true
   validates :name, presence: true
 
-  validates :cost, presence: true, numericality: {only_integer: true}
+  validates :unit_cost, presence: true, numericality: {only_integer: true}
   validates :currency, presence: true
 
   has_many :line_items, inverse_of: :product
