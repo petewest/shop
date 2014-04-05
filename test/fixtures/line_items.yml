@@ -5,32 +5,32 @@ one:
   order: :cart
   quantity: 1
   currency: :gbp
-  cost: 20
+  unit_cost: 20
 
 two:
   product: :product_0
   order: :placed
   quantity: 1
   currency: gbp
-  cost: 90
+  unit_cost: 90
 
 three:
   product: :product_1
   order: :paid
   quantity: 1
   currency: gbp
-  cost: 60
+  unit_cost: 60
 
 four:
   product: :product_2
   order: :dispatched
   quantity: 1
   currency: gbp
-  cost: 20
+  unit_cost: 20
 
 without_user:
   product: :mug
   order: :cart_without_user
   quantity: 1
   currency: gbp
-  cost: 15
+  unit_cost: 15

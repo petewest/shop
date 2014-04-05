@@ -15,11 +15,14 @@ class LineItem < ActiveRecord::Base
   def copy_cost_from_product
     #this will only run on cart/checkout so shouldn't change
     #after an order has been placed
-    self.cost=product.cost
+    self.unit_cost=product.cost
     self.currency=product.currency
-    self.cost*=quantity
     #return self for method chaining
     self
+  end
+
+  def cost
+    (self.unit_cost || product.cost)*self.quantity
   end
 
 

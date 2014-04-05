@@ -65,18 +65,24 @@ class LineItemTest < ActiveSupport::TestCase
 
   test "should override currency and cost from product on save" do
     line_item=LineItem.new(valid)
-    line_item.cost=2_000_000
+    line_item.unit_cost=2_000_000
     line_item.currency=currencies(:usd)
     assert line_item.save
     line_item.reload
-    assert_not_equal 2_000_000, line_item.cost
+    assert_not_equal 2_000_000, line_item.unit_cost
     assert_not_equal currencies(:usd), line_item.currency
+  end
+
+  test "should copy unit cost from product" do
+    line_item=LineItem.new(valid)
+    line_item.save
+    assert_not_nil line_item.unit_cost
   end
 
 
   private
     def valid
-      @line_item||={product: products(:product_20), order: orders(:cart), quantity: 1, currency: currencies(:gbp), cost: 200}
+      @line_item||={product: products(:product_20), order: orders(:cart), quantity: 1}
     end
 
 end
