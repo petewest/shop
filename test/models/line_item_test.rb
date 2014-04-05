@@ -49,7 +49,7 @@ class LineItemTest < ActiveSupport::TestCase
   end
 
   test "should copy_cost_from_product" do
-    line_item=LineItem.new(valid.except(:cost_attributes))
+    line_item=LineItem.new(valid)
     assert line_item.save
     assert_not_nil line_item.cost
     assert_equal line_item.product.currency, line_item.currency
@@ -77,6 +77,14 @@ class LineItemTest < ActiveSupport::TestCase
     line_item=LineItem.new(valid)
     line_item.save
     assert_not_nil line_item.unit_cost
+  end
+
+  test "cost should equal unit_cost*quantity" do
+    line_item=LineItem.new(valid)
+    line_item.quantity=2
+    line_item.save
+    assert_equal line_item.product.cost, line_item.unit_cost
+    assert_equal line_item.product.cost*line_item.quantity, line_item.cost
   end
 
 
