@@ -50,8 +50,7 @@ class LineItemTest < ActiveSupport::TestCase
 
   test "should copy_cost_from_product" do
     line_item=LineItem.new(valid.except(:cost_attributes))
-    line_item.copy_cost_from_product
-    assert line_item.valid?
+    assert line_item.save
     assert_not_nil line_item.cost
     assert_equal line_item.product.currency, line_item.currency
     assert_equal line_item.product.cost, line_item.cost
@@ -62,6 +61,16 @@ class LineItemTest < ActiveSupport::TestCase
     line_item.save
     line_item=line_item.dup
     assert_not line_item.save
+  end
+
+  test "should override currency and cost from product on save" do
+    line_item=LineItem.new(valid)
+    line_item.cost=2_000_000
+    line_item.currency=currencies(:usd)
+    assert line_item.save
+    line_item.reload
+    assert_not_equal 2_000_000, line_item.cost
+    assert_not_equal currencies(:usd), line_item.currency
   end
 
 
