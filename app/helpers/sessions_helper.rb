@@ -68,6 +68,8 @@ module SessionsHelper
     self.current_session=nil
     #Remove current_user
     self.current_user=nil
+    #remove any existing shopping cart on signout
+    self.current_cart=nil
     #Tidy up any session vars or cookies
     session.delete(:remember_token) if session[:remember_token]
     cookies.delete(:remember_token) if cookies[:remember_token]

@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   root 'products#index'
 
   get '/signin' => 'sessions#new'
-  get '/signout' => 'sessions#destroy'
+  delete '/signout' => 'sessions#destroy'
   resources :sessions, only: [:create]
   get '/signup' => 'users#new'
   resources :users, only: [:create]

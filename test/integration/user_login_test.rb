@@ -7,12 +7,13 @@ class UserLoginTest < ActionDispatch::IntegrationTest
     user=User.new(valid_user)
     user.save
     assert_difference "Session.count" do
-      post sessions_path, session: valid_session_params.merge(remember: 1)
+      post sessions_path, session: valid_session_params.merge(remember: "1")
     end
     assert_response :redirect
     assert_redirected_to root_url
     assert_equal "Welcome back, #{valid_user[:name]}", flash[:success]
-    #assert_not_nil cookies[:remember_token]
+    #apparently cookies can't be addressed by symbol in integration tests?
+    assert_not_nil cookies['remember_token']
     assert_not_nil assigns(:current_user)
     assert_equal assigns(:current_user), user
   end
@@ -48,11 +49,11 @@ class UserLoginTest < ActionDispatch::IntegrationTest
   test "should redirect back to original page after login when trying to access protected page" do
     user=User.new(valid_user)
     user.save
-    get signout_path
-    assert_equal signout_url, session[:return_to]
+    get order_path(orders(:placed))
+    assert_equal order_url(orders(:placed)), session[:return_to]
     post sessions_path, session: valid_session_params
     assert_response :redirect
-    assert_redirected_to signout_url
+    assert_redirected_to order_url(orders(:placed))
   end
 
 
