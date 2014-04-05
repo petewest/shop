@@ -6,7 +6,7 @@ module CartsHelper
       cookies[:cart_token]=nil
     end
     @current_cart||=current_user.carts.first if signed_in? and current_user.carts.any?
-    @current_cart||=Cart.new
+    @current_cart||=Cart.new(user: current_user)
   end
 
   def current_cart=(cart)

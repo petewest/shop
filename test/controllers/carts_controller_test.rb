@@ -146,6 +146,11 @@ class CartsControllerTest < ActionController::TestCase
     assert_redirected_to root_url
   end
 
+  test "should set cart user if signed in" do
+    sign_in users(:without_cart)
+    assert_equal current_cart.user, current_user
+  end
+
   private
     def valid
       @cart||={line_items_attributes: [{product_id: products(:tshirt), quantity: 2}]}
