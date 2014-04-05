@@ -29,3 +29,8 @@ dispatched:
   placed_at: 2014-03-30 17:13:24
   paid_at: 2014-03-30 17:13:24
   dispatched_at: 2014-03-30 17:13:24
+
+cart_without_user:
+  status: <%= Order.statuses[:cart] %>
+  type: Cart
+  cart_token: cart_without_user

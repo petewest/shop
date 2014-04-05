@@ -15,7 +15,9 @@ Rails.application.routes.draw do
 
   resources :products, concerns: :buyable
   resources :orders, except: :destroy
-  resource :cart, only: [:show, :destroy, :update]
+  resource :cart, only: [:show, :destroy, :update] do
+    patch 'confirm'
+  end
   resources :carts, only: [:index]
   get '/checkout' => 'carts#checkout'
 

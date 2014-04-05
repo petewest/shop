@@ -1,5 +1,5 @@
 class CartsController < ApplicationController
-  before_action :signed_in_user, only: [:checkout]
+  before_action :signed_in_user, only: [:checkout, :confirm]
 
   def show
     @cart=current_cart
@@ -29,6 +29,23 @@ class CartsController < ApplicationController
 
   def checkout
     @cart=current_cart
+  end
+
+  def confirm
+    @cart=current_cart
+    if @cart.user and !current_user?(@cart.user)
+      flash[:danger]="Error processing cart, please sign out and back in"
+      redirect_to root_url
+      return
+    end
+    @cart.user=current_user
+    @cart.status=:placed
+    if @cart.save
+      flash[:success]="Thank you for your order!"
+      redirect_to order_path(@cart)
+    else
+      render 'show'
+    end
   end
 
   private

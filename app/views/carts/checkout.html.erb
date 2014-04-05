@@ -11,3 +11,7 @@
 <%= render @cart.line_items %>
 
 <%= render 'table_footer' %>
+
+<div class="pull-right">
+	<%= button_to "Confirm order", confirm_cart_path, class: "btn btn-primary btn_confirm" %>
+</div>

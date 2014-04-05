@@ -117,6 +117,33 @@ class CartsControllerTest < ActionController::TestCase
     get :checkout
     assert_response :success
     assert_not_nil assigns(:cart)
+    assert_select ".cart_container div.cart_product", assigns(:cart).line_items.count
+    assert_select ".btn_confirm"
+  end
+
+  test "should not allow confirm without sign in" do
+    patch :confirm
+    assert_response 302
+  end
+
+  test "should allow confirm when signed in" do
+    sign_in users(:without_cart)
+    self.current_cart=orders(:cart_without_user)
+    patch :confirm
+    assert_not_nil assigns(:cart)
+    assert_equal current_user, assigns(:cart).user
+    assert_equal "placed", assigns(:cart).status
+    assert_equal "Thank you for your order!", flash[:success]
+    assert_redirected_to order_path(assigns(:cart))
+  end
+
+  test "should not allow purchase of carts that belong to other users" do
+    sign_in users(:without_cart)
+    self.current_cart=orders(:cart)
+    patch :confirm
+    assert_not_equal current_user, assigns(:cart).user
+    assert_equal flash[:danger], "Error processing cart, please sign out and back in"
+    assert_redirected_to root_url
   end
 
   private
