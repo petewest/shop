@@ -1,8 +1,10 @@
 module Costable
   extend ActiveSupport::Concern
   included do
-    has_one :cost, as: :costable, dependent: :destroy
+    belongs_to :currency
 
-    accepts_nested_attributes_for :cost
+    validates :currency, presence: true
+    validates :cost, presence: true, numericality: true
+
   end
 end

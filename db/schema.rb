@@ -11,19 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140403180557) do
+ActiveRecord::Schema.define(version: 20140405160214) do
 
-  create_table "costs", force: true do |t|
-    t.integer  "costable_id"
-    t.string   "costable_type"
-    t.integer  "currency_id"
-    t.float    "value"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "costs", ["costable_id", "costable_type"], name: "index_costs_on_costable_id_and_costable_type", unique: true, using: :btree
-  add_index "costs", ["currency_id"], name: "index_costs_on_currency_id", using: :btree
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "currencies", force: true do |t|
     t.string   "iso_code"
@@ -51,9 +42,11 @@ ActiveRecord::Schema.define(version: 20140403180557) do
   create_table "line_items", force: true do |t|
     t.integer  "product_id"
     t.integer  "order_id"
-    t.integer  "quantity",   default: 1
+    t.integer  "quantity",    default: 1
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "cost"
+    t.integer  "currency_id"
   end
 
   add_index "line_items", ["order_id"], name: "index_line_items_on_order_id", using: :btree
@@ -81,6 +74,8 @@ ActiveRecord::Schema.define(version: 20140403180557) do
     t.integer  "seller_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "cost"
+    t.integer  "currency_id"
   end
 
   add_index "products", ["seller_id"], name: "index_products_on_seller_id", using: :btree
