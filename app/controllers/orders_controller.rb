@@ -2,7 +2,7 @@ class OrdersController < ApplicationController
   before_action :signed_in_user
 
   def index
-    @orders=current_user.orders.includes(line_items: [:product, :currency]).all
+    @orders=current_user.orders.includes(line_items: [:product, :currency]).order(status: :asc).all
   end
 
   def set_current

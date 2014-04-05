@@ -19,7 +19,7 @@
 			<% if order.is_a? Cart %>
 				<%= form_for order, url: set_current_order_path(order) do |f| %>
 					<div class="btn-group-vertical">
-						<%= f.submit "Continue shopping", class: "btn btn-default" %>
+						<%= f.submit "Continue this order", class: "btn btn-default" %>
 						<%= f.submit "Checkout", class: "btn btn-primary" %>
 					</div>
 				<% end %>

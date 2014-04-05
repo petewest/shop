@@ -14,8 +14,8 @@ class Order < ActiveRecord::Base
   before_save :pre_save
 
   def costs
-    line_items.group_by(&:currency_id).map do |currency_id, items|
-      Hash(currency_id: currency_id, cost: items.map(&:cost).sum)
+    line_items.group_by(&:currency).map do |currency, items|
+      Hash(currency: currency, cost: items.map(&:cost).sum)
     end if line_items.any?
   end
 
