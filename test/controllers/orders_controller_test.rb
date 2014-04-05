@@ -26,7 +26,53 @@ class OrdersControllerTest < ActionController::TestCase
       assert_select ".order_item", order_count
       assert_select ".order_status_cart", cart_count
       assert_select ".order_summary div.order_line_item", line_item_count
+      assert_select "form", cart_count
     end
+  end
+
+  test "should set current cart to selected order" do
+    sign_in users(:buyer)
+    cookies[:cart_token]=users(:buyer).carts.first.cart_token
+    cart=users(:buyer).carts.last
+    patch :set_current, id: cart.id
+    assert_redirected_to cart_url
+    assert_not_equal users(:buyer).carts.first.cart_token, cookies[:cart_token]
+    assert_equal cart.cart_token, cookies[:cart_token]
+  end
+
+  test "should not set current cart to selected order when it belongs to someone else" do
+    sign_in users(:buyer)
+    cart_token=users(:buyer).carts.first.cart_token
+    cookies[:cart_token]=cart_token
+    cart=orders(:cart_for_other_user)
+    patch :set_current, id: cart.id
+    assert_redirected_to cart_url
+    assert_equal cart_token, cookies[:cart_token]
+  end
+
+  test "should not set current cart to selected order when it doesn't belong to anyone" do
+    sign_in users(:buyer)
+    cart_token=users(:buyer).carts.first.cart_token
+    cookies[:cart_token]=cart_token
+    cart=orders(:cart_without_user)
+    patch :set_current, id: cart.id
+    assert_redirected_to cart_url
+    assert_equal cart_token, cookies[:cart_token]
+    assert_not_equal cart.cart_token, cookies[:cart_token]
+  end
+
+  test "should not resume order not in cart status" do
+    sign_in users(:buyer)
+    cart=orders(:placed)
+    patch :set_current, id: cart.id
+    assert_not_equal cart.cart_token, cookies[:cart_token]
+  end
+
+  test "should redirect to checkout" do
+    sign_in users(:buyer)
+    cart=users(:buyer).carts.first
+    patch :set_current, id: cart.id, submit: "Checkout"
+    assert_redirected_to checkout_url
   end
 
 

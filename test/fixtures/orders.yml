@@ -6,6 +6,7 @@ placed:
   placed_at: 2014-03-30 17:13:24
   paid_at: 
   dispatched_at: 
+  cart_token: placed_token
 
 paid:
   user: :buyer
@@ -23,6 +24,15 @@ cart:
   type: Cart
   cart_token: cart_token_for_cart
 
+cart2:
+  user: :buyer
+  status: <%= Order.statuses[:cart] %>
+  placed_at:
+  paid_at: 
+  dispatched_at: 
+  type: Cart
+  cart_token: random_token_for_cart2
+
 dispatched:
   user: :buyer
   status: <%= Order.statuses[:dispatched] %>
@@ -34,3 +44,12 @@ cart_without_user:
   status: <%= Order.statuses[:cart] %>
   type: Cart
   cart_token: cart_without_user
+
+cart_for_other_user:
+  user: :seller2
+  status: <%= Order.statuses[:cart] %>
+  placed_at:
+  paid_at: 
+  dispatched_at: 
+  type: Cart
+  cart_token: random_token_for_cart_for_other_user

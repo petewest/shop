@@ -14,7 +14,11 @@ Rails.application.routes.draw do
   end
 
   resources :products, concerns: :buyable
-  resources :orders, except: [:destroy, :new, :create]
+  resources :orders, except: [:destroy, :new, :create] do
+    member do
+      patch 'set_current'
+    end
+  end
   resource :cart, only: [:show, :destroy, :update] do
     patch 'confirm'
   end

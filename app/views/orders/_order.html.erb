@@ -12,5 +12,13 @@
 		Total cost: <%= cost_to_currency(*order.costs) %>
 	</div>
 	<div class="order_actions">
+		<% if order.is_a? Cart %>
+			<%= form_for order, url: set_current_order_path(order) do |f| %>
+				<div class="btn-group-vertical">
+					<%= f.submit "Continue shopping", class: "btn btn-default" %>
+					<%= f.submit "Checkout", class: "btn btn-primary" %>
+				</div>
+			<% end %>
+		<% end %>
 	</div>
 </div>
