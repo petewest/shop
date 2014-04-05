@@ -14,9 +14,7 @@
 		<% end %>
 	</div>
         <div class="cost">
-                <%= f.fields_for :cost do |cost| %>
-                        <%= render 'shared/cost_fields', f: cost %>
-                <% end %>
+            <%= render 'shared/cost_fields', f: f %>
         </div>
 	<div class="form-group">
 		<%= f.submit "Submit", data: {disable_with: 'Submitting...'}, class: "btn btn-default" %>

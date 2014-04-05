@@ -53,8 +53,8 @@ class LineItemTest < ActiveSupport::TestCase
     line_item.copy_cost_from_product
     assert line_item.valid?
     assert_not_nil line_item.cost
-    assert_equal line_item.product.cost.currency, line_item.cost.currency
-    assert_equal line_item.product.cost.value, line_item.cost.value
+    assert_equal line_item.product.currency, line_item.currency
+    assert_equal line_item.product.cost, line_item.cost
   end
 
   test "should not allow duplicate products in same order" do
@@ -67,7 +67,7 @@ class LineItemTest < ActiveSupport::TestCase
 
   private
     def valid
-      @line_item||={product: products(:product_20), order: orders(:cart), quantity: 1, cost_attributes: {currency: currencies(:gbp), value: 200}}
+      @line_item||={product: products(:product_20), order: orders(:cart), quantity: 1, currency: currencies(:gbp), cost: 200}
     end
 
 end

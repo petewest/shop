@@ -43,6 +43,6 @@ class LineItemsControllerTest < ActionController::TestCase
 
   private
     def valid
-      @line_item||={product_id: products(:tshirt).id, quantity: 1}
+      @line_item||={product_id: products(:tshirt).id, quantity: 1, currency: currencies(:gbp), cost: 20}
     end
 end

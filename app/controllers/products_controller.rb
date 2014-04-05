@@ -9,7 +9,6 @@ class ProductsController < ApplicationController
   def new
     @product=Product.new
     @product.images.new
-    @product.build_cost
   end
 
   def create
@@ -50,8 +49,8 @@ class ProductsController < ApplicationController
 
   private
     def product_params
-      params[:product][:cost_attributes][:value].gsub!(/#{I18n.t("number.parse")}/,"") if params.try(:[], :product).try(:[], :cost_attributes).try(:[], :value)
-      params.require(:product).permit(:name, :description, images_attributes: [:id, :image, :_destroy], cost_attributes: [:id, :currency_id, :value])
+      params[:product][:cost].gsub!(/#{I18n.t("number.parse")}/,"") if params.try(:[], :product).try(:[], :cost)
+      params.require(:product).permit(:name, :description, :currency_id, :cost, images_attributes: [:id, :image, :_destroy])
     end
     def product_from_params
       @product=Product.find(params[:id])

@@ -17,8 +17,9 @@ module ApplicationHelper
     html.html_safe
   end
 
-  def cost_to_currency(cost)
-    number_to_currency(cost.value, unit: cost.currency.symbol, precision: cost.currency.decimal_places) if cost
+  def cost_to_currency(item)
+    currency=Currency.find(item[:currency_id])
+    number_to_currency(item[:cost], unit: currency.symbol, precision: currency.decimal_places) if item
   end
 
   def css_id(item)

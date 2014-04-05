@@ -195,27 +195,11 @@ class ProductsControllerTest < ActionController::TestCase
     assert_equal users(:seller), product.seller
   end
 
-  test "should create cost item" do
-    sign_in users(:seller)
-    assert_difference "Cost.count" do
-      post :create, product: valid
-    end
-  end
-
-  test "should create cost item with float" do
-    sign_in users(:seller)
-    assert_difference "Cost.count" do
-      post :create, product: valid.merge(cost_attributes: {currency_id: currencies(:gbp).id, value: 20.5})
-    end
-  end
-
   test "should strip thousand seperator from cost" do
     sign_in users(:seller)
-    assert_difference "Cost.count" do
-      post :create, product: valid.merge(cost_attributes: {currency_id: currencies(:gbp).id, value: "2#{I18n.t("number.format.delimiter")}000.5"})
-    end
+    post :create, product: valid.merge(currency_id: currencies(:gbp).id, cost: "2#{I18n.t("number.format.delimiter")}000")
     assert assigns(:product)
-    assert_equal 2000.5, assigns(:product).cost.value
+    assert_equal 2000, assigns(:product).cost
   end
 
   test "should have id modal" do
@@ -226,7 +210,7 @@ class ProductsControllerTest < ActionController::TestCase
 
   private
     def valid
-      @product||={name: "New product test", description: "Test description", cost_attributes: {currency_id: currencies(:gbp).id, value: 200}}
+      @product||={name: "New product test", description: "Test description", currency_id: currencies(:gbp).id, cost: 200}
     end
 
 end

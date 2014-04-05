@@ -13,10 +13,11 @@ class LineItem < ActiveRecord::Base
 
 
   def copy_cost_from_product
-    if (cost.nil? or quantity_changed?) and product.cost
-      self.cost=product.cost.dup
-      self.cost.value*=quantity
-    end
+    #this will only run on cart/checkout so shouldn't change
+    #after an order has been placed
+    self.cost=product.cost
+    self.currency=product.currency
+    self.cost*=quantity
     #return self for method chaining
     self
   end
@@ -24,7 +25,7 @@ class LineItem < ActiveRecord::Base
 
   private
     def set_up_on_save
-      return false unless %w(cart placed).include?(order.try(:status))
+      return false unless %w(cart checkout).include?(order.try(:status))
       copy_cost_from_product
     end
 end

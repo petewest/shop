@@ -3,6 +3,6 @@
   <%= f.collection_select :currency_id, Currency.all, :id, :iso_code, {}, class: "form-control currency"%>
 </div>
 <div class="form-group">
-  <%= f.label :value, class: "control-label" %>
-  <%= f.text_field :value, class: "form-control" %>
+  <%= f.label :cost, class: "control-label" %>
+  <%= f.text_field :cost, class: "form-control" %>
 </div>

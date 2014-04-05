@@ -4,6 +4,9 @@ class Product < ActiveRecord::Base
   validates :seller, presence: true
   validates :name, presence: true
 
+  validates :cost, presence: true, numericality: {only_integer: true}
+  validates :currency, presence: true
+
   has_many :line_items, inverse_of: :product
   has_many :orders, through: :line_items, inverse_of: :products
   has_many :dispatched_orders, -> {dispatched}, through: :line_items, source: :order

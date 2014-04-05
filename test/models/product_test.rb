@@ -56,6 +56,6 @@ class ProductTest < ActiveSupport::TestCase
 
   private
     def valid
-      @product||={name: "Tshirt!", description: "Description here", seller: users(:seller), cost_attributes: {currency: currencies(:gbp), value: 200}}
+      @product||={name: "Tshirt!", description: "Description here", seller: users(:seller), currency: currencies(:gbp), cost: 200}
     end
 end

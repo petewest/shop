@@ -4,24 +4,28 @@ tshirt:
   name: A generic branded tshirt
   description: Awesome clothes
   seller: :seller
+  currency: :gbp
+  cost: 20
 
 mug:
   name: Mug
   description: A mug with logo
   seller: :seller
+  currency: :gbp
+  cost: 10
 
 <% 99.times do |i| %>
 product_<%=i%>:
   name: Some product <%=i%>
   description: More awesome products
   seller: :seller
+  currency: :gbp
+  cost: 20
 
 <% end %>
 
 other_currency:
   name: Product with another currency
   seller: :seller
-
-nocost:
-  name: Product without cost item
-  seller: :seller
+  currency: :usd
+  cost: 30

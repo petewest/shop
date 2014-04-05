@@ -84,8 +84,8 @@ class OrderTest < ActiveSupport::TestCase
     order.line_items.first.quantity=2
     order.line_items.each(&:copy_cost_from_product)
     assert_equal 1, order.costs.count
-    assert currencies(:gbp), order.costs.first.currency
-    assert_equal products.first.cost.value*2, order.costs.first.value
+    assert currencies(:gbp), Currency.find(order.costs.first[:currency_id])
+    assert_equal products.first.cost*2, order.costs.first[:cost]
   end
 
   test "should combine costs by currency" do
@@ -95,9 +95,9 @@ class OrderTest < ActiveSupport::TestCase
     order.line_items.first.quantity=2
     order.line_items.each(&:copy_cost_from_product)
     assert_equal 2, order.costs.count
-    assert currencies(:gbp), order.costs.first.currency
-    assert_equal 55, order.costs.first.value
-    assert_equal 10, order.costs.last.value
+    assert currencies(:gbp), Currency.find(order.costs.first[:currency_id])
+    assert_equal 50, order.costs.first[:cost]
+    assert_equal 30, order.costs.last[:cost]
   end
 
   test "should change class when changing status" do
