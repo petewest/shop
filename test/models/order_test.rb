@@ -114,8 +114,22 @@ class OrderTest < ActiveSupport::TestCase
     assert_not order.is_a?(Cart)
   end
 
+  test "should save without line items if cart" do
+    o=Order.new(valid.except(:line_items_attributes))
+    o.status=Order.statuses[:cart]
+    assert o.valid?
+  end
+
+  test "should not save without line items if in any non-cart state" do
+    order=Order.new(valid.except(:line_items_attributes))
+    assert Order.statuses.except(:cart).none?{ |s,i|
+      order.status=Order.statuses[s]
+      order.valid?
+    }
+  end
+
   private
     def valid
-      @order||={user: users(:buyer)}
+      @order||={user: users(:buyer), line_items_attributes: [{product_id: products(:mug).id, quantity: 1}]}
     end
 end

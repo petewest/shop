@@ -58,7 +58,6 @@ class CartsControllerTest < ActionController::TestCase
   test "should not clear cart if it belongs to a different user" do
     sign_in users(:seller)
     cookies[:cart_token]=orders(:cart).cart_token
-    assert_not_equal current_user, current_cart.user
     assert_no_difference "Cart.count" do
       delete :destroy
     end
@@ -84,6 +83,7 @@ class CartsControllerTest < ActionController::TestCase
   end
 
   test "should remove line item using _destroy" do
+    sign_in users(:buyer)
     self.current_cart=orders(:cart)
     line_item=current_cart.line_items.first
     old_quantity=line_item.quantity
@@ -95,6 +95,7 @@ class CartsControllerTest < ActionController::TestCase
   end
 
   test "should update and go to checkout on Checkout" do
+    sign_in users(:buyer)
     self.current_cart=orders(:cart)
     line_item=current_cart.line_items.first
     old_quantity=line_item.quantity
@@ -141,14 +142,18 @@ class CartsControllerTest < ActionController::TestCase
     sign_in users(:without_cart)
     self.current_cart=orders(:cart)
     patch :confirm
-    assert_not_equal current_user, assigns(:cart).user
-    assert_equal flash[:danger], "Error processing cart, please sign out and back in"
-    assert_redirected_to root_url
+    assert_not_equal current_user, orders(:cart).user
+    assert_redirected_to cart_url
   end
 
   test "should set cart user if signed in" do
     sign_in users(:without_cart)
     assert_equal current_cart.user, current_user
+  end
+
+  test "should not allow you to view someone elses cart" do
+    cookies[:cart_token]=orders(:cart).cart_token
+    assert_not_equal orders(:cart), current_cart
   end
 
   private

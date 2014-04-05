@@ -5,13 +5,13 @@ class Order < ActiveRecord::Base
 
   
   validates :user, presence: true, if:  -> { status and status!="cart" }
+  validates :line_items, presence: {message: "can't process blank order"}, if:  -> { status and status!="cart" }
+
   accepts_nested_attributes_for :line_items, allow_destroy: true
 
   enum status: {cart: 0, checkout: 10, placed: 20, paid: 30, dispatched: 40, cancelled: 100}
 
-  before_save {self.status||=:cart}
-
-  before_save :check_type
+  before_save :pre_save
 
   def costs
     line_items.map(&:cost).group_by(&:currency_id).map do |currency_id, items|
@@ -25,7 +25,8 @@ class Order < ActiveRecord::Base
 
 
   private 
-    def check_type
+    def pre_save
+      self.status||=:cart
       self.type=((status=="cart") ? "Cart" : nil) if status_changed?
     end
 end

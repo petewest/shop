@@ -34,7 +34,6 @@ class CartsController < ApplicationController
   def confirm
     @cart=current_cart
     if @cart.user and !current_user?(@cart.user)
-      flash[:danger]="Error processing cart, please sign out and back in"
       redirect_to root_url
       return
     end
@@ -44,7 +43,8 @@ class CartsController < ApplicationController
       flash[:success]="Thank you for your order!"
       redirect_to order_path(@cart)
     else
-      render 'show'
+      flash[:danger]="Error processing cart, please sign out and back in"
+      redirect_to cart_url
     end
   end
 
