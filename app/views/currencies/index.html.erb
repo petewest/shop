@@ -1,0 +1,11 @@
+<% provide(:title, "Currency maintenance") %>
+
+<%= content_tag(:h1, "Currency maintenance") %>
+
+<%= link_to "Create new", new_currency_path %>
+
+<div>
+	<ul class="currency_list">
+		<%= render @currencies %>
+	</ul>
+</div>

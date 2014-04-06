@@ -10,7 +10,9 @@ class StaticPagesControllerTest < ActionController::TestCase
     assert_select "a[href=#{root_url}]", "Shop!"
     assert_select "a[href=#{signin_path}]", "Sign in"
     assert_select "a[href=#{signup_path}]", "Sign up"
-    assert_select "a[href=#{new_product_path}]", 0
+    #shouldn't have buyer or seller links
+    buyer_links.each{|link| assert_select "a[href=#{link}]",0 }
+    seller_links.each{|link| assert_select "a[href=#{link}]",0 }
   end
 
   test "should have different links when signed in as buyer" do
@@ -18,16 +20,29 @@ class StaticPagesControllerTest < ActionController::TestCase
     get :home
     assert_select "a[href=#{signin_path}]", 0
     assert_select "a[href=#{signup_path}]", 0
-    assert_select "a[href=#{new_product_path}]", 0
-    assert_select "a[href=#{signout_path}]"
+    #should have buyer links
+    buyer_links.each{|link| assert_select "a[href=#{link}]" }
+    #shouldn't have seller links
+    seller_links.each{|link| assert_select "a[href=#{link}]",0 }
   end
 
   test "should show seller menu when logged in as seller" do
     sign_in users(:seller)
     get :home
     assert_select "a", "Seller"
-    assert_select "a[href=#{new_product_path}]"
-    assert_select "a[href=#{signout_path}]"
+    #Should have seller links
+    seller_links.each{|link| assert_select "a[href=#{link}]" }
+    #should also have buyer links
+    buyer_links.each{|link| assert_select "a[href=#{link}]" }
+  end
+
+
+  def seller_links
+    [new_product_path, currencies_path]
+  end
+
+  def buyer_links
+    [signout_path]
   end
 
 end
