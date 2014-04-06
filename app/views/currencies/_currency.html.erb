@@ -1,3 +1,3 @@
 <li id="<%= css_id(currency) %>">
-	<%= link_to currency.iso_code, currency %>
+	<%= link_to currency.iso_code, currency %> - <span><%= link_to "Edit", [:edit, currency], remote: true, class: "btn btn-default" %></span>
 </li>
