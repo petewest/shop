@@ -39,7 +39,12 @@ class CurrencyTest < ActiveSupport::TestCase
   end
 
   test "should have an iso code of exactly 3 characters long" do
-    assert %w(tw four).none?{|c| Currency.new(valid.merge(iso_code: c)).valid? }
+    assert %w(tw four TW FOUR).none?{|c| Currency.new(valid.merge(iso_code: c)).valid? }
+  end
+
+  test "should not allow invalid iso codes" do
+    invalid_codes=%w(123 g.p g_p g21 12g `12 /34)
+    assert invalid_codes.none?{|code| Currency.new(valid.merge(iso_code: code)).valid?}
   end
 
   test "should nullify product currencies on destroy" do
