@@ -1,0 +1,15 @@
+<%= form_for currency, remote: true, class: "form-inline" do|f| %>
+<%= render 'shared/form_error', object: f.object %>
+<div class="form-group">
+	<%= f.label :iso_code, class: "control-label" %>
+	<%= f.text_field :iso_code, class: "form-control" %>
+	<p class="help-block">
+		Three letter currency ISO code used to process payments (e.g.: GBP, USD).  Ensure you have the correct code or payment processing will fail. Check <a href="http://en.wikipedia.org/wiki/ISO_4217">ISO 4217</a> for a list of valid codes.
+	</p>
+</div>
+<div class="form-group">
+	<%= f.label :decimal_places, class: "control-label" %>
+	<%= f.text_field :decimal_places, class: "form-control" %>
+</div>
+<%= f.submit class: "btn btn-default" %>
+<% end %>

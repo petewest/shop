@@ -1,0 +1,6 @@
+<% provide(:title, "Edit currency #{@currency.iso_code}") %>
+
+<%= content_tag(:h1, "Edit currency #{@currency.iso_code}") %>
+
+
+<%= render 'currency_form', currency=@currency %>
