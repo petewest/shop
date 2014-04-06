@@ -136,8 +136,14 @@ class CurrenciesControllerTest < ActionController::TestCase
     assert_template 'new'
   end
 
-
-
+  test "should re-show new page on failure to create (html)" do
+    sign_in users(:seller)
+    assert_no_difference "Currency.count" do
+      post :create, currency: valid.except(:symbol)
+    end
+    assert_equal "Currency creation failed", flash[:danger]
+    assert_template 'new'
+  end
 
 
   private
