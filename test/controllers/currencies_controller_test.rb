@@ -57,6 +57,22 @@ class CurrenciesControllerTest < ActionController::TestCase
     assert_template 'update'
   end
 
+  test "should allow new (html)" do
+    sign_in users(:seller)
+    get :new
+    assert_response :success
+    assert assigns(:currency)
+    assert assigns(:currency).new_record?
+  end
+
+  test "should allow new (js)" do
+    sign_in users(:seller)
+    xhr :get, :new
+    assert_response :success
+    assert assigns(:currency)
+    assert assigns(:currency).new_record?
+  end
+
 
 
 

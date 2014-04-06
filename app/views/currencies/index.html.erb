@@ -2,10 +2,9 @@
 
 <%= content_tag(:h1, "Currency maintenance") %>
 
-<%= link_to "Create new", new_currency_path %>
-
 <div>
 	<ul class="currency_list">
 		<%= render @currencies %>
+		<li id="currency_new"><%= link_to "Create new", new_currency_path, remote: true, class: "btn btn-default" %></li>
 	</ul>
 </div>

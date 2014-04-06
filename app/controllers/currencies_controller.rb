@@ -1,6 +1,6 @@
 class CurrenciesController < ApplicationController
   before_action :signed_in_seller
-  before_action :currency_from_params, except: [:index]
+  before_action :currency_from_params, only: [:edit, :update]
 
   def index
     @currencies=Currency.all
@@ -20,6 +20,10 @@ class CurrenciesController < ApplicationController
       flash.now[:danger]="Update failed"
       render 'edit'
     end
+  end
+
+  def new
+    @currency=Currency.new
   end
 
 
