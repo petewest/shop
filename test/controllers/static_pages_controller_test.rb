@@ -20,6 +20,7 @@ class StaticPagesControllerTest < ActionController::TestCase
     get :home
     assert_select "a[href=#{signin_path}]", 0
     assert_select "a[href=#{signup_path}]", 0
+    assert_select "a", "My account"
     #should have buyer links
     buyer_links.each{|link| assert_select "a[href=#{link}]" }
     #shouldn't have seller links
@@ -42,7 +43,7 @@ class StaticPagesControllerTest < ActionController::TestCase
   end
 
   def buyer_links
-    [signout_path]
+    [signout_path, orders_path]
   end
 
 end
