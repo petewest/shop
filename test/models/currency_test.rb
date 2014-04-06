@@ -42,6 +42,22 @@ class CurrencyTest < ActiveSupport::TestCase
     assert %w(tw four).none?{|c| Currency.new(valid.merge(iso_code: c)).valid? }
   end
 
+  test "should nullify product currencies on destroy" do
+    product=products(:tshirt)
+    currency=product.currency
+    currency.destroy
+    product.reload
+    assert_nil product.currency_id
+  end
+
+  test "should nullify line_item currencies on destroy" do
+    line_item=line_items(:one)
+    currency=line_item.currency
+    currency.destroy
+    line_item.reload
+    assert_nil line_item.currency_id
+  end
+
   private
     def valid
       @currency||={iso_code: "AUD", symbol: "AU$", decimal_places: 2}
