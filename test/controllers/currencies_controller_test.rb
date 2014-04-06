@@ -32,4 +32,37 @@ class CurrenciesControllerTest < ActionController::TestCase
     xhr :get, :edit, id: currency.id
     assert_response :success
   end
+
+  test "should allow update with valid details (html)" do
+    sign_in users(:seller)
+    currency=currencies(:gbp)
+    patch :update, id: currency.id, currency: valid
+    assert_not_nil assigns(:currency)
+    currency.reload
+    assert_equal valid[:iso_code], currency.iso_code
+    assert_equal valid[:symbol], currency.symbol
+    assert_equal valid[:decimal_places], currency.decimal_places
+    assert_redirected_to currencies_url
+  end
+
+  test "should allow update with valid details (js)" do
+    sign_in users(:seller)
+    currency=currencies(:gbp)
+    xhr :patch, :update, id: currency.id, currency: valid
+    assert_not_nil assigns(:currency)
+    currency.reload
+    assert_equal valid[:iso_code], currency.iso_code
+    assert_equal valid[:symbol], currency.symbol
+    assert_equal valid[:decimal_places], currency.decimal_places
+    assert_template 'update'
+  end
+
+
+
+
+
+  private
+    def valid
+      {iso_code: "AUD", symbol: "AU$", decimal_places: 2}
+    end
 end
