@@ -6,6 +6,7 @@ class Product < ActiveRecord::Base
 
   validates :unit_cost, presence: true, numericality: {only_integer: true}
   validates :currency, presence: true
+  validates :weight, numericality: true, allow_blank: true
 
   has_many :line_items, inverse_of: :product
   has_many :orders, through: :line_items, inverse_of: :products

@@ -5,6 +5,8 @@
   <%= f.label :image, class: "control-label" %>
   <%= f.file_field :image %>
 </div>
+<% if !f.object.new_record? %>
 <div class="checkbox">
 <label><%= f.check_box :_destroy %> Remove</label>
 </div>
+<% end %>

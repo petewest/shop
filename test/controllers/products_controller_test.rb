@@ -39,6 +39,7 @@ class ProductsControllerTest < ActionController::TestCase
     assert_select "h1", "Create new product"
     assert_select "form"
     assert_select "select.currency", 1
+    assert_select "input[name='product[weight]']"
   end
 
   test "should not create new product when not signed in" do
@@ -142,6 +143,7 @@ class ProductsControllerTest < ActionController::TestCase
     assert_response :success
     assert_select "h1", "Edit #{product.name}"
     assert_select "form"
+    assert_select "input[name='product[weight]']"
   end
 
   test "should not allow buyer to edit" do
@@ -206,6 +208,19 @@ class ProductsControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     assert_select "div#modal"
+  end
+
+  test "should set weight" do
+    sign_in users(:seller)
+    post :create, product: valid.merge(weight: "50")
+    assert_equal 50, assigns(:product).weight
+  end
+
+  test "should update weight" do
+    sign_in users(:seller)
+    product=products(:tshirt)
+    post :update, id: product.id, product: {weight: "50"}
+    assert_equal 50, assigns(:product).weight
   end
 
   private

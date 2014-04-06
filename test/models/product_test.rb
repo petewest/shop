@@ -53,9 +53,31 @@ class ProductTest < ActiveSupport::TestCase
     assert_equal [line_items(:one)], product.line_items
   end
 
+  test "should respond to weight" do
+    product=Product.new
+    assert_respond_to product, :weight
+  end
+
+  test "should not allow non-numeric weights" do
+    product=Product.new(valid.merge(weight: "elephant"))
+    assert_not product.valid?
+  end
+
+  test "should allow decimal weights" do
+    product=Product.new(valid.merge(weight: 23.54))
+    assert product.save
+    product.reload
+    assert_equal 23.54, product.weight
+  end
+
+  test "should save without weight" do
+    product=Product.new(valid.except(:weight))
+    assert product.valid?
+  end
+
 
   private
     def valid
-      @product||={name: "Tshirt!", description: "Description here", seller: users(:seller), currency: currencies(:gbp), unit_cost: 200}
+      @product||={name: "Tshirt!", description: "Description here", seller: users(:seller), currency: currencies(:gbp), unit_cost: 200, weight: 20}
     end
 end
