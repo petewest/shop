@@ -29,7 +29,7 @@ class CurrenciesControllerTest < ActionController::TestCase
   test "should allow edit (js)" do
     sign_in users(:seller)
     currency=currencies(:gbp)
-    get :edit, id: currency.id, format: :js
+    xhr :get, :edit, id: currency.id
     assert_response :success
   end
 end
