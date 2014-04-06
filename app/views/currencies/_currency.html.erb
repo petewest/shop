@@ -1,3 +1,19 @@
-<li id="<%= css_id(currency) %>">
-	<%= link_to currency.iso_code, currency %> - <span><%= link_to "Edit", [:edit, currency], remote: true, class: "btn btn-default" %></span>
-</li>
+<div id="<%= css_id(currency) %>" class="row">
+	<div class="col-md-1">
+		<%= currency.iso_code %>
+	</div>
+	<div class="col-md-1">
+		<%= currency.symbol %>
+	</div>
+	<div class="col-md-1">
+		<%= currency.decimal_places %>
+	</div>
+	<div class="col-md-3">
+		<%= form_for currency, method: :delete, remote: true, html: {class: "form-inline"} do |f| %>
+		<div class="btn-group">
+			<%= link_to "Edit", [:edit, currency], remote: true, class: "btn btn-default" %>
+			<%= f.submit "Delete", data: {confirm: "Deleting this currency will mean all products currently associated with it will need to be manually updated with a new currency before they can be purchased.  Continue?"}, class: "btn btn-danger" %>
+		</div>
+		<% end %>
+	</div>
+</div>

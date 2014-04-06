@@ -103,3 +103,7 @@
 .order_actions {
 	@extend .col-md-2, .col-sm-3, .col-xs-6, .pull-right;
 }
+
+.currency_list>div:nth-child(odd) {
+	background-color: $table-bg-accent;
+}
