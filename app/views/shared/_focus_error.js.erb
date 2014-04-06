@@ -1,0 +1,9 @@
+<% if object.errors.any? %>
+//See if we've got any fields marked as having errors
+var $error_fields=jQuery("div.field_with_errors input");
+if ($error_fields.length>0) {
+	//if we do, then focus the first one
+	$error_fields[0].focus();
+}
+
+<% end %>

@@ -1,2 +1,3 @@
 jQuery("#currency_new").html("<%= escape_javascript(render 'currency_form', currency: @currency) %>");
 jQuery("#currency_new [name='currency[iso_code]']").focus();
+<%= render 'shared/focus_error', object: @currency %>

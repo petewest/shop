@@ -26,6 +26,20 @@ class CurrenciesController < ApplicationController
     @currency=Currency.new
   end
 
+  def create
+    @currency=Currency.new(currency_params)
+    if @currency.save
+      flash.now[:success]="New currency #{@currency.iso_code} created"
+      respond_to do |format|
+        format.html { redirect_to currencies_url }
+        format.js
+      end
+    else
+      flash.now[:danger]="Currency creation failed"
+      render 'new'
+    end
+  end
+
 
   private
     def currency_from_params
