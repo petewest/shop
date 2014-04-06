@@ -145,6 +145,35 @@ class CurrenciesControllerTest < ActionController::TestCase
     assert_template 'new'
   end
 
+  test "should delete currency (html)" do
+    sign_in users(:seller)
+    currency=currencies(:gbp)
+    assert_difference "Currency.count", -1 do
+      delete :destroy, id: currency.id
+    end
+    assert_redirected_to currencies_url
+    assert_equal "Currency deleted", flash[:success]
+  end
+
+  test "should delete currency (js)" do
+    sign_in users(:seller)
+    currency=currencies(:gbp)
+    assert_difference "Currency.count", -1 do
+      xhr :delete, :destroy, id: currency.id
+    end
+    assert_equal "Currency deleted", flash[:success]
+    assert_template 'destroy'
+  end
+
+  test "should not delete as non-seller" do
+    sign_in users(:buyer)
+    currency=currencies(:gbp)
+    assert_no_difference "Currency.count" do
+      delete :destroy, id: currency.id
+    end
+  end
+
+
 
   private
     def valid

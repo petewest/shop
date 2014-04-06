@@ -1,6 +1,6 @@
 class CurrenciesController < ApplicationController
   before_action :signed_in_seller
-  before_action :currency_from_params, only: [:edit, :update]
+  before_action :currency_from_params, only: [:edit, :update, :destroy]
 
   def index
     @currencies=Currency.all
@@ -37,6 +37,22 @@ class CurrenciesController < ApplicationController
     else
       flash.now[:danger]="Currency creation failed"
       render 'new'
+    end
+  end
+
+  def destroy
+    if @currency.destroy
+      flash[:success]="Currency deleted"
+      respond_to do |format|
+        format.js
+        format.html {redirect_to currencies_url}
+      end
+    else
+      flash[:danger]="Currency deletion failed"
+      respond_to do |format|
+        format.html {redirect_to currencies_url}
+        format.js { render partial: 'shared/refresh_flash' }
+      end
     end
   end
 

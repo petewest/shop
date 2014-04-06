@@ -26,7 +26,7 @@ Rails.application.routes.draw do
   get '/checkout' => 'carts#checkout'
 
   resources :line_items, only: [:show, :create, :destroy, :update]
-  resources :currencies
+  resources :currencies, except: :show
   
 
   # The priority is based upon order of creation: first created -> highest priority.
