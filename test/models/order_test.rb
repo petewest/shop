@@ -128,6 +128,22 @@ class OrderTest < ActiveSupport::TestCase
     }
   end
 
+  test "should not update line_items for items not in this order" do
+    order=orders(:cart)
+    line_item=line_items(:without_user)
+    old_quantity=line_item.quantity
+    new_quantity=old_quantity*5
+    attr_hash={line_items_attributes: [{id: line_item.id, quantity: new_quantity}]}
+    assert_not order.line_items.include?(line_item)
+    assert_raises ActiveRecord::RecordNotFound do
+      order.update_attributes(attr_hash)
+    end
+    order.reload
+    line_item.reload
+    assert_equal old_quantity, line_item.quantity
+    assert_not order.line_items.include?(line_item)
+  end
+
   private
     def valid
       @order||={user: users(:buyer), line_items_attributes: [{product_id: products(:mug).id, quantity: 1}]}
