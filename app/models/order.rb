@@ -30,5 +30,6 @@ class Order < ActiveRecord::Base
     def pre_save
       self.status||=:cart
       self.type=((status=="cart") ? "Cart" : nil) if status_changed?
+      true
     end
 end

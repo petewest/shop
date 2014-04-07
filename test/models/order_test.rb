@@ -102,11 +102,14 @@ class OrderTest < ActiveSupport::TestCase
 
   test "should change class when changing status" do
     order=Cart.create(valid)
+    order.reload
     id=order.id
     assert order.is_a?(Cart)
     order.placed!
     assert_equal "placed", order.status
-    assert_raises ActiveRecord::RecordNotFound, "Debug: #{order.inspect}" do
+    assert order.save, "Errors: #{order.errors.inspect}"
+    assert_not order.changed?
+    assert_raises ActiveRecord::RecordNotFound, "Debug: #{order.inspect} db: #{Order.find(id).inspect} errors: #{order.errors.inspect}" do
       order.reload
     end
     order=Order.find(id)
