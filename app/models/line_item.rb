@@ -29,6 +29,23 @@ class LineItem < ActiveRecord::Base
     quantity<product.stock_levels.current.map(&:current_quantity).sum
   end
 
+  def take_stock
+    counter=quantity
+    result=product.stock_levels.current.all? do |stock|
+      #lock this item while we work on it
+      stock.lock!
+      #How many from this item?
+      from_this=[counter,stock.current_quantity].min
+      #decrement counter
+      counter-=from_this
+      #decrement current quantity
+      stock.current_quantity-=from_this
+      #save item and release lock
+      stock.save
+    end
+    raise ActiveRecord::Rollback unless result and counter==0
+  end
+
 
   private
     def set_up_on_save

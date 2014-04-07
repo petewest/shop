@@ -15,6 +15,7 @@ class Order < ActiveRecord::Base
   before_create -> {self.status||=:cart}
 
   before_save :pre_save
+  after_save :decrement_stock
 
   default_scope -> {includes(line_items: [:product, :currency])}
 
@@ -37,5 +38,9 @@ class Order < ActiveRecord::Base
 
     def stock_check
       errors[:base]<<"Not enough stock" if status_changed? and status=="placed" and !line_items.all?(&:stock_check)
+    end
+
+    def decrement_stock
+      line_items.all?(&:take_stock) if status_changed? and status=="placed"
     end
 end

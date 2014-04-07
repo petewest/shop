@@ -158,23 +158,26 @@ class OrderTest < ActiveSupport::TestCase
     assert_not order.valid?, "order: #{order.inspect}"
     assert_not order.save, "order: #{order.inspect}"
   end
-  
+
 =begin
+#All assertions are what I believe should be the behaviour
+#Comments are observed behaviour
   test "odd behaviour with dirty bits" do
     order=Cart.create(valid)
     line_item=order.line_items.first
     stock_level=line_item.product.stock_levels.current.first
     line_item.quantity=stock_level.current_quantity+1
-    assert line_item.changed?
-    assert order.line_items.first.changed?
-    assert line_item.save, "line_item: #{line_item.inspect}"
-    assert_not line_item.changed?
-    assert_not order.line_items.first.changed?
-    assert_not order.changed?
+    assert line_item.changed? #passes
+    assert order.line_items.first.changed? #fails
+    assert order.changed? #fails
+    assert line_item.save #passes
+    assert_not line_item.changed? #passes
+    assert_not order.line_items.first.changed? #passes
+    assert_not order.changed? #passes
     order.status=:placed
-    assert order.changed?
-    assert_not order.line_items.any?(&:changed?), "Debug: #{order.line_items.map(&:changed).join}"
-    assert_not order.valid?, "order: #{order.inspect}"
+    assert order.changed? #passes
+    assert_not order.line_items.any?(&:changed?), "Debug: #{order.line_items.map(&:changed).join(" ")}" #fails: updated_at & quantity
+    assert_not order.valid?, "order: #{order.inspect}" 
     assert_not order.save, "order: #{order.inspect}"
   end
 =end
@@ -188,6 +191,20 @@ class OrderTest < ActiveSupport::TestCase
     assert order.save, "order: #{order.errors.inspect}"
     stock_level.reload
     assert_equal old_quantity-line_item.quantity, stock_level.current_quantity
+  end
+
+  test "should not decrement current stock when adding to cart" do
+    old_stock=products(:mug).stock_levels.current.map(&:current_quantity).sum
+    order=Cart.create(valid)
+    assert_equal old_stock, products(:mug).stock_levels.current.map(&:current_quantity).sum
+  end
+
+  test "should not decrement current stock when saving a placed order multiple times" do
+    order=Cart.create(valid)
+    order.placed!
+    old_stock=products(:mug).stock_levels.current.map(&:current_quantity).sum
+    order.save
+    assert_equal old_stock, products(:mug).stock_levels.current.map(&:current_quantity).sum
   end
 
   private
