@@ -26,4 +26,8 @@ expired:
   start_quantity: 5
   current_quantity: 3
 
-
+mug_stock:
+  product: :mug
+  due_at: <%= 1.day.ago %>
+  start_quantity: 5
+  current_quantity: 5

@@ -147,6 +147,26 @@ class OrderTest < ActiveSupport::TestCase
     assert_not order.line_items.include?(line_item)
   end
 
+  test "should not be able to place order if line items would reduce current stock less than 0" do
+    order=Order.create(valid)
+    line_item=order.line_items.first
+    stock_level=line_item.product.stock_levels.current.first
+    line_item.quantity=stock_level.current_quantity+1
+    order.status=:placed
+    assert_not order.save, "order: #{order.inspect}"
+  end
+
+  test "should decrement current stock when placing order" do
+    order=Order.create(valid)
+    line_item=order.line_items.first
+    stock_level=line_item.product.stock_levels.current.first
+    old_quantity=stock_level.current_quantity
+    order.status=:placed
+    assert order.save, "order: #{order.errors.inspect}"
+    stock_level.reload
+    assert_equal old_quantity-line_item.quantity, stock_level.current_quantity
+  end
+
   private
     def valid
       @order||={user: users(:buyer), line_items_attributes: [{product_id: products(:mug).id, quantity: 1}]}
