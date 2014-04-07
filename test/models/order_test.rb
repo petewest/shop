@@ -105,7 +105,7 @@ class OrderTest < ActiveSupport::TestCase
     order.reload
     id=order.id
     assert order.is_a?(Cart)
-    order.placed!
+    assert order.placed!
     assert_equal "placed", order.status
     assert order.save, "Errors: #{order.errors.inspect}"
     assert_not order.changed?
@@ -152,12 +152,14 @@ class OrderTest < ActiveSupport::TestCase
     line_item=order.line_items.first
     stock_level=line_item.product.stock_levels.current.first
     line_item.quantity=stock_level.current_quantity+1
+    assert order.save, "line_item: #{line_item.inspect}"
     order.status=:placed
+    assert_not order.valid?
     assert_not order.save, "order: #{order.inspect}"
   end
 
   test "should decrement current stock when placing order" do
-    order=Cart.new(valid)
+    order=Cart.create(valid)
     line_item=order.line_items.first
     stock_level=line_item.product.stock_levels.current.first
     old_quantity=stock_level.current_quantity

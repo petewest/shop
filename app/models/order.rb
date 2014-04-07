@@ -36,6 +36,6 @@ class Order < ActiveRecord::Base
     end
 
     def stock_check
-      #errors[:base]<<"Not enough stock" if status_changed? and status=="placed"
+      #errors[:base]<<"Not enough stock" if status_changed? and status=="placed" and !line_items.all?(&:stock_check)
     end
 end

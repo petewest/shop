@@ -25,10 +25,16 @@ class LineItem < ActiveRecord::Base
     ((unit_cost || product.unit_cost)*self.quantity) / 10.0**currency.try(:decimal_places).to_i
   end
 
+  def stock_check
+    quantity<product.stock_levels.current.map(&:current_quantity).sum
+  end
+
 
   private
     def set_up_on_save
-      errors[:base] << "Can't modify line item in non-cart states" and return false unless %w(cart checkout).include?(order.try(:status))
+      #by checking against status_was instead of status we'll allow saving of line_items when switching out of cart/checkout
+      #if any of them are flagged as dirty
+      errors[:base] << "Can't modify line item in non-cart states" and return false unless %w(cart checkout).include?(order.try(:status) || order.try(:status_was))
       copy_cost_from_product
     end
 end
