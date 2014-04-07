@@ -29,3 +29,10 @@ other_currency:
   seller: :seller
   currency: :usd
   unit_cost: 3000
+
+preorder:
+  name: Product without stock yet
+  seller: :seller
+  currency: :usd
+  unit_cost: 5000
+

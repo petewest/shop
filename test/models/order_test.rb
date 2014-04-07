@@ -106,7 +106,7 @@ class OrderTest < ActiveSupport::TestCase
     assert order.is_a?(Cart)
     order.placed!
     assert_equal "placed", order.status
-    assert_raises ActiveRecord::RecordNotFound do
+    assert_raises ActiveRecord::RecordNotFound, "Debug: #{order.inspect}" do
       order.reload
     end
     order=Order.find(id)

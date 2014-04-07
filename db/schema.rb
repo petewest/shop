@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140406184203) do
+ActiveRecord::Schema.define(version: 20140407082132) do
 
   create_table "currencies", force: true do |t|
     t.string   "iso_code"
@@ -89,6 +89,17 @@ ActiveRecord::Schema.define(version: 20140406184203) do
 
   add_index "sessions", ["remember_token"], name: "index_sessions_on_remember_token", using: :btree
   add_index "sessions", ["user_id"], name: "index_sessions_on_user_id", using: :btree
+
+  create_table "stock_levels", force: true do |t|
+    t.integer  "product_id"
+    t.datetime "due_at"
+    t.integer  "start_quantity"
+    t.integer  "current_quantity"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "stock_levels", ["product_id"], name: "index_stock_levels_on_product_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "email"

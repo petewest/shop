@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+
+tshirt_stock:
+  product: :tshirt
+  due_at: '2014-04-06'
+  start_quantity: 20
+  current_quantity: 20
+
+future_stock:
+  product: :preorder
+  due_at: <%= 5.days.from_now %>
+  start_quantity: 10
+  current_quantity: 10
+
