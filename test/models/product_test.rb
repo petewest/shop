@@ -75,6 +75,16 @@ class ProductTest < ActiveSupport::TestCase
     assert product.valid?
   end
 
+  test "deleting a product should remove its stock levels" do
+    product=products(:tshirt)
+    stock=product.stock_levels
+    stock_count=stock.count
+    assert stock_count>0
+    assert_difference "StockLevel.count", -1*stock_count do
+      product.destroy
+    end
+  end
+
 
   private
     def valid
