@@ -6,10 +6,13 @@ class Order < ActiveRecord::Base
   
   validates :user, presence: true, if:  -> { status and status!="cart" }
   validates :line_items, presence: {message: "can't process blank order"}, if:  -> { status and status!="cart" }
+  validate :stock_check
 
   accepts_nested_attributes_for :line_items, allow_destroy: true
 
   enum status: {cart: 0, checkout: 10, placed: 20, paid: 30, dispatched: 40, cancelled: 100}
+
+  before_create -> {self.status||=:cart}
 
   before_save :pre_save
 
@@ -28,8 +31,11 @@ class Order < ActiveRecord::Base
 
   private 
     def pre_save
-      self.status||=:cart
       self.type=((status=="cart") ? "Cart" : nil) if status_changed?
       true
+    end
+
+    def stock_check
+      #errors[:base]<<"Not enough stock" if status_changed? and status=="placed"
     end
 end

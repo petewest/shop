@@ -28,7 +28,7 @@ class LineItem < ActiveRecord::Base
 
   private
     def set_up_on_save
-      return false unless %w(cart checkout).include?(order.try(:status))
+      errors[:base] << "Can't modify line item in non-cart states" and return false unless %w(cart checkout).include?(order.try(:status))
       copy_cost_from_product
     end
 end

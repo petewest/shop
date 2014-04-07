@@ -33,12 +33,12 @@ class OrderTest < ActiveSupport::TestCase
 
   test "should save when valid" do
     order=Order.new(valid)
-    assert_not_nil order.save
+    assert order.save
   end
 
   test "should have a status of cart on save (if none other set)" do
     order=Order.new(valid)
-    assert_not_nil order.save
+    assert order.save
     assert_equal "cart", order.status
     assert order.cart?
   end
@@ -148,7 +148,7 @@ class OrderTest < ActiveSupport::TestCase
   end
 
   test "should not be able to place order if line items would reduce current stock less than 0" do
-    order=Order.create(valid)
+    order=Cart.create(valid)
     line_item=order.line_items.first
     stock_level=line_item.product.stock_levels.current.first
     line_item.quantity=stock_level.current_quantity+1
@@ -157,7 +157,7 @@ class OrderTest < ActiveSupport::TestCase
   end
 
   test "should decrement current stock when placing order" do
-    order=Order.create(valid)
+    order=Cart.new(valid)
     line_item=order.line_items.first
     stock_level=line_item.product.stock_levels.current.first
     old_quantity=stock_level.current_quantity
