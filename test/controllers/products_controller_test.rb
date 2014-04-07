@@ -95,6 +95,7 @@ class ProductsControllerTest < ActionController::TestCase
     assert_select "h4", "Seller actions"
     assert_select "a[href=#{edit_product_path(product)}]"
     assert_select "a[href=#{product_path(product)}]", "Delete"
+    assert_select "a[href=#{product_stock_levels_path(product)}]"
   end
 
   test "should not have seller actions for buyer" do
