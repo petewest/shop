@@ -18,6 +18,23 @@ class StockLevelTest < ActiveSupport::TestCase
     assert_not stock.save
   end
 
+  test "should have current scope" do
+    assert_respond_to StockLevel, :current
+  end
+
+  test "should not give future stock in current" do
+    sl=StockLevel.current
+    assert_not sl.include?(stock_levels(:future_stock))
+    assert_not sl.include?(stock_levels(:expired))
+    assert_not sl.include?(stock_levels(:sold_out))
+    assert sl.include?(stock_levels(:tshirt_stock))
+  end
+
+  test "should respond to expires_at" do
+    sl=StockLevel.new
+    assert_respond_to sl, :expires_at
+  end
+
 
 
   private

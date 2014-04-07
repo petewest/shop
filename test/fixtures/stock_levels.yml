@@ -13,3 +13,17 @@ future_stock:
   start_quantity: 10
   current_quantity: 10
 
+sold_out:
+  product: :product_99
+  due_at: <%= 1.day.ago %>
+  start_quantity: 5
+  current_quantity: 0
+
+expired:
+  product: :product_99
+  due_at: <%= 5.weeks.ago %>
+  expires_at: <%= 2.days.ago %>
+  start_quantity: 5
+  current_quantity: 3
+
+

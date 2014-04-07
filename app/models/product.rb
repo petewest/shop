@@ -14,6 +14,7 @@ class Product < ActiveRecord::Base
   has_many :purchased_by, through: :dispatched_orders, source: :user
   has_many :images, inverse_of: :product, dependent: :destroy
   has_one :main_image, ->{main}, class_name: "Image"
+  has_many :stock_levels, inverse_of: :product, dependent: :destroy
 
 
   accepts_nested_attributes_for :images, allow_destroy: true
