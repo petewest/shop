@@ -13,7 +13,11 @@ Rails.application.routes.draw do
     get 'buy' => 'line_items#new'
   end
 
-  resources :products, concerns: :buyable
+  resources :products do
+    concerns :buyable
+    resources :stock_levels
+  end
+
   resources :orders, except: [:destroy, :new, :create] do
     member do
       patch 'set_current'

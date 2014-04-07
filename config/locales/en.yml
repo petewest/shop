@@ -24,5 +24,6 @@ en:
   number:
     parse: '[^.\d]'
   time:
+    zone: London
     formats:
       default: '%a, %d %b %Y %H:%M'

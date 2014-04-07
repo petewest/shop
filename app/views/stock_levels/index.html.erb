@@ -1,0 +1,7 @@
+<% provide(:title, "#{@product.name} stock level") %>
+
+<%= content_tag(:h1, "#{@product.name} stock levels") %>
+
+<ul class="stock_level">
+<%= render @stock_levels %>
+</ul>
