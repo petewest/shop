@@ -1,4 +1,5 @@
 <div class="cart_product">
+        <%= render 'shared/form_error', object: f.object %>
 	<div class="form-group">
 	<label class="label-control"><%= f.object.product.name %></label>
 	<%= f.hidden_field :product_id %>
