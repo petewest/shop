@@ -34,23 +34,14 @@ class LineItem < ActiveRecord::Base
   def take_stock
     counter=quantity
     result=product.stock_levels.current.all? do |stock|
-      #lock this item while we work on it
-      stock.lock!
       #How many from this item?
       from_this=[counter,stock.current_quantity].min
-      a_save=true
-      if from_this
-        #decrement counter
-        counter-=from_this
-        #decrement current quantity
-        stock.current_quantity-=from_this
-        #create allocation
-        allocation=allocations.find_or_initialize_by(stock_level: stock)
-        allocation.quantity=from_this
-        a_save=allocation.save
-      end
-      #save item and release lock
-      stock.save and a_save
+      #decrement counter
+      counter-=from_this
+      #create allocation
+      allocation=allocations.find_or_initialize_by(stock_level: stock)
+      allocation.quantity=from_this
+      allocation.save
     end
     raise ActiveRecord::Rollback unless result and counter==0
   end

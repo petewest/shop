@@ -63,6 +63,13 @@ class AllocationTest < ActiveSupport::TestCase
     end
   end
 
+  test "should take allocation out of stock level on save" do
+    allocation=Allocation.new(valid)
+    assert_difference "allocation.stock_level.current_quantity", -1*allocation.quantity do
+      allocation.save
+    end
+  end
+
   private
     def valid
       @alloc||={line_item: line_items(:one), stock_level: stock_levels(:tshirt_stock), quantity: 1}
