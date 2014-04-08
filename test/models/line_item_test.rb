@@ -108,6 +108,25 @@ class LineItemTest < ActiveSupport::TestCase
     end
   end
 
+  test "should split across stock levels when available" do
+    line_item=LineItem.new(valid)
+    line_item.quantity=20
+    assert line_item.save
+    stock=line_item.product.stock_levels.new(due_at: 2.days.ago, start_quantity: 5)
+    assert stock.save
+    stock2=line_item.product.stock_levels.new(due_at: 1.day.ago, start_quantity: 10)
+    assert stock2.save
+    stock3=line_item.product.stock_levels.new(due_at: 5.minutes.ago, start_quantity: 8)
+    assert stock3.save
+    stock4=line_item.product.stock_levels.new(due_at: 5.minutes.ago, start_quantity: 5)
+    assert stock4.save
+    line_item.reload
+    assert_equal 4, line_item.product.stock_levels.count
+    assert_difference "Allocation.count", 3, "allocations: #{line_item.allocations.inspect}" do
+      line_item.take_stock
+    end
+  end
+
   private
     def valid
       @line_item||={product: products(:product_20), order: orders(:cart), quantity: 1}
