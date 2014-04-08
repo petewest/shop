@@ -187,8 +187,9 @@ class OrderTest < ActiveSupport::TestCase
     line_item=order.line_items.first
     stock_level=line_item.product.stock_levels.current.first
     old_quantity=stock_level.current_quantity
+    order.reload
     order.status=:placed
-    assert order.save, "order: #{order.errors.inspect}"
+    assert order.save, "order: #{order.errors.inspect}: line_items: #{order.line_items.map{|l| l.changed.map{|c| "#{c}: #{l.send(c)} was: #{l.send(c+"_was")}"}}.join(" ")}"
     stock_level.reload
     assert_equal old_quantity-line_item.quantity, stock_level.current_quantity
   end
