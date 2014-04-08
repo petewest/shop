@@ -1,0 +1,5 @@
+<% provide(:title, "New stock level for #{@product.name}") %>
+
+<%= content_tag(:h1, "New stock level for #{@product.name}") %>
+
+<%= render 'stock_level_form', product: @product, stock_level: @stock_level %>
