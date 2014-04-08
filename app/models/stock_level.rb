@@ -22,6 +22,10 @@ class StockLevel < ActiveRecord::Base
     )
   end
 
+  def self.available
+    current.map(&:current_quantity).sum
+  end
+
   private
     def current_lte_start
       errors.add(:current_quantity, "must be less than or equal to start quantity") if current_quantity and current_quantity>start_quantity

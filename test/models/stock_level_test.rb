@@ -94,6 +94,20 @@ class StockLevelTest < ActiveSupport::TestCase
     assert_not sl.save
   end
 
+  test "should have a 'available' class method" do
+    assert_respond_to StockLevel, :available
+  end
+
+  test "should sum all current_quantity values in current scope" do
+    stock_levels=StockLevel.current
+    calculated=0
+    stock_levels.each do |sl|
+      calculated+=sl.current_quantity
+    end
+    assert_not_equal 0, calculated
+    assert_equal calculated, StockLevel.available
+  end
+
 
   private
     def valid
