@@ -43,7 +43,7 @@ class CartsController < ApplicationController
       flash[:success]="Thank you for your order!"
       redirect_to order_path(@cart)
     else
-      flash[:danger]="Error processing cart"
+      flash.now[:danger]="Error processing cart"
       render 'show'
     end
   end

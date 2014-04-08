@@ -1,7 +1,22 @@
 <% provide(:title, "#{@product.name} stock level") %>
 
-<%= content_tag(:h1, "#{@product.name} stock levels") %>
+<%= content_tag(:h1, ) do %>
+<%= link_to @product.name, @product %> stock levels
+<% end %>
 
-<ul class="stock_level">
-<%= render @stock_levels %>
-</ul>
+<table class="table table-striped table-condensed stock_level">
+	<thead>
+		<tr>
+			<th>Due at</th>
+			<th>Expires at</th>
+			<th>Start quantity</th>
+			<th>Current quantity</th>
+			<th>Allow pre-order</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render @stock_levels %>	
+	</tbody>
+</table>
+
+<%= link_to "Add stock", new_product_stock_level_path(@product), class: "btn btn-default" %>

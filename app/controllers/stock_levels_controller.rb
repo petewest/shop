@@ -3,7 +3,7 @@ class StockLevelsController < ApplicationController
   before_action :product_from_params
 
   def index
-    @stock_levels=@product.stock_levels.all
+    @stock_levels=@product.stock_levels.order(due_at: :asc)
   end
 
   def new

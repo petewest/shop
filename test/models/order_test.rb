@@ -214,6 +214,13 @@ class OrderTest < ActiveSupport::TestCase
     assert_equal old_stock, products(:mug).stock_levels.current.map(&:current_quantity).sum
   end
 
+  test "should remove line items on deletion" do
+    order=Cart.create(valid)
+    assert_difference "LineItem.count", -1 do
+      order.destroy
+    end
+  end
+
   private
     def valid
       @order||={user: users(:buyer), line_items_attributes: [{product_id: products(:mug).id, quantity: 1}]}

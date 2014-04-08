@@ -1,6 +1,6 @@
 class Order < ActiveRecord::Base
   belongs_to :user, inverse_of: :orders
-  has_many :line_items, inverse_of: :order
+  has_many :line_items, inverse_of: :order, dependent: :destroy
   has_many :products, through: :line_items, inverse_of: :orders
 
   
