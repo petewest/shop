@@ -33,7 +33,7 @@ class LineItem < ActiveRecord::Base
 
   def take_stock
     counter=quantity
-    result=product.stock_levels.current.all? do |stock|
+    result=product.current_stock.all? do |stock|
       #How many from this item?
       from_this=[counter,stock.current_quantity].min
       # if we're not taking anything from here try the next one

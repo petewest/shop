@@ -85,6 +85,10 @@ class ProductTest < ActiveSupport::TestCase
     end
   end
 
+  test "should have current_stock association" do
+    assert_respond_to Product.new, :current_stock
+  end
+
 
   private
     def valid
