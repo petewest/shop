@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140408090321) do
+ActiveRecord::Schema.define(version: 20140408200652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -113,6 +113,7 @@ ActiveRecord::Schema.define(version: 20140408090321) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "expires_at"
+    t.boolean  "allow_preorder",   default: false
   end
 
   add_index "stock_levels", ["product_id"], name: "index_stock_levels_on_product_id", using: :btree
