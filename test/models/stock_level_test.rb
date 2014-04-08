@@ -6,6 +6,11 @@ class StockLevelTest < ActiveSupport::TestCase
     assert stock.save
   end
 
+  test "should respond to allocations" do
+    stock=StockLevel.new
+    assert_respond_to stock, :allocations
+  end
+
   test "should not save without product" do
     stock=StockLevel.new(valid.except(:product))
     assert_not stock.valid?

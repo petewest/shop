@@ -1,6 +1,8 @@
 class StockLevel < ActiveRecord::Base
   belongs_to :product
 
+  has_many :allocations, inverse_of: :stock_level
+
   validates :product, presence: true
   validates :due_at, presence: true
   validates :start_quantity, presence: true, numericality: {only_integer: true}

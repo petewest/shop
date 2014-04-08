@@ -11,10 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140407092632) do
+ActiveRecord::Schema.define(version: 20140408090321) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+  create_table "allocations", force: true do |t|
+    t.integer  "line_item_id"
+    t.integer  "stock_level_id"
+    t.integer  "quantity"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "allocations", ["line_item_id", "stock_level_id"], name: "index_allocations_on_line_item_id_and_stock_level_id", unique: true, using: :btree
+  add_index "allocations", ["line_item_id"], name: "index_allocations_on_line_item_id", using: :btree
+  add_index "allocations", ["stock_level_id"], name: "index_allocations_on_stock_level_id", using: :btree
 
   create_table "currencies", force: true do |t|
     t.string   "iso_code"

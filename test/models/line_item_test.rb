@@ -11,6 +11,11 @@ class LineItemTest < ActiveSupport::TestCase
     assert_respond_to line_item, :product
   end
 
+  test "should respond to allocations" do
+    line_item=LineItem.new
+    assert_respond_to line_item, :allocations
+  end
+
   test "should not allow negative quantity" do
     line_item=LineItem.new(valid.merge(quantity: -1))
     assert_not line_item.valid?
