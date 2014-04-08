@@ -36,16 +36,14 @@ class LineItem < ActiveRecord::Base
     result=product.stock_levels.current.all? do |stock|
       #How many from this item?
       from_this=[counter,stock.current_quantity].min
-      if from_this>0
-        #decrement counter
-        counter-=from_this
-        #create allocation
-        allocation=allocations.find_or_initialize_by(stock_level: stock)
-        allocation.quantity=from_this
-        allocation.save
-      else
-        true
-      end
+      # if we're not taking anything from here try the next one
+      next true if from_this==0
+      #decrement counter
+      counter-=from_this
+      #create allocation
+      allocation=allocations.find_or_initialize_by(stock_level: stock)
+      allocation.quantity=from_this
+      allocation.save
     end
     raise ActiveRecord::Rollback unless result and counter==0
   end
