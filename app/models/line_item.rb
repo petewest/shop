@@ -3,7 +3,7 @@ class LineItem < ActiveRecord::Base
   belongs_to :product, inverse_of: :line_items
   belongs_to :order, inverse_of: :line_items
 
-  has_many :allocations, inverse_of: :line_item
+  has_many :allocations, inverse_of: :line_item, dependent: :destroy
 
   validates :quantity, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 1}
   validates :product, presence: true
@@ -38,12 +38,19 @@ class LineItem < ActiveRecord::Base
       stock.lock!
       #How many from this item?
       from_this=[counter,stock.current_quantity].min
-      #decrement counter
-      counter-=from_this
-      #decrement current quantity
-      stock.current_quantity-=from_this
+      a_save=true
+      if from_this
+        #decrement counter
+        counter-=from_this
+        #decrement current quantity
+        stock.current_quantity-=from_this
+        #create allocation
+        allocation=allocations.find_or_initialize_by(stock_level: stock)
+        allocation.quantity=from_this
+        a_save=allocation.save
+      end
       #save item and release lock
-      stock.save
+      stock.save and a_save
     end
     raise ActiveRecord::Rollback unless result and counter==0
   end

@@ -189,7 +189,9 @@ class OrderTest < ActiveSupport::TestCase
     old_quantity=stock_level.current_quantity
     order.reload
     order.status=:placed
-    assert order.save, "order: #{order.errors.inspect}: line_items: #{order.line_items.map{|l| l.changed.map{|c| "#{c}: #{l.send(c)} was: #{l.send(c+"_was")}"}}.join(" ")}"
+    assert_difference "Allocation.count" do
+      assert order.save, "order: #{order.errors.inspect}: line_items: #{order.line_items.map{|l| l.changed.map{|c| "#{c}: #{l.send(c)} was: #{l.send(c+"_was")}"}}.join(" ")}"
+    end
     stock_level.reload
     assert_equal old_quantity-line_item.quantity, stock_level.current_quantity
   end
@@ -197,14 +199,18 @@ class OrderTest < ActiveSupport::TestCase
   test "should not decrement current stock when adding to cart" do
     old_stock=products(:mug).stock_levels.current.map(&:current_quantity).sum
     order=Cart.create(valid)
-    assert_equal old_stock, products(:mug).stock_levels.current.map(&:current_quantity).sum
+    assert_no_difference "Allocation.count" do
+      assert_equal old_stock, products(:mug).stock_levels.current.map(&:current_quantity).sum
+    end
   end
 
   test "should not decrement current stock when saving a placed order multiple times" do
     order=Cart.create(valid)
     order.placed!
     old_stock=products(:mug).stock_levels.current.map(&:current_quantity).sum
-    order.save
+    assert_no_difference "Allocation.count" do
+      order.save
+    end
     assert_equal old_stock, products(:mug).stock_levels.current.map(&:current_quantity).sum
   end
 

@@ -92,6 +92,22 @@ class LineItemTest < ActiveSupport::TestCase
     assert_equal line_item.product.cost*line_item.quantity, line_item.cost
   end
 
+  test "should remove stock allocation on destroy" do
+    line_item=LineItem.new(valid)
+    line_item.quantity=2
+    line_item.save
+    #ensure we have stock
+    stock=line_item.product.stock_levels.new(due_at: 5.minutes.ago, start_quantity: 10)
+    assert stock.save
+    line_item.reload
+    assert_difference "Allocation.count" do
+      line_item.take_stock
+    end
+    assert_difference "Allocation.count", -1 do
+      line_item.destroy
+    end
+  end
+
 
   private
     def valid
