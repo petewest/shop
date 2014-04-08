@@ -48,6 +48,21 @@ class AllocationTest < ActiveSupport::TestCase
     assert_not a.valid?
     assert_not a.save
   end
+
+  test "should respond to release_stock" do
+    allocation=Allocation.new
+    assert_respond_to allocation, :release_stock
+  end
+
+  test "should give stock back on release" do
+    allocation=Allocation.new(valid)
+    allocation.stock_level.current_quantity-=allocation.quantity
+    allocation.save
+    assert_difference "allocation.stock_level.current_quantity", allocation.quantity do
+      allocation.release_stock
+    end
+  end
+
   private
     def valid
       @alloc||={line_item: line_items(:one), stock_level: stock_levels(:tshirt_stock), quantity: 1}

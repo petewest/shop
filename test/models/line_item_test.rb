@@ -108,7 +108,6 @@ class LineItemTest < ActiveSupport::TestCase
     end
   end
 
-
   private
     def valid
       @line_item||={product: products(:product_20), order: orders(:cart), quantity: 1}

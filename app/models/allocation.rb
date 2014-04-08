@@ -5,4 +5,9 @@ class Allocation < ActiveRecord::Base
   validates :line_item, presence: true, uniqueness: {scope: :stock_level}
   validates :stock_level, presence: true
   validates :quantity, numericality: {only_integer: true, greater_than_or_equal_to: 1}
+
+  def release_stock
+    stock_level.current_quantity+=quantity
+    stock_level.save
+  end
 end

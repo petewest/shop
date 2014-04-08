@@ -55,7 +55,6 @@ class LineItem < ActiveRecord::Base
     raise ActiveRecord::Rollback unless result and counter==0
   end
 
-
   private
     def set_up_on_save
       #by checking against status_was instead of status we'll allow saving of line_items when switching out of cart/checkout
