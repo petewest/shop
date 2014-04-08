@@ -28,7 +28,7 @@ class LineItem < ActiveRecord::Base
   end
 
   def stock_check
-    if quantity>product.current_stock.available
+    if quantity>product.stock_levels.available
       errors[:quantity]="is greater than current stock!"
       false
     else
