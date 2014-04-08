@@ -28,7 +28,7 @@ class LineItem < ActiveRecord::Base
   end
 
   def stock_check
-    quantity<product.stock_levels.current.available
+    quantity<product.stock_levels.available
   end
 
   def take_stock
