@@ -14,7 +14,7 @@ class StockLevel < ActiveRecord::Base
 
   def self.current
     where(
-      arel_table[:due_at].lt(DateTime.now)
+      arel_table[:due_at].lt(DateTime.now).or(arel_table[:allow_preorder].eq(true))
     ).where(
       arel_table[:current_quantity].gt(0)
     ).where(

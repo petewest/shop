@@ -26,6 +26,6 @@ class StockLevelsController < ApplicationController
       @product=Product.find(params[:product_id])
     end
     def stock_level_params
-      params.require(:stock_level).permit(:due_at, :start_quantity, :current_quantity)
+      params.require(:stock_level).permit(:due_at, :start_quantity, :current_quantity, :allow_preorder)
     end
 end

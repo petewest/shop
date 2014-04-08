@@ -35,6 +35,11 @@ class StockLevelTest < ActiveSupport::TestCase
     assert sl.include?(stock_levels(:tshirt_stock))
   end
 
+  test "should give pre-orderable stock in current" do
+    sl=StockLevel.current
+    assert sl.include?(stock_levels(:pre_orderable))
+  end
+
   test "should respond to expires_at" do
     sl=StockLevel.new
     assert_respond_to sl, :expires_at

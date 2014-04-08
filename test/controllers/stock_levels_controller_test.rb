@@ -46,10 +46,17 @@ class StockLevelsControllerTest < ActionController::TestCase
     assert_redirected_to product_stock_levels_url(@product)
   end
 
+  test "should create pre-orderable stock" do
+    sign_in users(:seller)
+    assert_difference "StockLevel.current.count" do
+      post :create, product_id: @product.id, stock_level: valid.merge(due_at: 3.days.from_now, allow_preorder: 't')
+    end
+  end
+
 
 
   private
     def valid
-      @stock_level||={due_at: 5.days.ago, start_quantity: 20}
+      @stock_level||={due_at: 5.days.ago, start_quantity: 20, allow_preorder: 'f'}
     end
 end

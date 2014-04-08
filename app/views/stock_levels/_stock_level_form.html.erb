@@ -7,10 +7,10 @@
     <%= f.label :start_quantity, class: "control-label" %>
     <%= f.text_field :start_quantity, class: "form-control" %>
   </div>
-  <div class="form-group">
-    <%= f.label :current_quantity, class: "control-label" %>
-    <%= f.text_field :current_quantity, class: "form-control" %>
-    <p class="help-block">Current quantity should track as orders are placed.  You should only need to set it here if it gets confused</p>
+  <div class="checkbox">
+    <label class="control-label">
+    <%= f.check_box :allow_preorder, class: "form-control" %> Allow pre-order
+    </label>
   </div>
   <%= f.submit data: {disable_with: "Submitting"}, class: "btn btn-default" %>
 <% end %>

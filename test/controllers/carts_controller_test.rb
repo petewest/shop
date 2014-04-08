@@ -142,8 +142,12 @@ class CartsControllerTest < ActionController::TestCase
     sign_in users(:without_cart)
     self.current_cart=orders(:cart)
     patch :confirm
+    #clear instance variable as current_cart= sets it
+    #for this instance
+    @current_cart=nil
     assert_not_equal current_user, orders(:cart).user
-    assert_redirected_to cart_url
+    assert_not_equal orders(:cart), current_cart
+    assert_not_equal "placed", orders(:cart).status
   end
 
   test "should set cart user if signed in" do

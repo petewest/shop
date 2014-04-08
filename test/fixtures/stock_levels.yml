@@ -31,3 +31,10 @@ mug_stock:
   due_at: <%= 1.day.ago %>
   start_quantity: 5
   current_quantity: 5
+
+pre_orderable:
+  product: :preorder
+  due_at: <%= 1.month.from_now %>
+  start_quantity: 10
+  current_quantity: 10
+  allow_preorder: true
