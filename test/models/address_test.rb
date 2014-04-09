@@ -54,6 +54,18 @@ class AddressTest < ActiveSupport::TestCase
     assert_respond_to Address, :billing
   end
 
+  test "delivery scope should only contain default delivery addresses" do
+    addresses=Address.delivery
+    assert addresses.include?(addresses(:work))
+    assert addresses.all?{ |a| a.default_delivery? }
+  end
+
+  test "billing scope should only contain default billing addresses" do
+    addresses=Address.billing
+    assert addresses.include?(addresses(:home))
+    assert addresses.all?{ |a| a.default_billing? }
+  end
+
 
   private
     def valid
