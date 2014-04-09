@@ -13,9 +13,6 @@
 
 ActiveRecord::Schema.define(version: 20140408200652) do
 
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
-
   create_table "allocations", force: true do |t|
     t.integer  "line_item_id"
     t.integer  "stock_level_id"
