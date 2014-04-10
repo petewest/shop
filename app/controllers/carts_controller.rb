@@ -29,8 +29,8 @@ class CartsController < ApplicationController
 
   def checkout
     @cart=current_cart
-    @delivery_address=current_cart.delivery_address || current_user.addresses.delivery.first.address
-    @billing_address=current_cart.billing_address || current_user.addresses.billing.first.address
+    @delivery_address=current_cart.delivery_address || current_user.addresses.delivery.first.try(:address)
+    @billing_address=current_cart.billing_address || current_user.addresses.billing.first.try(:address)
   end
 
   def update_address
@@ -63,6 +63,8 @@ class CartsController < ApplicationController
       return
     end
     @cart.user=current_user
+    @cart.delivery_address||=current_user.addresses.delivery.first.try(:address)
+    @cart.billing_address||=current_user.addresses.billing.first.try(:address)
     @cart.status=:placed
     if @cart.save
       flash[:success]="Thank you for your order!"
