@@ -68,6 +68,6 @@ class AddressesControllerTest < ActionController::TestCase
 
   private
     def valid
-      @add||={label: "Home", address: "Somewhere avenue", default_billing: 'f', default_delivery: 'f'}
+      @add||={label: "New address", address: "Somewhere avenue", default_billing: 'f', default_delivery: 'f'}
     end
 end
