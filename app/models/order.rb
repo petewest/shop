@@ -3,10 +3,15 @@ class Order < ActiveRecord::Base
   has_many :line_items, inverse_of: :order, dependent: :destroy
   has_many :products, through: :line_items, inverse_of: :orders
 
-  
-  validates :user, presence: true, if:  -> { status and status!="cart" }
-  validates :line_items, presence: {message: "can't process blank order"}, if:  -> { status and status!="cart" }
-  validate :stock_check
+  with_options if:  -> { status and status!="cart" } do |non_cart|
+    non_cart.validates :user, presence: true
+    non_cart.validates :line_items, presence: {message: "can't process blank order"}
+  end
+
+  with_options if: -> { status_changed? and status=="placed" } do |placed|
+    placed.validate :stock_check
+    placed.after_save :decrement_stock
+  end
 
   accepts_nested_attributes_for :line_items, allow_destroy: true
 
@@ -15,7 +20,6 @@ class Order < ActiveRecord::Base
   before_create -> {self.status||=:cart}
 
   before_save :pre_save
-  after_save :decrement_stock
 
   default_scope -> {includes(line_items: [:product, :currency])}
 
@@ -37,10 +41,10 @@ class Order < ActiveRecord::Base
     end
 
     def stock_check
-      errors[:base]<<"Not enough stock" if status_changed? and status=="placed" and !line_items.all?(&:stock_check)
+      errors[:base]<<"Not enough stock" if !line_items.all?(&:stock_check)
     end
 
     def decrement_stock
-      line_items.all?(&:take_stock) if status_changed? and status=="placed"
+      line_items.all?(&:take_stock)
     end
 end
