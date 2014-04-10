@@ -1,28 +1,28 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 home:
-  user: :buyer
+  addressable: buyer (User)
   label: Home
   default_billing: true
   default_delivery: false
   address: My House
 
 work:
-  user: :buyer
+  addressable: buyer (User)
   label: Work
   default_billing: false
   default_delivery: true
   address: Company address
 
 neither:
-  user: :buyer
+  addressable: buyer (User)
   label: Mums house
   default_billing: false
   default_delivery: false
   address: 1 Memory Lane
 
 seller_home:
-  user: :seller
+  addressable: seller (User)
   label: Company HQ
   default_billing: true
   default_delivery: true

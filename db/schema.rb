@@ -11,21 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140409123645) do
+ActiveRecord::Schema.define(version: 20140410144419) do
 
   create_table "addresses", force: true do |t|
-    t.integer  "user_id"
     t.string   "label"
     t.boolean  "default_billing"
     t.boolean  "default_delivery"
     t.text     "address"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "addressable_id"
+    t.string   "addressable_type"
   end
 
-  add_index "addresses", ["user_id", "default_billing"], name: "index_addresses_on_user_id_and_default_billing", using: :btree
-  add_index "addresses", ["user_id", "default_delivery"], name: "index_addresses_on_user_id_and_default_delivery", using: :btree
-  add_index "addresses", ["user_id"], name: "index_addresses_on_user_id", using: :btree
+  add_index "addresses", ["addressable_id", "addressable_type"], name: "index_addresses_on_addressable_id_and_addressable_type", using: :btree
 
   create_table "allocations", force: true do |t|
     t.integer  "line_item_id"
