@@ -3,7 +3,7 @@ class Address < ActiveRecord::Base
 
   validates :user, presence: true
   validates :address, presence: true
-  validates :label, presence: true
+  validates :label, presence: true, uniqueness: {scope: :user}
 
   validates :default_billing, uniqueness: {scope: :user}, if: -> { default_billing? }
   validates :default_delivery, uniqueness: {scope: :user}, if: -> { default_delivery? }

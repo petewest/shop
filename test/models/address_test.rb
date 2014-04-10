@@ -42,6 +42,7 @@ class AddressTest < ActiveSupport::TestCase
   test "should allow multiple non-defaults per user" do
     address=Address.new(valid.merge(default_billing: false, default_delivery: false))
     address2=address.dup
+    address2.label="Another label"
     assert address.save
     assert address2.save
   end
@@ -64,6 +65,13 @@ class AddressTest < ActiveSupport::TestCase
     addresses=Address.billing
     assert addresses.include?(addresses(:home))
     assert addresses.all?{ |a| a.default_billing? }
+  end
+
+  test "should not allow duplicate labels per user" do
+    address=Address.new(valid.merge(default_billing: false, default_delivery: false))
+    address2=address.dup
+    assert address.save
+    assert_not address2.save
   end
 
 
