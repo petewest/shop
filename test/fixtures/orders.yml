@@ -53,3 +53,9 @@ cart_for_other_user:
   dispatched_at: 
   type: Cart
   cart_token: random_token_for_cart_for_other_user
+
+with_addresses:
+  user: :buyer
+  status: <%= Order.statuses[:placed] %>
+
+

@@ -74,6 +74,11 @@ class AddressTest < ActiveSupport::TestCase
     assert_not address2.save
   end
 
+  test "should be able to assign order to addressable" do
+    address=Address.new(valid.merge(addressable: orders(:cart)))
+    assert address.save
+  end
+
 
   private
     def valid

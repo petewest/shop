@@ -28,4 +28,14 @@ seller_home:
   default_delivery: true
   address: Sillicon Valley
 
+order_delivery:
+  addressable: with_addresses (Order)
+  label: Home
+  default_delivery: true
+  address: Some address
 
+order_billing:
+  addressable: with_addresses (Order)
+  label: Work
+  default_billing: true
+  address: Some address

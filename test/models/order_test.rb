@@ -220,6 +220,27 @@ class OrderTest < ActiveSupport::TestCase
       order.destroy
     end
   end
+  
+  test "should respond to delivery_address" do
+    order=Cart.new
+    assert_respond_to order, :delivery_address
+  end
+
+  test "should contain delivery address" do
+    order=orders(:with_addresses)
+    assert_not_nil orders(:with_addresses).delivery_address
+    assert_equal addresses(:order_delivery), orders(:with_addresses).delivery_address
+  end
+
+  test "should contain billing addrsss" do
+    order=orders(:with_addresses)
+    assert_not_nil orders(:with_addresses).billing_address
+    assert_equal addresses(:order_billing), orders(:with_addresses).billing_address
+  end
+  test "should respond to billing addrsss" do
+    order=Order.new
+    assert_respond_to order, :billing_address
+  end
 
   private
     def valid
