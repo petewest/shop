@@ -166,6 +166,26 @@ class CartsControllerTest < ActionController::TestCase
     assert_select "a[href=#{products_path}]", "Go shopping"
   end
 
+  test "should set billing address on order (html)" do
+    sign_in users(:buyer)
+    cart=users(:buyer).carts.first
+    billing_address=users(:buyer).addresses.billing.first
+    assert_not_equal billing_address.address, cart.billing_address
+    patch :update_address, address_id: billing_address.id, mode: "billing"
+    cart.reload
+    assert_equal billing_address.address, cart.billing_address
+  end
+
+  test "should not set billing address on order (html)" do
+    cart=users(:buyer).carts.first
+    billing_address=users(:buyer).addresses.billing.first
+    assert_not_equal billing_address.address, cart.billing_address
+    patch :update_address, address_id: billing_address.id, mode: "billing"
+    assert_redirected_to signin_path
+    cart.reload
+    assert_not_equal billing_address.address, cart.billing_address
+  end
+
   private
     def valid
       @cart||={line_items_attributes: [{product_id: products(:tshirt), quantity: 2}]}

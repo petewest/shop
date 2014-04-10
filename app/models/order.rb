@@ -19,11 +19,6 @@ class Order < ActiveRecord::Base
 
   default_scope -> {includes(line_items: [:product, :currency])}
 
-  has_many :addresses, as: :addressable, dependent: :destroy
-
-  has_one :delivery_address, ->{delivery}, as: :addressable, class_name: "Address"
-  has_one :billing_address, ->{billing}, as: :addressable, class_name: "Address"
-
   def costs
     line_items.group_by(&:currency).map do |currency, items|
       Hash(currency: currency, cost: items.map(&:cost).sum)

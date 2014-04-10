@@ -35,7 +35,7 @@ class AddressesControllerTest < ActionController::TestCase
     get :new
     assert_response :success
     assert_not_nil assigns(:address)
-    assert_equal current_user, assigns(:address).addressable
+    assert_equal current_user, assigns(:address).user
     assert_select "form"
   end
 
@@ -44,7 +44,7 @@ class AddressesControllerTest < ActionController::TestCase
     xhr :get, :new
     assert_response :success
     assert_not_nil assigns(:address)
-    assert_equal current_user, assigns(:address).addressable
+    assert_equal current_user, assigns(:address).user
   end
 
   test "should add address" do
@@ -53,7 +53,7 @@ class AddressesControllerTest < ActionController::TestCase
       post :create, address: valid
     end
     assert_not_nil assigns(:address)
-    assert_equal current_user, assigns(:address).addressable
+    assert_equal current_user, assigns(:address).user
     assert_redirected_to addresses_url
   end
 

@@ -19,13 +19,13 @@ class AddressTest < ActiveSupport::TestCase
     assert_not address.save
   end
 
-  test "should not save without addressable" do
-    address=Address.new(valid.except(:addressable))
+  test "should not save without user" do
+    address=Address.new(valid.except(:user))
     assert_not address.valid?
     assert_not address.save
   end
 
-  test "should not allow more than one default billing per addressable" do
+  test "should not allow more than one default billing per user" do
     address=Address.new(valid)
     address.save
     address2=Address.new(valid.merge(label: "Work", default_delivery: false, address: "Somewhere else"))
@@ -39,7 +39,7 @@ class AddressTest < ActiveSupport::TestCase
     assert_not address2.save, "Debug: #{address2.inspect}"
   end
 
-  test "should allow multiple non-defaults per addressable" do
+  test "should allow multiple non-defaults per user" do
     address=Address.new(valid.merge(default_billing: false, default_delivery: false))
     address2=address.dup
     address2.label="Another label"
@@ -67,21 +67,15 @@ class AddressTest < ActiveSupport::TestCase
     assert addresses.all?{ |a| a.default_billing? }
   end
 
-  test "should not allow duplicate labels per addressable" do
+  test "should not allow duplicate labels per user" do
     address=Address.new(valid.merge(default_billing: false, default_delivery: false))
     address2=address.dup
     assert address.save
     assert_not address2.save
   end
 
-  test "should be able to assign order to addressable" do
-    address=Address.new(valid.merge(addressable: orders(:cart)))
-    assert address.save
-  end
-
-
   private
     def valid
-      @address||={addressable: users(:without_addresses), label: "Home", default_billing: true, default_delivery: true, address: "Number one nostreet close\nHometown\nSAD ACT"}
+      @address||={user: users(:without_addresses), label: "Home", default_billing: true, default_delivery: true, address: "Number one nostreet close\nHometown\nSAD ACT"}
     end
 end

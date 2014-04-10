@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140410144419) do
+ActiveRecord::Schema.define(version: 20140410205255) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,11 +23,11 @@ ActiveRecord::Schema.define(version: 20140410144419) do
     t.text     "address"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "addressable_id"
     t.string   "addressable_type"
+    t.integer  "user_id"
   end
 
-  add_index "addresses", ["addressable_id", "addressable_type"], name: "index_addresses_on_addressable_id_and_addressable_type", using: :btree
+  add_index "addresses", ["user_id"], name: "index_addresses_on_user_id", using: :btree
 
   create_table "allocations", force: true do |t|
     t.integer  "line_item_id"
@@ -87,6 +87,8 @@ ActiveRecord::Schema.define(version: 20140410144419) do
     t.datetime "updated_at"
     t.string   "type"
     t.string   "cart_token"
+    t.text     "delivery_address"
+    t.text     "billing_address"
   end
 
   add_index "orders", ["cart_token"], name: "index_orders_on_cart_token", unique: true, where: "((type)::text = 'Cart'::text)", using: :btree

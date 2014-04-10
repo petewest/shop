@@ -226,17 +226,6 @@ class OrderTest < ActiveSupport::TestCase
     assert_respond_to order, :delivery_address
   end
 
-  test "should contain delivery address" do
-    order=orders(:with_addresses)
-    assert_not_nil orders(:with_addresses).delivery_address
-    assert_equal addresses(:order_delivery), orders(:with_addresses).delivery_address
-  end
-
-  test "should contain billing addrsss" do
-    order=orders(:with_addresses)
-    assert_not_nil orders(:with_addresses).billing_address
-    assert_equal addresses(:order_billing), orders(:with_addresses).billing_address
-  end
   test "should respond to billing addrsss" do
     order=Order.new
     assert_respond_to order, :billing_address

@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   end
   resource :cart, only: [:show, :destroy, :update] do
     patch 'confirm'
+    patch 'update_address'
   end
   resources :carts, only: [:index]
   get '/checkout' => 'carts#checkout'

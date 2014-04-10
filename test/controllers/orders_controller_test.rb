@@ -75,5 +75,4 @@ class OrdersControllerTest < ActionController::TestCase
     assert_redirected_to checkout_url
   end
 
-
 end
