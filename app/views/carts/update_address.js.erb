@@ -1,0 +1,3 @@
+<% @modes.each do |mode,v| %>
+jQuery("#<%= mode %>").html("<%= escape_javascript(@cart.send(mode)) %>");
+<% end %>

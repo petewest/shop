@@ -36,19 +36,14 @@ class CartsController < ApplicationController
   def update_address
     #there must be a better way of doing this
     @cart=current_cart
-    to_update=false
-    case params[:mode]
-    when "delivery"
-      to_update=:delivery_address
-    when "billing"
-      to_update=:billing_address
+    @modes=address_params
+    @modes.each do |k,v|
+      @cart[k]=current_user.addresses.find(v).try(:address)
     end
-    if to_update and address=current_user.addresses.find(params[:address_id])
-      if @cart.update_attributes(to_update => address.address)
-        flash[:success]="Address set"
-      else
-        flash[:danger]="Failed to set address"
-      end
+    if @cart.save
+      flash[:success]="Address set"
+    else
+      flash[:danger]="Failed to set address"
     end
     respond_to do |format|
       format.html { redirect_to checkout_path}
@@ -78,5 +73,9 @@ class CartsController < ApplicationController
   private
     def cart_params
       params.require(:cart).permit(line_items_attributes: [:id, :product_id, :quantity, :_destroy])
+    end
+
+    def address_params
+      params.require(:cart).permit(:delivery_address, :billing_address)
     end
 end
