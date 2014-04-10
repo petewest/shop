@@ -1,7 +1,7 @@
 <% selector=(mode+"_address").to_sym %>
 <div class="address_wrapper">
 	<div class="address_picker">
-		<%= form_for [:update_address, @cart], remote: true do |f| %>
+		<%= form_for [:update_address, @cart], remote: true, html: {class: "form-inline"} do |f| %>
 		<div class="form-group">
 			<%= f.label selector, class: "control-label" %>
 			<%= f.collection_select selector, current_user.addresses, :id, :label, {}, class: "form-control" %>
