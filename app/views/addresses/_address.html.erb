@@ -1,0 +1,7 @@
+<div class="address_entry" id="<%= css_id(address) %>">
+  <div class="address_label"><%= address.label %></div>
+  <div class="address_address"><%= address.address %></div>
+  <div class="address_default_billing"><%= "Default billing address" if address.default_billing? %></div>
+  <div class="address_default_delivery"><%= "Default delivery address" if address.default_delivery? %></div>
+</div>
+

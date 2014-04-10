@@ -2,3 +2,9 @@
 
 <%= content_tag(:h1, "Address book") %>
 
+<div class="address_container">
+  <%= render @addresses %>
+</div>
+
+<%= link_to "Create new", new_address_path, class: "btn btn-default" %>
+

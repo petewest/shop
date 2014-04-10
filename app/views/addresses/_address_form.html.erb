@@ -1,4 +1,5 @@
 <%= form_for address do |f| %>
+    <%= render 'shared/form_error', object: f.object %>
     <%= render 'address_fields', f: f %>
-    <%= f.submit %>
+    <%= f.submit class: "btn btn-default" %>
 <% end %>

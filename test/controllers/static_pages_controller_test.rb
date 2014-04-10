@@ -43,7 +43,7 @@ class StaticPagesControllerTest < ActionController::TestCase
   end
 
   def buyer_links
-    [signout_path, orders_path]
+    [signout_path, orders_path, addresses_path]
   end
 
 end

@@ -11,6 +11,7 @@ class AddressesControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     assert_not_nil assigns(:addresses)
+    assert_select ".address_container"
   end
 
   test "should get current users addresses" do
