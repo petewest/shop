@@ -27,3 +27,10 @@ seller_home:
   default_billing: true
   default_delivery: true
   address: Sillicon Valley
+
+without_cart:
+  user: :without_cart
+  label: Home
+  default_delivery: true
+  default_billing: true
+  address: Hooooome

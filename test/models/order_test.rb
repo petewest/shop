@@ -231,8 +231,35 @@ class OrderTest < ActiveSupport::TestCase
     assert_respond_to order, :billing_address
   end
 
+  test "should save without delivery address on cart" do
+    order=Cart.new(valid.except(:delivery_address))
+    assert order.save
+  end
+
+  test "should save without billing address on cart" do
+    order=Cart.new(valid.except(:billing_address))
+    assert order.save
+  end
+
+
+  test "should not save when delivery address" do
+    order=Order.create(valid.except(:delivery_address))
+    #to switch to placed create the order in cart mode first
+    #otherwise you can't add line items straight to placed mode
+    order.status=:placed
+    assert_not order.save
+  end
+
+  test "should not save when billing address" do
+    order=Order.create(valid.except(:billing_address))
+    order.status=:placed
+    assert_not order.save
+  end
+
+
+
   private
     def valid
-      @order||={user: users(:buyer), line_items_attributes: [{product_id: products(:mug).id, quantity: 1}]}
+      @order||={user: users(:buyer), billing_address: "Some street", delivery_address: "Somewhere else", line_items_attributes: [{product_id: products(:mug).id, quantity: 1}]}
     end
 end

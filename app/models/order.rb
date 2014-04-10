@@ -3,11 +3,17 @@ class Order < ActiveRecord::Base
   has_many :line_items, inverse_of: :order, dependent: :destroy
   has_many :products, through: :line_items, inverse_of: :orders
 
+  #For anything not in "cart" status
+  #So all validations that make sure it's an order instead of a shopping cart
   with_options if:  -> { status and status!="cart" } do |non_cart|
     non_cart.validates :user, presence: true
     non_cart.validates :line_items, presence: {message: "can't process blank order"}
+    non_cart.validates :delivery_address, presence: true
+    non_cart.validates :billing_address, presence: true
   end
 
+  #When switching to "placed" status we want to run some extra
+  #process to check stock for validation, then allocate stock after successful save
   with_options if: -> { status_changed? and status=="placed" } do |placed|
     placed.validate :stock_check
     placed.after_save :decrement_stock
