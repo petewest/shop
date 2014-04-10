@@ -45,4 +45,29 @@ class AddressesControllerTest < ActionController::TestCase
     assert_not_nil assigns(:address)
     assert_equal current_user, assigns(:address).user
   end
+
+  test "should add address" do
+    sign_in users(:buyer)
+    assert_difference "Address.count" do
+      post :create, address: valid
+    end
+    assert_not_nil assigns(:address)
+    assert_equal current_user, assigns(:address).user
+    assert_redirected_to addresses_url
+  end
+
+  test "should show new screen when create invalid" do
+    sign_in users(:buyer)
+    assert_no_difference "Address.count" do
+      post :create, address: valid.except(:label)
+    end
+    assert_response :success
+    assert_template 'new'
+  end
+
+
+  private
+    def valid
+      @add||={label: "Home", address: "Somewhere avenue", default_billing: 'f', default_delivery: 'f'}
+    end
 end
