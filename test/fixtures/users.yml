@@ -26,3 +26,7 @@ without_cart:
   email: user@user.com
   name: User without cart
 
+without_addresses:
+  email: user@no-address.com
+  name: User without any delivery addresses
+

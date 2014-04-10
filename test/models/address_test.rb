@@ -69,6 +69,6 @@ class AddressTest < ActiveSupport::TestCase
 
   private
     def valid
-      @address||={user: users(:buyer), label: "Home", default_billing: true, default_delivery: true, address: "Number one nostreet close\nHometown\nSAD ACT"}
+      @address||={user: users(:without_addresses), label: "Home", default_billing: true, default_delivery: true, address: "Number one nostreet close\nHometown\nSAD ACT"}
     end
 end

@@ -31,6 +31,8 @@ Rails.application.routes.draw do
 
   resources :line_items, only: [:show, :create, :destroy, :update]
   resources :currencies, except: :show
+
+  resources :addresses
   
 
   # The priority is based upon order of creation: first created -> highest priority.
