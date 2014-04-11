@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  from_weight: 1.5
+  to_weight: 2
+  cost: 1
+  currency: :gbp
+
+two:
+  from_weight: 2
+  to_weight: 3
+  cost: 1
+  currency: :gbp 

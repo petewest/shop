@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140411095125) do
+ActiveRecord::Schema.define(version: 20140411212156) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -105,6 +105,17 @@ ActiveRecord::Schema.define(version: 20140411095125) do
   add_index "orders", ["delivery_id"], name: "index_orders_on_delivery_id", using: :btree
   add_index "orders", ["status"], name: "index_orders_on_status", using: :btree
   add_index "orders", ["user_id"], name: "index_orders_on_user_id", using: :btree
+
+  create_table "postage_costs", force: true do |t|
+    t.float    "from_weight"
+    t.float    "to_weight"
+    t.integer  "cost"
+    t.integer  "currency_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "postage_costs", ["currency_id"], name: "index_postage_costs_on_currency_id", using: :btree
 
   create_table "products", force: true do |t|
     t.string   "name"
