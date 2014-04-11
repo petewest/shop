@@ -31,6 +31,7 @@ gem 'pg', '0.17.1'
 gem 'will_paginate', '3.0.4'
 gem 'bootstrap-will_paginate', '0.0.10'
 gem 'paperclip'
+gem 'RedCloth'
 
 
 group :production do

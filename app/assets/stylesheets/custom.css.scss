@@ -128,3 +128,19 @@
 .address_body {
 	@extend .panel-body;
 }
+
+.product_page_image_box {
+	@extend .col-md-3, .col-sm-6, .col-xs-12;
+}
+
+.product_page_description {
+	@extend .col-md-6, .col-sm-6, .col-xs-12; 
+}
+
+.product_page_cost {
+	@extend .col-md-2, .col-sm-6, .col-xs-6;
+
+}
+.product_page_buy {
+	@extend .col-md-1, .col-sm-6, .col-xs-6;
+}

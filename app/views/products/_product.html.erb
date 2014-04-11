@@ -4,7 +4,7 @@
 	</div>
 	<div class="col-md-6 col-sm-6 col-xs-9">
 		<div class="product_card_name"><%= link_to product.name, product %></div>
-		<div class="product_card_description"><%= product.description %></div>
+		<div class="product_card_description"><%= simple_format product.description %></div>
 		<div class="product_cost">Price: <%= cost_to_currency(product) %></div>
 		<div class="product_card_purchase"><%= render 'add_to_cart', object: product %></div>
 	</div>

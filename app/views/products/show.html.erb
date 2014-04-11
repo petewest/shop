@@ -6,8 +6,15 @@
 
 <%= content_tag(:h1, @product.name) %>
 
-<div class="clearfix"></div>
-
-<div class="product_page_description">
-	<%= @product.description %>
+<div class="row">
+	<div class="product_page_image_box">
+		<%= image_tag @product.main_image.image.url(:thumb), alt: @product.name, class: "product_card_image" if @product.main_image %>
+	</div>
+	<div class="product_page_description">
+		<%= @description.to_html.html_safe %>
+	</div>
+	<div class="product_page_cost">Price: <%= cost_to_currency(@product) %></div>
+	<div class="product_page_buy">
+		<%= render 'add_to_cart', object: @product %>
+	</div>
 </div>

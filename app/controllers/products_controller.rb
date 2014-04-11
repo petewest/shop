@@ -23,6 +23,7 @@ class ProductsController < ApplicationController
   end
 
   def show
+    @description=RedCloth.new(@product.description, [:sanitize_html])
   end
 
   def destroy
