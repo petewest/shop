@@ -2,7 +2,7 @@
 	<div class="address_picker">
 		<%= form_for [:update_address, @cart], remote: true, html: {class: "form-inline"} do |f| %>
 			<%= f.fields_for mode do |add| %>
-				<%= add.label :source_address_id, mode, class: "control-label" %>
+				<%= add.label :source_address_id, mode.to_s.capitalize, class: "control-label" %>
 				<div class="input-group">
 					<%= add.collection_select :source_address_id, current_user.addresses, :id, :label, {}, class: "form-control" %>
 					<div class="input-group-btn">
@@ -13,6 +13,13 @@
 		<% end %>
 	</div>
 	<address class="order_address">
-		<%= address.try(:address) %>
+		<% if address.try(:address) %>
+			<% if !address.source_address.nil? and address.source_address.address!=address.address %>
+			<div class="alert alert-warning">
+			You have changed your address labelled <%= address.source_address.label %> since you created this order.  If you wish to update to the new address press 'Select' above.
+			</div>
+			<% end %>
+			<%= address.address %>
+		<% end %>
 	</address>
 </div>

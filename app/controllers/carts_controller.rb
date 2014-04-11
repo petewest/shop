@@ -29,14 +29,17 @@ class CartsController < ApplicationController
 
   def checkout
     @cart=current_cart
-    #@cart.build_delivery if @cart.delivery.nil?
-    #@cart.build_billing if @cart.billing.nil?
+    @cart.delivery||=OrderAddress.new(source_address: current_user.addresses.delivery.first)
+    @cart.billing||=OrderAddress.new(source_address: current_user.addresses.billing.first)
   end
 
   def update_address
     @cart=current_cart
     @modes=address_params
-    if @cart.update_attributes(address_params)
+    @cart.assign_attributes(address_params)
+    @cart.billing.copy_address if address_params[:billing_attributes]
+    @cart.delivery.copy_address if address_params[:delivery_attributes]
+    if @cart.save
       flash.now[:success]="Address set"
     else
       flash.now[:danger]="Failed to set address"

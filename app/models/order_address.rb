@@ -4,7 +4,7 @@ class OrderAddress < ActiveRecord::Base
 
   validates :source_address, presence: true
 
-  before_save :copy_address
+  after_save :copy_address
 
   def copy_address
     self.address=source_address.address
