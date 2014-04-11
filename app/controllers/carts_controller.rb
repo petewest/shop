@@ -29,18 +29,12 @@ class CartsController < ApplicationController
 
   def checkout
     @cart=current_cart
-    @delivery_address=current_cart.delivery_address || current_user.addresses.delivery.first.try(:address)
-    @billing_address=current_cart.billing_address || current_user.addresses.billing.first.try(:address)
   end
 
   def update_address
     #there must be a better way of doing this
     @cart=current_cart
-    @modes=address_params
-    @modes.each do |k,v|
-      @cart[k]=current_user.addresses.find(v).try(:address)
-    end
-    if @cart.save
+    if @cart.update_attributes(address_params)
       flash[:success]="Address set"
     else
       flash[:danger]="Failed to set address"
@@ -58,8 +52,8 @@ class CartsController < ApplicationController
       return
     end
     @cart.user=current_user
-    @cart.delivery_address||=current_user.addresses.delivery.first.try(:address)
-    @cart.billing_address||=current_user.addresses.billing.first.try(:address)
+    @cart.delivery||=OrderAddress.new(source_address: current_user.addresses.delivery.first)
+    @cart.billing||=OrderAddress.new(source_address: current_user.addresses.billing.first)
     @cart.status=:placed
     if @cart.save
       flash[:success]="Thank you for your order!"
@@ -76,6 +70,6 @@ class CartsController < ApplicationController
     end
 
     def address_params
-      params.require(:cart).permit(:delivery_address, :billing_address)
+      params.require(:cart).permit(delivery_attributes: [:id, :source_address_id], billing_attributes: [:id, :source_address_id])
     end
 end

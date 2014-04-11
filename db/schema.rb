@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140411091807) do
+ActiveRecord::Schema.define(version: 20140411095125) do
 
   create_table "addresses", force: true do |t|
     t.string   "label"
@@ -93,11 +93,13 @@ ActiveRecord::Schema.define(version: 20140411091807) do
     t.datetime "updated_at"
     t.string   "type"
     t.string   "cart_token"
-    t.text     "delivery_address"
-    t.text     "billing_address"
+    t.integer  "billing_id"
+    t.integer  "delivery_id"
   end
 
+  add_index "orders", ["billing_id"], name: "index_orders_on_billing_id", using: :btree
   add_index "orders", ["cart_token"], name: "index_orders_on_cart_token", unique: true, where: "((type)::text = 'Cart'::text)", using: :btree
+  add_index "orders", ["delivery_id"], name: "index_orders_on_delivery_id", using: :btree
   add_index "orders", ["status"], name: "index_orders_on_status", using: :btree
   add_index "orders", ["user_id"], name: "index_orders_on_user_id", using: :btree
 

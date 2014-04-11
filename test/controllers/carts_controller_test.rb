@@ -170,20 +170,20 @@ class CartsControllerTest < ActionController::TestCase
     sign_in users(:buyer)
     cart=users(:buyer).carts.first
     billing_address=users(:buyer).addresses.billing.first
-    assert_not_equal billing_address.address, cart.billing_address
-    patch :update_address, cart:{ billing_address: billing_address.id }
+    assert_not_equal billing_address.address, cart.billing.try(:address)
+    patch :update_address, cart:{ billing_attributes: { source_address_id: billing_address.id }}
     cart.reload
-    assert_equal billing_address.address, cart.billing_address
+    assert_equal billing_address.address, cart.billing.address
   end
 
   test "should not set billing address on order (html)" do
     cart=users(:buyer).carts.first
     billing_address=users(:buyer).addresses.billing.first
-    assert_not_equal billing_address.address, cart.billing_address
-    patch :update_address, cart:{ billing_address: billing_address.id }
+    assert_not_equal billing_address.address, cart.billing.try(:address)
+    patch :update_address, cart:{ billing_attributes: { source_address_id: billing_address.id }}
     assert_redirected_to signin_path
     cart.reload
-    assert_not_equal billing_address.address, cart.billing_address
+    assert_not_equal billing_address.address, cart.billing.try(:address)
   end
 
   private

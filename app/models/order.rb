@@ -2,14 +2,16 @@ class Order < ActiveRecord::Base
   belongs_to :user, inverse_of: :orders
   has_many :line_items, inverse_of: :order, dependent: :destroy
   has_many :products, through: :line_items, inverse_of: :orders
+  belongs_to :delivery, class_name: "OrderAddress", dependent: :destroy
+  belongs_to :billing, class_name: "OrderAddress", dependent: :destroy
 
   #For anything not in "cart" status
   #So all validations that make sure it's an order instead of a shopping cart
   with_options if:  -> { status and status!="cart" } do |non_cart|
     non_cart.validates :user, presence: true
     non_cart.validates :line_items, presence: {message: "can't process blank order"}
-    non_cart.validates :delivery_address, presence: true
-    non_cart.validates :billing_address, presence: true
+    non_cart.validates :delivery, presence: true
+    non_cart.validates :billing, presence: true
   end
 
   #When switching to "placed" status we want to run some extra
@@ -20,6 +22,8 @@ class Order < ActiveRecord::Base
   end
 
   accepts_nested_attributes_for :line_items, allow_destroy: true
+  accepts_nested_attributes_for :delivery, allow_destroy: true
+  accepts_nested_attributes_for :billing, allow_destroy: true
 
   enum status: {cart: 0, checkout: 10, placed: 20, paid: 30, dispatched: 40, cancelled: 100}
 
