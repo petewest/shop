@@ -256,6 +256,13 @@ class OrderTest < ActiveSupport::TestCase
     assert_not order.save
   end
 
+  test "should delete orderaddresses on destroy" do
+    order=orders(:placed)
+    assert_difference "OrderAddress.count", -2 do
+      order.destroy
+    end
+  end
+
 
 
   private
