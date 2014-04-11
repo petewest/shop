@@ -171,7 +171,7 @@ class CartsControllerTest < ActionController::TestCase
     cart=users(:buyer).carts.first
     billing_address=users(:buyer).addresses.billing.first
     assert_not_equal billing_address.address, cart.billing_address
-    patch :update_address, address_id: billing_address.id, mode: "billing"
+    patch :update_address, cart:{ billing_address: billing_address.id }
     cart.reload
     assert_equal billing_address.address, cart.billing_address
   end
@@ -180,7 +180,7 @@ class CartsControllerTest < ActionController::TestCase
     cart=users(:buyer).carts.first
     billing_address=users(:buyer).addresses.billing.first
     assert_not_equal billing_address.address, cart.billing_address
-    patch :update_address, address_id: billing_address.id, mode: "billing"
+    patch :update_address, cart:{ billing_address: billing_address.id }
     assert_redirected_to signin_path
     cart.reload
     assert_not_equal billing_address.address, cart.billing_address
