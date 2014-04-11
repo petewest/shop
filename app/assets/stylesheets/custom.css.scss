@@ -109,5 +109,10 @@
 }
 
 .address_wrapper {
-	@extend .col-md-3, .col-sm-6, .col-xs-12;
+	@extend .col-md-4, .col-sm-6, .col-xs-12;
+	margin-bottom: 20px;
+}
+
+.order_address {
+	margin-top: 10px;
 }

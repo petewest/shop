@@ -1,4 +1,5 @@
 <% @modes.each do |mode,v| %>
-jQuery("#<%= mode %>").replaceWith("<%= escape_javascript( render 'address_wrapper', address: @cart.send(mode.gsub("_attributes","")), mode: mode ) %>");
+<% actual_mode=mode.to_s.gsub("_attributes","").to_sym %>
+jQuery("#<%= actual_mode %>").replaceWith("<%= escape_javascript( render 'address_wrapper', address: @cart.send(actual_mode), mode: actual_mode ) %>");
 <% end %>
 <%= render 'shared/refresh_flash' %>

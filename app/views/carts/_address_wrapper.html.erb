@@ -1,19 +1,18 @@
-<div class="address_wrapper" id="<%= mode %>">
+<div class="address_wrapper" id="<%= mode.to_s %>">
 	<div class="address_picker">
 		<%= form_for [:update_address, @cart], remote: true, html: {class: "form-inline"} do |f| %>
-		<%= f.fields_for mode do |add| %>
-		<div class="form-group">
-			<%= add.label :source_address_id, mode.gsub("_attributes"," address").capitalize, class: "control-label" %>
-			<%= add.collection_select :source_address_id, current_user.addresses, :id, :label, {}, class: "form-control" %>
-		</div>
-		<% end %>
-		<div class="btn-group">
-			<%= link_to "Manage", addresses_path, class: "btn btn-default" %>
-			<%= f.submit "Select", class: "btn btn-default" %>
-		</div>
+			<%= f.fields_for mode do |add| %>
+				<%= add.label :source_address_id, mode, class: "control-label" %>
+				<div class="input-group">
+					<%= add.collection_select :source_address_id, current_user.addresses, :id, :label, {}, class: "form-control" %>
+					<div class="input-group-btn">
+						<%= f.submit "Select", class: "btn btn-default" %>
+					</div>
+				</div>
+			<% end %>
 		<% end %>
 	</div>
-	<div class="order_address">
+	<address class="order_address">
 		<%= address.try(:address) %>
-	</div>
+	</address>
 </div>
