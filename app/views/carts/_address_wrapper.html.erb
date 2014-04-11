@@ -2,7 +2,7 @@
 <div class="address_wrapper">
 	<div class="address_picker">
 		<%= form_for [:update_address, @cart], remote: true, html: {class: "form-inline"} do |f| %>
-		<% f.fields_for selector do |add| %>
+		<%= f.fields_for selector do |add| %>
 		<div class="form-group">
 			<%= add.label :source_address_id, mode.capitalize+" address", class: "control-label" %>
 			<%= add.collection_select :source_address_id, current_user.addresses, :id, :label, {}, class: "form-control" %>
@@ -14,7 +14,7 @@
 		</div>
 		<% end %>
 	</div>
-	<div class="order_address" id="<%= mode %>_address">
+	<div class="order_address" id="<%= selector %>">
 		<%= address.try(:address) %>
 	</div>
 </div>

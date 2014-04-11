@@ -29,15 +29,17 @@ class CartsController < ApplicationController
 
   def checkout
     @cart=current_cart
+    #@cart.build_delivery if @cart.delivery.nil?
+    #@cart.build_billing if @cart.billing.nil?
   end
 
   def update_address
-    #there must be a better way of doing this
     @cart=current_cart
+    @modes=address_params
     if @cart.update_attributes(address_params)
-      flash[:success]="Address set"
+      flash.now[:success]="Address set"
     else
-      flash[:danger]="Failed to set address"
+      flash.now[:danger]="Failed to set address"
     end
     respond_to do |format|
       format.html { redirect_to checkout_path}
