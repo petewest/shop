@@ -1,0 +1,5 @@
+<% provide(:title, "Edit address #{@address.label}") %>
+
+<%= content_tag(:h1, "Edit address #{@address.label}") %>
+
+<%= render 'address_form', address: @address %>

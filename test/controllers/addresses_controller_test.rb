@@ -12,6 +12,7 @@ class AddressesControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:addresses)
     assert_select ".address_container"
+    assert_select "a", "Edit"
   end
 
   test "should get current users addresses" do
@@ -64,6 +65,25 @@ class AddressesControllerTest < ActionController::TestCase
     end
     assert_response :success
     assert_template 'new'
+  end
+
+  test "should have an edit screen" do
+    sign_in users(:buyer)
+    address=users(:buyer).addresses.first
+    get :edit, id: address.id
+    assert_response :success
+  end
+
+  test "should update record" do
+    sign_in users(:buyer)
+    address=users(:buyer).addresses.first
+    assert_not_equal valid[:label], address.label
+    assert_not_equal valid[:address], address.address
+    patch :update, id: address.id, address: valid
+    assert_redirected_to addresses_url
+    address.reload
+    assert_equal valid[:label], address.label
+    assert_equal valid[:address], address.address
   end
 
 

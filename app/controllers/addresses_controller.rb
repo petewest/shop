@@ -1,5 +1,6 @@
 class AddressesController < ApplicationController
   before_action :signed_in_user
+  before_action :user_address_from_params, only: [:edit, :update]
 
   def index
     @addresses=current_user.addresses
@@ -20,9 +21,25 @@ class AddressesController < ApplicationController
     end
   end
 
+  def edit
+  end
+
+  def update
+    if @address.update_attributes(address_params)
+      flash[:success]="Address details saved"
+      redirect_to addresses_url
+    else
+      flash.now[:danger]="Update failed"
+      render 'edit'
+    end
+  end
+
 
   private
     def address_params
       params.require(:address).permit(:label, :address, :default_billing, :default_delivery)
+    end
+    def user_address_from_params
+      @address=current_user.addresses.find(params[:id])
     end
 end
