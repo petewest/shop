@@ -17,6 +17,7 @@ class OrderAddressTest < ActiveSupport::TestCase
     assert_equal o_a.source_address.address, o_a.address
   end
 
+
   private
     def valid
       @address||={source_address: users(:buyer).addresses.delivery.first, address: "Copied address"}

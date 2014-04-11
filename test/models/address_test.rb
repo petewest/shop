@@ -74,6 +74,21 @@ class AddressTest < ActiveSupport::TestCase
     assert_not address2.save
   end
 
+  test "should nullify orderaddresses on deletion" do
+    home=addresses(:home)
+    work=addresses(:work)
+    delivery=order_addresses(:delivery_for_placed)
+    billing=order_addresses(:billing_for_placed)
+    assert_equal home.id, billing.source_address_id
+    assert_equal work.id, delivery.source_address_id
+    home.destroy
+    work.destroy
+    delivery.reload
+    billing.reload
+    assert_nil delivery.source_address_id
+    assert_nil billing.source_address_id
+  end
+
   private
     def valid
       @address||={user: users(:without_addresses), label: "Home", default_billing: true, default_delivery: true, address: "Number one nostreet close\nHometown\nSAD ACT"}

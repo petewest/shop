@@ -7,6 +7,8 @@ placed:
   paid_at: 
   dispatched_at: 
   cart_token: placed_token
+  delivery: :delivery_for_placed
+  billing: :billing_for_placed
 
 paid:
   user: :buyer

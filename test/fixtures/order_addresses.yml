@@ -1,9 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  source_address_id: 
+billing_for_placed:
+  source_address: :home
   address: MyText
 
-two:
-  source_address_id: 
+delivery_for_placed:
+  source_address: :work
   address: MyText
