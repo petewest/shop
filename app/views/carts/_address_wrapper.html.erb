@@ -19,7 +19,7 @@
 			You have changed your address labelled <%= address.source_address.label %> since you created this order.  If you wish to update to the new address press 'Select' above.
 			</div>
 			<% end %>
-			<%= address.address %>
+			<%= simple_format address.address %>
 		<% end %>
 	</address>
 </div>

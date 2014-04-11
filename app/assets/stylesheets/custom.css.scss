@@ -116,3 +116,15 @@
 .order_address {
 	margin-top: 10px;
 }
+
+.address_entry {
+	@extend .panel, .panel-default;
+}
+
+.address_label {
+	@extend .panel-heading;
+}
+
+.address_body {
+	@extend .panel-body;
+}

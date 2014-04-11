@@ -1,12 +1,10 @@
 <div class="address_entry" id="<%= css_id(address) %>">
-  <div class="address_label"><%= address.label %></div>
-  <div class="address_address"><%= address.address %></div>
-  <div class="address_default_billing"><%= "Default billing address" if address.default_billing? %></div>
-  <div class="address_default_delivery"><%= "Default delivery address" if address.default_delivery? %></div>
-  <div class="address_actions">
-  	<div class="btn-group-inline">
-  		<%= link_to "Edit", edit_address_path(address), class: "btn btn-default" %>
-  	</div>
-  </div>
+	<div class="address_label">Label: <%= address.label %></div>
+	<div class="address_body">
+		<%= action_bar address, title: "" %>
+	  <address class="address_address"><%= simple_format address.address %></address>
+	  <div class="address_default_billing"><%= "Default billing address" if address.default_billing? %></div>
+	  <div class="address_default_delivery"><%= "Default delivery address" if address.default_delivery? %></div>
+	</div>
 </div>
 
