@@ -7,9 +7,9 @@
 <%= content_tag(:h5, "Clicking confirm will take you to the payment page") %>
 
 <div class="row">
-	<%= render 'address_wrapper', address: @cart.delivery, mode: "delivery" 
+	<%= render 'address_wrapper', address: @cart.delivery, mode: "delivery_attributes" 
 %>
-	<%= render 'address_wrapper', address: @cart.billing, mode: "billing" 
+	<%= render 'address_wrapper', address: @cart.billing, mode: "billing_attributes" 
 %>
 </div>
 

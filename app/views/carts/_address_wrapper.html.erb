@@ -1,10 +1,9 @@
-<% selector=(mode+"_attributes").to_sym %>
-<div class="address_wrapper">
+<div class="address_wrapper" id="<%= mode %>">
 	<div class="address_picker">
 		<%= form_for [:update_address, @cart], remote: true, html: {class: "form-inline"} do |f| %>
-		<%= f.fields_for selector do |add| %>
+		<%= f.fields_for mode do |add| %>
 		<div class="form-group">
-			<%= add.label :source_address_id, mode.capitalize+" address", class: "control-label" %>
+			<%= add.label :source_address_id, mode.gsub("_attributes"," address").capitalize, class: "control-label" %>
 			<%= add.collection_select :source_address_id, current_user.addresses, :id, :label, {}, class: "form-control" %>
 		</div>
 		<% end %>
@@ -14,7 +13,7 @@
 		</div>
 		<% end %>
 	</div>
-	<div class="order_address" id="<%= selector %>">
+	<div class="order_address">
 		<%= address.try(:address) %>
 	</div>
 </div>
