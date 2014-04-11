@@ -86,6 +86,26 @@ class AddressesControllerTest < ActionController::TestCase
     assert_equal valid[:address], address.address
   end
 
+  test "should remove address" do
+    sign_in users(:buyer)
+    address=users(:buyer).addresses.first
+    assert_difference "Address.count", -1 do
+      delete :destroy, id: address.id
+    end
+    assert_response :redirect
+    assert_redirected_to addresses_url
+  end
+
+  test "should not remove address" do
+    sign_in users(:buyer)
+    address=users(:seller).addresses.first
+    assert_no_difference "Address.count" do
+      assert_raises ActiveRecord::RecordNotFound do
+        delete :destroy, id: address.id
+      end
+    end
+  end
+
 
   private
     def valid

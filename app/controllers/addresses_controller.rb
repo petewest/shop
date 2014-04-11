@@ -1,6 +1,6 @@
 class AddressesController < ApplicationController
   before_action :signed_in_user
-  before_action :user_address_from_params, only: [:edit, :update]
+  before_action :user_address_from_params, only: [:edit, :update, :destroy]
 
   def index
     @addresses=current_user.addresses
@@ -32,6 +32,15 @@ class AddressesController < ApplicationController
       flash.now[:danger]="Update failed"
       render 'edit'
     end
+  end
+
+  def destroy
+    if @address.destroy
+      flash[:success]="Address removed"
+    else
+      flash[:danger]="Address deletion failed"
+    end
+    redirect_to addresses_url
   end
 
 
