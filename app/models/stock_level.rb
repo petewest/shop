@@ -6,9 +6,7 @@ class StockLevel < ActiveRecord::Base
   validates :product, presence: true
   validates :due_at, presence: true
   validates :start_quantity, presence: true, numericality: {only_integer: true}
-  validates :current_quantity, numericality: {only_integer: true, greater_than_or_equal_to: 0}, allow_nil: true
-
-  validate :current_lte_start
+  validates :current_quantity, numericality: {only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: :start_quantity}, allow_nil: true
 
   before_save -> { self.current_quantity||=start_quantity }
 
@@ -25,10 +23,5 @@ class StockLevel < ActiveRecord::Base
   def self.available
     current.map(&:current_quantity).sum
   end
-
-  private
-    def current_lte_start
-      errors.add(:current_quantity, "must be less than or equal to start quantity") if current_quantity and current_quantity>start_quantity
-    end
 
 end
