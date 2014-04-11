@@ -242,16 +242,16 @@ class OrderTest < ActiveSupport::TestCase
   end
 
 
-  test "should not save when delivery address" do
-    order=Order.create(valid.except(:delivery))
+  test "should not save when delivery address empty" do
+    order=Order.create(valid.except(:delivery_attributes))
     #to switch to placed create the order in cart mode first
     #otherwise you can't add line items straight to placed mode
     order.status=:placed
     assert_not order.save
   end
 
-  test "should not save when billing address" do
-    order=Order.create(valid.except(:billing))
+  test "should not save when billing address empty" do
+    order=Order.create(valid.except(:billing_attributes))
     order.status=:placed
     assert_not order.save
   end
