@@ -1,9 +1,9 @@
 class PostageCost < ActiveRecord::Base
-  belongs_to :currency
+  include Costable
 
   validates :from_weight, presence: true, numericality: {greater_than_or_equal_to: 0}
   validates :to_weight, presence: true, numericality: {greater_than: :from_weight}
-  validates :cost, presence: true, numericality: true
+  validates :unit_cost, presence: true, numericality: true
   validates :currency, presence: true
 
   validate :no_overlap
