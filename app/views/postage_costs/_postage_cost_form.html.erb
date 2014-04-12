@@ -1,0 +1,15 @@
+<%= form_for postage_cost do |f| %>
+	<div class="form-group">
+		<%= f.label :from_weight, class: "control-label" %>
+		<%= f.text_field :from_weight, class: "form-control" %>
+	</div>
+	<div class="form-group">
+		<%= f.label :to_weight, class: "control-label" %>
+		<%= f.text_field :to_weight, class: "form-control" %>
+		<p class="help-block">
+			Postage cost is calculated up-to and including 'To weight'.  For example: If an item weighs 200g and you have a cost defined from 0-200, and one from 200-300 it'll use the 0-200 range.
+		</p>
+	</div>
+	<%= render 'shared/cost_fields', f: f %>
+	<%= f.submit class: "btn btn-default" %>
+<% end %>

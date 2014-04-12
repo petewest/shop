@@ -27,5 +27,6 @@ class PostageCostsControllerTest < ActionController::TestCase
     get :edit, id: postage_cost.id
     assert_response :success
     assert_not_nil assigns(:postage_cost)
+    assert_select "form"
   end
 end
