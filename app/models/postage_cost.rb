@@ -18,8 +18,14 @@ class PostageCost < ActiveRecord::Base
 
   private
     def no_overlap
+      #check for any overlapping records
       at=self.class.arel_table
-      #errors[:base] << "Overlaps other postage boundaries" if self.class.where(
-      #).any?
+      check=self.class.where(
+        at[:to_weight].gt(from_weight)
+      ).where(
+        at[:from_weight].lt(to_weight)
+      )
+      check=check.where(at[:id].not_eq(id)) if persisted?
+      errors[:base] << "Overlaps other postage boundaries" if check.any? 
     end
 end

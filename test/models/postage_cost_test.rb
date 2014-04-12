@@ -44,8 +44,29 @@ class PostageCostTest < ActiveSupport::TestCase
   test "should not overlap other ranges" do
     postage=PostageCost.new(valid)
     postage.save
-    postage2=PostageCost.new(valid.merge(from_weight: valid[:to_weight]-1, to_weight: valid[:to_weight]+20))
-    assert_not postage2.save
+    range_checks={}
+    range_checks[:lower_bound]=PostageCost.new(valid.merge(from_weight: valid[:to_weight]-1, to_weight: valid[:to_weight]+20))
+    range_checks[:upper_bound]=PostageCost.new(valid.merge(from_weight: valid[:from_weight]-20, to_weight: valid[:from_weight]+1))
+    range_checks[:contained_in]=PostageCost.new(valid.merge(from_weight: valid[:from_weight]-1, to_weight: valid[:to_weight]+20))
+    range_checks[:contains]=PostageCost.new(valid.merge(from_weight: valid[:from_weight]+1, to_weight: valid[:to_weight]-1))
+    range_checks[:equals]=PostageCost.new(valid)
+    range_checks.each do |key, test|
+      assert_not test.save, "Debug: #{key.inspect}: #{test.inspect}"
+    end
+  end
+
+  test "should allow lower bound of this to touch upper bound of other record" do
+    postage=PostageCost.new(valid)
+    postage.save
+    postage2=PostageCost.new(valid.merge(from_weight: valid[:to_weight], to_weight: valid[:to_weight]+20))
+    assert postage2.save
+  end
+
+  test "should allow upper bound of this to touch lower bound of other record" do
+    postage=PostageCost.new(valid)
+    postage.save
+    postage2=PostageCost.new(valid.merge(from_weight: valid[:from_weight]-10, to_weight: valid[:from_weight]))
+    assert postage2.save
   end
 
   test "should respond to for_weight" do
