@@ -36,3 +36,9 @@ preorder:
   currency: :usd
   unit_cost: 5000
 
+with_weight:
+  name: Product with weight
+  seller: :seller
+  currency: :gbp
+  unit_cost: 1500
+  weight: 100

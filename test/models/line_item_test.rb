@@ -127,6 +127,17 @@ class LineItemTest < ActiveSupport::TestCase
     end
   end
 
+  test "should respond to weight" do
+    line_item=LineItem.new
+    assert_respond_to line_item, :weight
+  end
+
+  test "should be weight of product times quantity" do
+    product=products(:with_weight)
+    line_item=LineItem.new(valid.merge(product: product, quantity: 20))
+    assert_equal product.weight*20, line_item.weight
+  end
+
   private
     def valid
       @line_item||={product: products(:product_20), order: orders(:cart), quantity: 1}
