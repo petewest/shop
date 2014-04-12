@@ -65,6 +65,15 @@ class PostageCostsControllerTest < ActionController::TestCase
     assert_redirected_to postage_costs_url
   end
 
+  test "should destroy postage cost" do
+    sign_in users(:seller)
+    postage_cost=PostageCost.first
+    assert_difference "PostageCost.count", -1 do
+      delete :destroy, id: postage_cost.id
+    end
+    assert_redirected_to postage_costs_url
+  end
+
 
   private
     def valid

@@ -2,5 +2,10 @@
 	<td><%= postage_cost.from_weight %></td>
 	<td><%= postage_cost.to_weight %></td>
 	<td><%= cost_to_currency(postage_cost) %></td>
-	<td><%= link_to "Edit", edit_postage_cost_path(postage_cost) %></td>
+	<td>
+		<div class="btn-group">
+			<%= link_to "Edit", edit_postage_cost_path(postage_cost), class: "btn btn-default" %>
+			<%= link_to "Delete", postage_cost_path(postage_cost), method: :delete, data: {confirm: "Are you sure you wish to delete this item?"}, class: "btn btn-default" %>
+		</div>
+	</td>
 </tr>

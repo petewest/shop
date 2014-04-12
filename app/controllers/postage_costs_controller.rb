@@ -1,9 +1,9 @@
 class PostageCostsController < ApplicationController
   before_action :signed_in_seller
-  before_action :postage_cost_from_params, only: [:edit, :update]
+  before_action :postage_cost_from_params, only: [:edit, :update, :destroy]
 
   def index
-    @postage_costs=PostageCost.all
+    @postage_costs=PostageCost.order(from_weight: :asc).all
   end
 
   def edit
@@ -32,6 +32,15 @@ class PostageCostsController < ApplicationController
       flash.now[:danger]="Postage cost creation failed"
       render 'edit'
     end
+  end
+
+  def destroy
+    if @postage_cost.destroy
+      flash[:success]="Postage cost deleted"
+    else
+      flash[:danger]="Postage cost deletion failed"
+    end
+    redirect_to postage_costs_url
   end
 
   private
