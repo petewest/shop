@@ -27,37 +27,37 @@ PostageCost.create([
   {
     from_weight: 0,
     to_weight: 100,
-    cost: 93,
+    unit_cost: 93,
     currency: gbp
   },
   {
     from_weight: 100,
     to_weight: 250,
-    cost: 124,
+    unit_cost: 124,
     currency: gbp
   },
   {
     from_weight: 250,
     to_weight: 500,
-    cost: 165,
+    unit_cost: 165,
     currency: gbp
   },
   {
     from_weight: 500,
     to_weight: 750,
-    cost: 238,
+    unit_cost: 238,
     currency: gbp
   },
   {
     from_weight: 750,
     to_weight: 1000,
-    cost: 320,
+    unit_cost: 320,
     currency: gbp
   },
   {
     from_weight: 1000,
     to_weight: 2000,
-    cost: 545,
+    unit_cost: 545,
     currency: gbp
   }
 ])
