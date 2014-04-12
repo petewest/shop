@@ -14,8 +14,7 @@ class ProductLineItemTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_not_nil assigns(:line_item)
     assert_select "form"
-    assert_select "input[data-item-cost=#{item_cost}]"
-    assert_select "#total_cost_lineitem_new", "#{item_cost}"
+    assert_select "input[data-submit-on-change]"
   end
 
   test "should render without layout if modal" do

@@ -1,0 +1,23 @@
+<% if cart.line_items.any? %>
+	<%= form_for cart, remote: true do |f| %>
+        <%= render 'shared/form_error', object: f.object %>
+		<%= render 'table_header' %>
+		<%= f.fields_for :line_items, include_id: false do |li| %>
+			<div class="row">
+				<%= render 'line_items/line_item_fields', f: li %>
+				<%= #Manually include the id here otherwise it gets added to end and breaks nth styling css
+				li.hidden_field :id if !li.object.id.nil? %>
+			</div>
+		<% end %>
+		<%= render 'table_footer' %>
+		<div class="btn-group pull-right">
+		    <%= link_to "Continue shopping", products_path, class: "btn btn-default" %>
+		    <%= f.submit "Update basket", class: "btn btn-default" %>
+		    <%= f.submit "Checkout", class: "btn btn-primary" %>
+		</div>
+	<% end %>
+
+<% else %>
+<%= content_tag(:h4, "Cart empty!") %>
+<%= link_to "Go shopping", products_path, class: "btn btn-default" %>
+<% end %>

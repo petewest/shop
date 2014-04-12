@@ -6,20 +6,19 @@
 	</div>
 </div>
 	<div class="cart_actions form-group">
-		<%= f.text_field :quantity, value: f.object.quantity, class: "form-control", data: {total_field: "total_cost_#{css_id(f.object)}", item_cost: f.object.product.cost} %>
+		<%= f.text_field :quantity, value: f.object.quantity, class: "form-control", data: {submit_on_change: true} %>
 	</div>
 <div class="cart_line_item text-right">
 	<%= cost_to_currency(f.object.product) %>
 </div>
 <div class="cart_line_cost text-right">
-	<%= f.object.currency.symbol %><span id="total_cost_<%=css_id(f.object)%>"><%= f.object.cost %>
-	</span>
+	<%= cost_to_currency(f.object) %>
 </div>
-<% if !f.object.new_record? %>
+<% if f.object.persisted? %>
 <div class="cart_save_button">
 	<div class="checkbox">
 		<label>
-			<%= f.check_box :_destroy %> Remove
+			<%= f.check_box :_destroy, data: {submit_on_change: true} %> Remove
 		</label>
 	</div>
 </div>

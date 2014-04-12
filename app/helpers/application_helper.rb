@@ -18,7 +18,7 @@ module ApplicationHelper
   end
 
   def cost_to_currency(*items)
-    items.map do |item|
+    items.select{|i| i}.map do |item|
       currency=item[:currency] || item.currency
       cost=item[:cost] || item.cost
       number_to_currency(cost, unit: currency.symbol, precision: currency.decimal_places)

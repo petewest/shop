@@ -74,7 +74,7 @@ class Order < ActiveRecord::Base
     end
 
     def calculate_costs(*these_items)
-        these_items.group_by(&:currency).map do |currency, items|
+        these_items.select{|i| i.respond_to? :currency}.group_by(&:currency).map do |currency, items|
           Hash(currency: currency, cost: items.map(&:cost).sum)
         end if these_items.any?
     end
