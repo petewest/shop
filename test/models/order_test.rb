@@ -263,6 +263,11 @@ class OrderTest < ActiveSupport::TestCase
     end
   end
 
+  test "should respond to total_weight" do
+    order=Order.new
+    assert_respond_to order, :total_weight
+  end
+
 
 
   private

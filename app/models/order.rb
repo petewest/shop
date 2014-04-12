@@ -43,6 +43,10 @@ class Order < ActiveRecord::Base
     where(status: [self.statuses[:placed], self.statuses[:paid]])
   end
 
+  def total_weight
+    line_items.map(&:weight).sum
+  end
+
 
   private 
     def pre_save

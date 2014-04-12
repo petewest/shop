@@ -54,7 +54,7 @@ class LineItem < ActiveRecord::Base
   end
 
   def weight
-    product.weight*quantity if product
+    product.weight.to_f*quantity.to_i if product
   end
 
   private
