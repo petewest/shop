@@ -11,3 +11,9 @@ two:
   to_weight: 3
   unit_cost: 1
   currency: :gbp 
+
+for_order_test:
+  from_weight: 490
+  to_weight: 510
+  unit_cost: 90
+  currency: :gbp

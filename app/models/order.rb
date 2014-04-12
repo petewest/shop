@@ -33,18 +33,29 @@ class Order < ActiveRecord::Base
 
   default_scope -> {includes(line_items: [:product, :currency])}
 
+  #Total order cost, grouped by currency
   def costs
-    line_items.group_by(&:currency).map do |currency, items|
-      Hash(currency: currency, cost: items.map(&:cost).sum)
-    end if line_items.any?
+    calculate_costs(*line_items)
+  end
+
+  #Total order costs, with postage cost included
+  def costs_with_postage
+    calculate_costs(*line_items, postage_cost)
   end
 
   def self.pending
     where(status: [self.statuses[:placed], self.statuses[:paid]])
   end
 
+  #Find the total weight by summing the weights of each line item
+  #(which is product weight * quantity)
   def total_weight
     line_items.map(&:weight).sum
+  end
+
+  #Find the postage_cost item for this total_weight
+  def postage_cost
+    PostageCost.for_weight(total_weight)
   end
 
 
@@ -60,5 +71,11 @@ class Order < ActiveRecord::Base
 
     def decrement_stock
       line_items.all?(&:take_stock)
+    end
+
+    def calculate_costs(*these_items)
+        these_items.group_by(&:currency).map do |currency, items|
+          Hash(currency: currency, cost: items.map(&:cost).sum)
+        end if these_items.any?
     end
 end

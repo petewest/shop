@@ -268,6 +268,25 @@ class OrderTest < ActiveSupport::TestCase
     assert_respond_to order, :total_weight
   end
 
+  test "should respond to postage_cost" do
+    order=Order.new
+    assert_respond_to order, :postage_cost
+  end
+
+  test "should respond to costs_with_postage" do
+    order=Order.new
+    assert_respond_to order, :costs_with_postage
+  end
+
+  test "should give total cost including postage" do
+    product=products(:with_weight)
+    quantity=5
+    postage_cost=PostageCost.for_weight(product.weight*quantity)
+    order=Order.create(valid.merge(line_items_attributes: [{product_id: product.id, quantity: quantity}]))
+    assert_equal postage_cost, order.postage_cost
+    assert_equal (product.cost*quantity)+postage_cost.cost, order.costs_with_postage[0][:cost], "product_cost: #{product.unit_cost*quantity}, postage_cost: #{postage_cost.unit_cost}.\ncosts_with_postage: #{order.costs_with_postage.inspect}"
+  end
+
 
 
   private
