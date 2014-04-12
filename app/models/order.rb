@@ -19,6 +19,7 @@ class Order < ActiveRecord::Base
   with_options if: -> { status_changed? and status=="placed" } do |placed|
     placed.validate :stock_check
     placed.after_save :decrement_stock
+    placed.validates :postage_cost, presence: {message: "missing, please contact the seller"}
   end
 
   accepts_nested_attributes_for :line_items, allow_destroy: true

@@ -63,6 +63,16 @@ class AllocationTest < ActiveSupport::TestCase
     end
   end
 
+  test "should give stock back on destroy" do
+    allocation=Allocation.new(valid)
+    allocation.stock_level.current_quantity-=allocation.quantity
+    allocation.save
+    assert_difference "allocation.stock_level.current_quantity", allocation.quantity do
+      allocation.destroy
+    end
+  end
+
+
   test "should take allocation out of stock level on save" do
     allocation=Allocation.new(valid)
     assert_difference "allocation.stock_level.current_quantity", -1*allocation.quantity do

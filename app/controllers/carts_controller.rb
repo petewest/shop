@@ -18,8 +18,12 @@ class CartsController < ApplicationController
   def update
     @cart=current_cart
     if @cart.update_attributes(cart_params)
-      redirect_to checkout_path and return if params[:commit]=="Checkout"
-      flash[:success]="Cart updated"
+      if params[:commit]=="Checkout"
+        render 'redirect_to_checkout' and return if request.xhr?
+        redirect_to checkout_url and return
+      else
+        flash[:success]="Cart updated"
+      end
     else
       flash.now[:danger]="Couldn't update cart contents"
       render 'show'

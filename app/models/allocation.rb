@@ -7,6 +7,7 @@ class Allocation < ActiveRecord::Base
   validates :quantity, numericality: {only_integer: true, greater_than_or_equal_to: 1}
 
   after_save :take_stock
+  after_destroy :release_stock
 
   def release_stock
     stock_level.current_quantity+=quantity

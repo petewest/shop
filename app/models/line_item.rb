@@ -50,7 +50,9 @@ class LineItem < ActiveRecord::Base
       allocation.quantity=from_this
       allocation.save
     end
-    errors[:quantity]="Insufficient stock" and raise ActiveRecord::Rollback unless result and counter==0
+    return true if result and counter==0
+    errors[:quantity]="Insufficient stock"
+    raise ActiveRecord::Rollback
   end
 
   def weight

@@ -1,14 +1,14 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  from_weight: 1.5
-  to_weight: 2
+  from_weight: 0
+  to_weight: 5
   unit_cost: 1
   currency: :gbp
 
 two:
-  from_weight: 2
-  to_weight: 3
+  from_weight: 5
+  to_weight: 10
   unit_cost: 1
   currency: :gbp 
 

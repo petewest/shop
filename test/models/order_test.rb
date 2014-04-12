@@ -183,13 +183,15 @@ class OrderTest < ActiveSupport::TestCase
 =end
 
   test "should decrement current stock when placing order" do
-    order=Cart.create(valid)
+    product1=products(:mug)
+    product2=products(:tshirt)
+    order=Cart.create(valid.merge(line_items_attributes:[{product_id: product1.id, quantity: 2}, {product_id: product2.id, quantity: 1}]))
     line_item=order.line_items.first
     stock_level=line_item.product.stock_levels.current.first
     old_quantity=stock_level.current_quantity
     order.reload
     order.status=:placed
-    assert_difference "Allocation.count" do
+    assert_difference "Allocation.count",2 do
       assert order.save, "order: #{order.errors.inspect}: line_items: #{order.line_items.map{|l| l.changed.map{|c| "#{c}: #{l.send(c)} was: #{l.send(c+"_was")}"}}.join(" ")}"
     end
     stock_level.reload

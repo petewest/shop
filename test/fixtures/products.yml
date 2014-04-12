@@ -6,6 +6,7 @@ tshirt:
   seller: :seller
   currency: :gbp
   unit_cost: 2000
+  weight: 1
 
 mug:
   name: Mug
@@ -13,6 +14,7 @@ mug:
   seller: :seller
   currency: :gbp
   unit_cost: 1000
+  weight: 1
 
 <% 99.times do |i| %>
 product_<%=i%>:
