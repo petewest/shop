@@ -17,12 +17,12 @@ class PostageCostTest < ActiveSupport::TestCase
   end
 
   test "should not save without cost" do
-    postage=PostageCost.new(valid.except(:cost))
+    postage=PostageCost.new(valid.except(:unit_cost))
     assert_not postage.save
   end
 
   test "should not save when cost is non-numeric" do
-    postage=PostageCost.new(valid.merge(cost: "gold bullion"))
+    postage=PostageCost.new(valid.merge(unit_cost: "gold bullion"))
     assert_not postage.save
   end
 
@@ -93,6 +93,6 @@ class PostageCostTest < ActiveSupport::TestCase
 
   private
     def valid
-      @postage_cost||={from_weight: 20, to_weight: 50, cost: 80, currency: currencies(:gbp)}
+      @postage_cost||={from_weight: 20, to_weight: 50, unit_cost: 80, currency: currencies(:gbp)}
     end
 end
