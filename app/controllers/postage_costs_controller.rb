@@ -14,13 +14,24 @@ class PostageCostsController < ApplicationController
       flash[:success]="Postage cost updated"
       redirect_to postage_costs_url
     else
-      flash[:danger]="Postage cost update failed"
+      flash.now[:danger]="Postage cost update failed"
       render 'edit'
     end
   end
 
   def new
     @postage_cost=PostageCost.new
+  end
+
+  def create
+    @postage_cost=PostageCost.new(postage_params)
+    if @postage_cost.save
+      flash[:success]="Postage cost created"
+      redirect_to postage_costs_url
+    else
+      flash.now[:danger]="Postage cost creation failed"
+      render 'edit'
+    end
   end
 
   private

@@ -1,4 +1,5 @@
 <%= form_for postage_cost do |f| %>
+	<%= render 'shared/form_error', object: f.object %>
 	<div class="form-group">
 		<%= f.label :from_weight, class: "control-label" %>
 		<%= f.text_field :from_weight, class: "form-control" %>

@@ -57,6 +57,14 @@ class PostageCostsControllerTest < ActionController::TestCase
     assert_select "form"
   end
 
+  test "should create postage cost" do
+    sign_in users(:seller)
+    assert_difference "PostageCost.count" do
+      post :create, postage_cost: valid
+    end
+    assert_redirected_to postage_costs_url
+  end
+
 
   private
     def valid
