@@ -89,6 +89,11 @@ class ProductTest < ActiveSupport::TestCase
     assert_respond_to Product.new, :current_stock
   end
 
+  test "should respond to sub_products" do
+    product=Product.new
+    assert_respond_to product, :sub_products
+  end
+
 
   private
     def valid

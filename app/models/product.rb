@@ -1,7 +1,7 @@
 class Product < ActiveRecord::Base
   include Costable
   belongs_to :seller, inverse_of: :products
-  belongs_to :master_product, class_name: "Product"
+  belongs_to :master_product, class_name: "Product", inverse_of: :sub_products
   validates :seller, presence: true
   validates :name, presence: true
 
@@ -17,6 +17,7 @@ class Product < ActiveRecord::Base
   has_one :main_image, ->{main}, class_name: "Image"
   has_many :stock_levels, inverse_of: :product, dependent: :destroy
   has_many :current_stock, -> {current}, class_name: "StockLevel"
+  has_many :sub_products, inverse_of: :master_product, foreign_key: "master_product_id", dependent: :destroy
 
 
   accepts_nested_attributes_for :images, allow_destroy: true
