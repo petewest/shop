@@ -1,3 +1,7 @@
 <% provide(:title, "#{@product.name} sub products") %>
 
 <%= content_tag(:h1, "#{@product.name} sub products") %>
+
+<%= link_to "New", new_product_sub_product_path(@product), class: "btn btn-default" %>
+
+<%= render partial: 'products/product', collection: @sub_products %>

@@ -26,8 +26,18 @@ class SubProductsControllerTest < ActionController::TestCase
     sign_in users(:seller)
     get :index, product_id: @product.id
     assert_response :success
-    
   end
 
+  test "should create item when valid" do
+    sign_in users(:seller)
+    assert_difference "SubProduct.count" do
+      post :create, product_id: @product.id, sub_product: valid
+    end
+    assert_redirected_to [@product, :sub_products]
+  end
 
+  private
+    def valid
+      @sub_product||={name: "Medium", currency_id: currencies(:gbp).id, unit_cost: 200}
+    end
 end
