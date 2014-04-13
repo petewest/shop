@@ -1,6 +1,7 @@
 class Product < ActiveRecord::Base
   include Costable
   belongs_to :seller, inverse_of: :products
+  belongs_to :master_product, class_name: "Product"
   validates :seller, presence: true
   validates :name, presence: true
 

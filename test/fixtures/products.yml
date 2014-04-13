@@ -44,3 +44,19 @@ with_weight:
   currency: :gbp
   unit_cost: 1500
   weight: 100
+
+master_product:
+  name: Master product
+  seller: :seller
+  currency: :gbp
+  unit_cost: 2000
+  weight: 2
+
+sub_product:
+  name: Small
+  seller: :seller
+  currency: :gbp
+  unit_cost: 200
+  weight: 2
+  type: SubProduct
+  master_product: master_product (Product)
