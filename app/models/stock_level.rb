@@ -17,7 +17,7 @@ class StockLevel < ActiveRecord::Base
       arel_table[:current_quantity].gt(0)
     ).where(
       arel_table[:expires_at].gt(DateTime.now).or(arel_table[:expires_at].eq(nil))
-    )
+    ).order(due_at: :asc)
   end
 
   def self.available

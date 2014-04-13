@@ -23,6 +23,9 @@ en:
   hello: "Hello world"
   number:
     parse: '[^.\d]'
+  date:
+    formats:
+      default: '%a, %d %b %Y'
   time:
     zone: London
     formats:

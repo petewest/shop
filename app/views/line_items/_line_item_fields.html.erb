@@ -3,6 +3,9 @@
 	<div class="form-group">
 	<label class="label-control"><%= f.object.product.name %></label>
 	<%= f.hidden_field :product_id %>
+	<% if @stock_level.try(:due_at)>DateTime.now %>
+		<p class="help-block">This item is available for pre-order with stock due on <%= l(@stock_level.due_at.in_time_zone(t('time.zone')).to_date) %></p>
+	<% end %>
 	</div>
 </div>
 	<div class="cart_actions form-group">
