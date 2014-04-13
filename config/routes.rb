@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   resources :products do
     concerns :buyable
     resources :stock_levels, shallow: true
-    resources :sub_products, shallow: true
+    resources :sub_products, only: [:index, :new]
   end
 
   resources :orders, except: [:destroy, :new, :create] do

@@ -4,4 +4,6 @@
 
 <%= link_to "New", new_product_sub_product_path(@product), class: "btn btn-default" %>
 
-<%= render partial: 'products/product', collection: @sub_products %>
+<ul>
+<%= render @sub_products %>
+</ul>

@@ -1,3 +1,4 @@
-<%= form_for [product, sub_product] do |f| %>
+<%= form_for @sub_product do |f| %>
+	<%= f.hidden_field :master_product_id %>
 	<%= render 'products/product_fields', f:f %>
 <% end %>

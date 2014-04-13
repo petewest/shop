@@ -19,7 +19,7 @@
     </div>
 <div class="image_list">
 	<%= f.fields_for :images do |image| %>
-		<%= render 'images_fields', f: image %>
+		<%= render 'shared/images_fields', f: image %>
 	<% end %>
 </div>
 <div class="form-group">
