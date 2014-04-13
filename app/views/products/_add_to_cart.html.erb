@@ -1,5 +1,5 @@
 <% if object.current_stock.available>0 %>
-	<%= link_to "Buy", [object, :buy, modal: true], class: "btn btn-default", data: {toggle: "modal", target: "#modal"} %>
+	<%= link_to "Buy", [object, :buy], class: "btn btn-default", data: {modal_target: "#modal"} %>
 <% else %>
 	Out of stock
 <% end %>
