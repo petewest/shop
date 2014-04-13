@@ -3,7 +3,7 @@ class ProductsController < ApplicationController
   before_action :product_from_params, except: [:index, :new, :create]
 
   def index
-    @products=Product.includes(:images, :main_image, :current_stock).page(params[:page])
+    @products=Product.includes(:images, :main_image, :current_stock, :sub_products).where(type: nil).page(params[:page])
   end
 
   def new
@@ -12,7 +12,10 @@ class ProductsController < ApplicationController
   end
 
   def create
-    @product=current_user.products.new(product_params)
+    if product_params[:master_product_id]
+      @product=current_user.sub_products.new(product_params)
+    end
+    @product||=current_user.products.new(product_params)
     if @product.save
       flash[:success]="New product created"
       redirect_to @product
@@ -51,7 +54,7 @@ class ProductsController < ApplicationController
   private
     def product_params
       params[:product][:unit_cost].gsub!(/#{I18n.t("number.parse")}/,"") if params.try(:[], :product).try(:[], :unit_cost)
-      params.require(:product).permit(:name, :description, :currency_id, :unit_cost, :weight, images_attributes: [:id, :image, :_destroy])
+      params.require(:product).permit(:name, :description, :currency_id, :unit_cost, :weight, :master_product_id, images_attributes: [:id, :image, :_destroy])
     end
     def product_from_params
       @product=Product.find(params[:id])

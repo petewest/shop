@@ -224,6 +224,16 @@ class ProductsControllerTest < ActionController::TestCase
     assert_equal 50, assigns(:product).weight
   end
 
+  test "should create a SubProduct item when given a master_product_id" do
+    sign_in users(:seller)
+    product=products(:tshirt)
+    assert_difference "SubProduct.count" do
+      assert_difference "product.sub_products.count" do
+        post :create, product: valid.merge(master_product_id: product.id)
+      end
+    end
+  end
+
   private
     def valid
       @product||={name: "New product test", description: "Test description", currency_id: currencies(:gbp).id, unit_cost: 200}
