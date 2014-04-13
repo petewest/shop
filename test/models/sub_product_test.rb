@@ -20,6 +20,11 @@ class SubProductTest < ActiveSupport::TestCase
     end
   end
 
+  test "should give product.name when requesting name" do
+    sub_product=products(:sub_product)
+    assert_equal "#{sub_product.master_product.name} - #{sub_product[:name]}", sub_product.name
+  end
+
 
 
   private

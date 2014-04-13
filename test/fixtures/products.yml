@@ -59,4 +59,4 @@ sub_product:
   unit_cost: 200
   weight: 2
   type: SubProduct
-  master_product: master_product (Product)
+  master_product: :master_product
