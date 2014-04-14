@@ -12,7 +12,7 @@
 		<%= f.collection_select :product_id, collection.all, :id, :name, {include_blank: true}, class: "form-control", data: {submit_on_change: true} %>
 	</div>
 	<% else %>
-	<%= f.hidden_field :product_id %>
+		<%= f.hidden_field :product_id %>
 	<% end %>
 </div>
 	<div class="cart_actions form-group">
