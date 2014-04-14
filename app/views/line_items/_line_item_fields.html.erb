@@ -2,21 +2,17 @@
         <%= render 'shared/form_error', object: f.object %>
 	<div class="form-group">
 	<label class="label-control"><%= f.object.product.name %></label>
-	<%= f.hidden_field :product_id %>
 	<% if @stock_level.try(:due_at) and @stock_level.due_at>DateTime.now %>
 		<p class="help-block">This item is available for pre-order with stock due on <%= l(@stock_level.due_at.in_time_zone(t('time.zone')).to_date) %></p>
 	<% end %>
 	</div>
-	<% if f.object.product.sub_products.any? or f.object.product.master_product %>
+	<% collection=f.object.product.master_product.try(:sub_products) || f.object.product.sub_products %>
+	<% if collection.any? %>
 	<div class="form-group">
-		<div class="dropdown">
-			<a data-toggle="dropdown" href="#">Select<span class="caret"></span></a>
-			<ul class="dropdown-menu">
-				<%= render partial: "line_items/sub_product", collection: f.object.product.sub_products %>
-				<%= render partial: "line_items/sub_product", collection: f.object.product.master_product.sub_products if f.object.product.master_product %>
-			</ul>
-		</div>
+		<%= f.collection_select :product_id, collection.all, :id, :name, {include_blank: true}, class: "form-control", data: {submit_on_change: true} %>
 	</div>
+	<% else %>
+	<%= f.hidden_field :product_id %>
 	<% end %>
 </div>
 	<div class="cart_actions form-group">
