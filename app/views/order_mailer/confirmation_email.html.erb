@@ -1,0 +1,17 @@
+<%= content_tag(:h1, "Thank you for your order!") %>
+
+<p>Dear <%= @user.name %>,</p>
+<p>This is confirmation of your order reference <%= @order.id %><p>
+
+<p>Here's a quick summary of your order:</p>
+<table>
+	<thead>
+		<tr>
+			<th>Product</th>
+			<th>Quantity</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render partial: 'line_item', collection: @order.line_items %>
+	</tbody>
+</table>

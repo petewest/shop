@@ -8,5 +8,6 @@ class OrderAddress < ActiveRecord::Base
 
   def copy_address
     self.address=source_address.address
+    self
   end
 end

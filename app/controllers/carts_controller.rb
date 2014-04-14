@@ -65,11 +65,12 @@ class CartsController < ApplicationController
       return
     end
     @cart.user=current_user
-    @cart.delivery||=OrderAddress.new(source_address: current_user.addresses.delivery.first)
-    @cart.billing||=OrderAddress.new(source_address: current_user.addresses.billing.first)
+    @cart.delivery||=OrderAddress.new(source_address: current_user.addresses.delivery.first).copy_address
+    @cart.billing||=OrderAddress.new(source_address: current_user.addresses.billing.first).copy_address
     @cart.status=:placed
     if @cart.save
       flash[:success]="Thank you for your order!"
+      OrderMailer.confirmation_email(current_user, @cart)
       redirect_to order_path(@cart)
     else
       flash.now[:danger]="Error processing cart"
