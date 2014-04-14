@@ -74,7 +74,7 @@ class CartsControllerTest < ActionController::TestCase
     sign_in users(:buyer)
     line_item=current_cart.line_items.first
     old_quantity=line_item.quantity
-    patch :update, cart: {line_items_attributes: [{id: line_item.id, product_id: line_item.product_id, quantity: old_quantity*2}]}
+    patch :update, cart: {line_items_attributes: {"0"=>{id: line_item.id, product_id: line_item.product_id, quantity: old_quantity*2}}}
     line_item.reload
     assert_not_equal old_quantity, line_item.quantity
     assert_equal old_quantity*2, line_item.quantity
@@ -88,18 +88,31 @@ class CartsControllerTest < ActionController::TestCase
     line_item=current_cart.line_items.first
     old_quantity=line_item.quantity
     assert_difference "LineItem.count", -1 do
-      patch :update, cart: {line_items_attributes: [{id: line_item.id, product_id: line_item.product_id, quantity: old_quantity*2, _destroy: '1'}]}
+      patch :update, cart: {line_items_attributes: {"0"=>{id: line_item.id, product_id: line_item.product_id, quantity: old_quantity*2, _destroy: '1'}}}
     end
     assert_response :redirect
     assert_redirected_to cart_path
   end
+
+  test "should remove line item using quantity 0" do
+    sign_in users(:buyer)
+    self.current_cart=orders(:cart)
+    line_item=current_cart.line_items.first
+    old_quantity=line_item.quantity
+    assert_difference "LineItem.count", -1 do
+      patch :update, cart: {line_items_attributes: {"0"=>{id: line_item.id, product_id: line_item.product_id, quantity: 0, _destroy: '0'}}}
+    end
+    assert_response :redirect
+    assert_redirected_to cart_path
+  end
+
 
   test "should update and go to checkout on Checkout" do
     sign_in users(:buyer)
     self.current_cart=orders(:cart)
     line_item=current_cart.line_items.first
     old_quantity=line_item.quantity
-    patch :update, commit: "Checkout", cart: {line_items_attributes: [{id: line_item.id, product_id: line_item.product_id, quantity: old_quantity*2}]}
+    patch :update, commit: "Checkout", cart: {line_items_attributes: {"0"=>{id: line_item.id, product_id: line_item.product_id, quantity: old_quantity*2}}}
     line_item.reload
     assert_not_equal old_quantity, line_item.quantity
     assert_equal old_quantity*2, line_item.quantity
@@ -188,6 +201,6 @@ class CartsControllerTest < ActionController::TestCase
 
   private
     def valid
-      @cart||={line_items_attributes: [{product_id: products(:tshirt), quantity: 2}]}
+      @cart||={line_items_attributes: {"0"=>{product_id: products(:tshirt), quantity: 2}}}
     end
 end

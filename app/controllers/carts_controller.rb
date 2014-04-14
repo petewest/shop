@@ -17,6 +17,10 @@ class CartsController < ApplicationController
 
   def update
     @cart=current_cart
+    #setting quantity to be zero should say destroy
+    params[:cart][:line_items_attributes].each do |k,v|
+      v[:_destroy]='1' if v[:quantity]=="0"
+    end if params[:cart]
     if @cart.update_attributes(cart_params)
       if params[:commit]=="Checkout"
         render 'redirect_to_checkout' and return if request.xhr?
@@ -26,7 +30,7 @@ class CartsController < ApplicationController
       end
     else
       flash.now[:danger]="Couldn't update cart contents"
-      render 'show'
+      render 'show' and return
     end
     redirect_to cart_path
   end
