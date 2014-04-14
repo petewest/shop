@@ -7,6 +7,16 @@
 		<p class="help-block">This item is available for pre-order with stock due on <%= l(@stock_level.due_at.in_time_zone(t('time.zone')).to_date) %></p>
 	<% end %>
 	</div>
+	<% if f.object.product.sub_products.any? %>
+	<div class="form-group">
+		<div class="dropdown">
+			<a data-toggle="dropdown" href="#">Select<span class="caret"></span></a>
+			<ul class="dropdown-menu">
+				<%= render partial: "sub_product", collection: f.object.product.sub_products %>
+			</ul>
+		</div>
+	</div>
+	<% end %>
 </div>
 	<div class="cart_actions form-group">
 		<%= f.text_field :quantity, value: f.object.quantity, class: "form-control", data: {submit_on_change: true} %>
