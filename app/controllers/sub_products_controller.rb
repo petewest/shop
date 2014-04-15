@@ -3,7 +3,7 @@ class SubProductsController < ApplicationController
   before_action :product_from_params, only: [:new, :index, :create]
 
   def new
-    @sub_product=@product.sub_products.new
+    @sub_product=@product.sub_products.new(@product.dup.attributes.except(:name))
     @sub_product.images.new
   end
 
