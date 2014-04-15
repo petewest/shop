@@ -74,7 +74,7 @@ class CartsController < ApplicationController
       redirect_to order_path(@cart)
     else
       flash.now[:danger]="Error processing cart"
-      render 'show'
+      render 'checkout'
     end
   end
 

@@ -4,7 +4,7 @@
 			<%= f.fields_for mode do |add| %>
 				<%= add.label :source_address_id, mode.to_s.capitalize, class: "control-label" %>
 				<div class="input-group">
-					<%= add.collection_select :source_address_id, current_user.addresses, :id, :label, {}, class: "form-control" %>
+					<%= add.collection_select :source_address_id, current_user.addresses, :id, :label, {prompt: true}, class: "form-control", data: { submit_on_change: true} %>
 					<div class="input-group-btn">
 						<%= f.submit "Select", class: "btn btn-default" %>
 					</div>
