@@ -7,7 +7,7 @@ class OrderAddress < ActiveRecord::Base
   after_save :copy_address
 
   def copy_address
-    self.address=source_address.address
+    self.address=source_address.address if source_address
     self
   end
 end

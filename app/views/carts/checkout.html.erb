@@ -6,6 +6,8 @@
 
 <%= content_tag(:h5, "Clicking confirm will take you to the payment page") %>
 
+<%= render 'shared/form_error', object: @cart %>
+
 <div class="row">
 	<%= render 'address_wrapper', address: @cart.delivery, mode: :delivery %>
 	<%= render 'address_wrapper', address: @cart.billing, mode: :billing %>
