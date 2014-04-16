@@ -1,6 +1,7 @@
 class StockLevelsController < ApplicationController
   before_action :signed_in_seller
   before_action :product_from_params, except: [:destroy]
+  before_action :stock_level_from_params, only: [:destroy]
 
   def index
     @stock_levels=@product.stock_levels.order(due_at: :asc)
@@ -22,7 +23,6 @@ class StockLevelsController < ApplicationController
   end
 
   def destroy
-    @stock_level=StockLevel.find(params[:id])
     @product=@stock_level.product
     if @stock_level.destroy
       flash[:success]="Stock level removed"
@@ -38,5 +38,8 @@ class StockLevelsController < ApplicationController
     end
     def stock_level_params
       params.require(:stock_level).permit(:due_at, :start_quantity, :current_quantity, :allow_preorder)
+    end
+    def stock_level_from_params
+      @stock_level=StockLevel.find(params[:id])
     end
 end

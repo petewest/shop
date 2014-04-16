@@ -64,7 +64,6 @@ class StockLevelsControllerTest < ActionController::TestCase
     assert_redirected_to product_stock_levels_url(@product)
   end
 
-
   private
     def valid
       @stock_level||={due_at: 5.days.ago, start_quantity: 20, allow_preorder: 'f'}
