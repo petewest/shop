@@ -151,16 +151,14 @@ class CartsControllerTest < ActionController::TestCase
     assert_redirected_to order_path(assigns(:cart))
   end
 
-  test "should not allow purchase of carts that belong to other users" do
+  test "should create new cart if current doesn't belong to user" do
     sign_in users(:without_cart)
     self.current_cart=orders(:cart)
-    patch :confirm
     #clear instance variable as current_cart= sets it
     #for this instance
     @current_cart=nil
-    assert_not_equal current_user, orders(:cart).user
+    assert_equal orders(:cart).cart_token, cookies[:cart_token]
     assert_not_equal orders(:cart), current_cart
-    assert_not_equal "placed", orders(:cart).status
   end
 
   test "should set cart user if signed in" do
