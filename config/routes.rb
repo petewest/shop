@@ -19,7 +19,9 @@ Rails.application.routes.draw do
     resources :sub_products, only: [:index, :new]
   end
 
-  resources :stock_levels, only: [:destroy]
+  resources :stock_levels, only: [:destroy] do
+    resources :orders, only: [:index], module: :seller
+  end
 
   resources :orders, except: [:destroy, :new, :create] do
     member do
@@ -38,6 +40,10 @@ Rails.application.routes.draw do
 
   resources :addresses
   resources :postage_costs, except: :show
+
+  namespace :seller do
+    resources :orders, only: [:index, :show]
+  end
   
 
   # The priority is based upon order of creation: first created -> highest priority.

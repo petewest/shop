@@ -22,6 +22,7 @@ class StockLevelsControllerTest < ActionController::TestCase
     assert_response :success
     assert_select "tr", @product.stock_levels.count+1
     assert_select "a[href='#{stock_level_path(@product.stock_levels.first)}'][data-method='delete']"
+    assert_select "a[href=#{stock_level_orders_path(@product.stock_levels.first)}]"
   end
 
   test "should get new" do

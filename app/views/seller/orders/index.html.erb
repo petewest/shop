@@ -1,0 +1,16 @@
+<% provide(:title, "Users orders") %>
+
+<%= content_tag(:h1, "Users orders") %>
+
+<table class="table table-condensed table-striped">
+	<thead>
+		<tr>
+			<th>Order number</th>
+			<th>User</th>
+			<th>Status</th>
+		</tr>
+	</thead>
+	<tbody>
+		<%= render partial: 'order', collection: @orders %>
+	</tbody>
+</table>

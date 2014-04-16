@@ -1,0 +1,5 @@
+<tr>
+	<td><%= link_to order.id, seller_order_path(order) %></td>
+	<td><%= (order.user ? order.user.email : "anonymous") %></td>
+	<td><%= order.status %></td>
+</tr>
