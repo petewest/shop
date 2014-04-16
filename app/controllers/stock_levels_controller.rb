@@ -1,6 +1,6 @@
 class StockLevelsController < ApplicationController
   before_action :signed_in_seller
-  before_action :product_from_params
+  before_action :product_from_params, except: [:destroy]
 
   def index
     @stock_levels=@product.stock_levels.order(due_at: :asc)
@@ -19,6 +19,17 @@ class StockLevelsController < ApplicationController
       flash.now[:danger]="Error saving stock"
       render 'new'
     end
+  end
+
+  def destroy
+    @stock_level=StockLevel.find(params[:id])
+    @product=@stock_level.product
+    if @stock_level.destroy
+      flash[:success]="Stock level removed"
+    else
+      flash[:danger]="Could not delete stock: " + @stock_level.errors.full_messages.join(", ")
+    end
+    redirect_to product_stock_levels_url(@product)
   end
 
   private

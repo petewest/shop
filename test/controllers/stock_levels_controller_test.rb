@@ -20,6 +20,8 @@ class StockLevelsControllerTest < ActionController::TestCase
     sign_in users(:seller)
     get :index, product_id: @product.id
     assert_response :success
+    assert_select "tr", @product.stock_levels.count+1
+    assert_select "a[href='#{stock_level_path(@product.stock_levels.first)}'][data-method='delete']"
   end
 
   test "should get new" do
@@ -53,6 +55,14 @@ class StockLevelsControllerTest < ActionController::TestCase
     end
   end
 
+  test "should allow deletion of stock" do
+    sign_in users(:seller)
+    stock_level=@product.stock_levels.first
+    assert_difference "StockLevel.count", -1 do
+      delete :destroy, id: stock_level.id
+    end
+    assert_redirected_to product_stock_levels_url(@product)
+  end
 
 
   private
