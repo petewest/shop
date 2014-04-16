@@ -21,7 +21,7 @@ three:
   currency: gbp
   unit_cost: 60
 
-four:
+with_allocation:
   product: :product_2
   order: :dispatched
   quantity: 1

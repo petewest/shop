@@ -1,8 +1,8 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  line_item_id: 
-  stock_level_id: 
+  line_item: :with_allocation 
+  stock_level: :with_allocation
   quantity: 1
 
 two:

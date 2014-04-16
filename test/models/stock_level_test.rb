@@ -108,6 +108,15 @@ class StockLevelTest < ActiveSupport::TestCase
     assert_equal calculated, StockLevel.available
   end
 
+  test "should not allow deletion of stock allocated to orders" do
+    stock_level=stock_levels(:with_allocation)
+    assert stock_level.allocations.any?
+    assert_no_difference "StockLevel.count" do
+      stock_level.destroy
+    end
+  end
+
+
 
   private
     def valid

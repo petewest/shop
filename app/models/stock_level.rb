@@ -9,6 +9,7 @@ class StockLevel < ActiveRecord::Base
   validates :current_quantity, numericality: {only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: :start_quantity}, allow_nil: true
 
   before_save -> { self.current_quantity||=start_quantity }
+  before_destroy :check_allocations
 
   def self.current
     where(
@@ -23,5 +24,11 @@ class StockLevel < ActiveRecord::Base
   def self.available
     current.map(&:current_quantity).sum
   end
+
+
+  private
+    def check_allocations
+      errors[:base]<<"Cannot be removed while allocated to orders" and raise ActiveRecord::Rollback if allocations.any?
+    end
 
 end

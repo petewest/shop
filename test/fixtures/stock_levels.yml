@@ -38,3 +38,9 @@ pre_orderable:
   start_quantity: 10
   current_quantity: 10
   allow_preorder: true
+
+with_allocation:
+  product: :product_2
+  due_at: <%= 1.day.ago %>
+  start_quantity: 5
+  current_quantity: 4
