@@ -3,11 +3,10 @@
 	<% if f.object.errors.any? %>
 		<%= render 'shared/form_error', object: f.object %>
 	<% end %>
-	<% collection=f.object.product.sub_products %>
-	<% if collection.any? %>
+	<% if f.object.product.sub_products.any? %>
 	<div class="row">
 		<div class="col-md-4">
-			<%= f.collection_select :product_id, collection.all, :id, :name, {include_blank: "Please select"}, class: "form-control", data: {submit_on_change: true} %>
+			<%= render 'line_items/sub_product_choices', sub_products: f.object.product.sub_products %>
 		</div>
 	</div>
 	<% else %>
