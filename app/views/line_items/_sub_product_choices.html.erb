@@ -1,5 +1,5 @@
-<div class="dropdown">
-	<a id="subproduct-select" data-toggle="dropdown" href='#'>Please select</a>
+<div class="dropdown" class="sub_product_choices">
+	<a id="subproduct-select" data-toggle="dropdown" href='#'>Please select <span class="caret"></span></a>
 	<ul class="dropdown-menu" role="menu" aria-labelledby="subproduct-select">
 		<%= render partial: "line_items/sub_product", collection: sub_products %>
 	</ul>

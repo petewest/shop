@@ -15,7 +15,11 @@
 	<%= render 'line_items/line_item_fields', f: f %>
 	<div class="row">
 		<div class="cart_save_button pull-right">
+			<% if f.object.product.current_stock.available>0 %>
 			<%= f.submit "Add to cart", class: "btn btn-default" %>
+			<% else %>
+			Out of stock
+			<% end %>
 		</div>
 	</div>
 <% end %>
