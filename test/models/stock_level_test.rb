@@ -116,6 +116,26 @@ class StockLevelTest < ActiveSupport::TestCase
     end
   end
 
+  test "should respond to line_items" do
+    stock_level=StockLevel.new
+    assert_respond_to stock_level, :line_items
+  end
+
+  test "should respond to orders" do
+    stock_level=StockLevel.new
+    assert_respond_to stock_level, :orders
+  end
+
+  test "should give line items" do
+    stock_level=stock_levels(:with_allocation)
+    assert_equal [line_items(:with_allocation)], stock_level.line_items
+  end
+
+  test "should give orders" do
+    stock_level=stock_levels(:with_allocation)
+    assert_equal [orders(:dispatched)], stock_level.orders
+  end
+
 
 
   private

@@ -2,6 +2,8 @@ class StockLevel < ActiveRecord::Base
   belongs_to :product
 
   has_many :allocations, inverse_of: :stock_level
+  has_many :line_items, through: :allocations
+  has_many :orders, through: :line_items
 
   validates :product, presence: true
   validates :due_at, presence: true
