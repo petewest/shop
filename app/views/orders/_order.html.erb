@@ -1,6 +1,6 @@
 <div class="order_item order_status_<%= order.status%>">
 	<div class="order_id">
-		Order ID: <%= link_to order.id, order %>
+		<%= link_to "Order ID: #{order.id}", order_path(order) %>
 		<span class="order_status">
 			Status: <%= order.status %>
 		</span>
