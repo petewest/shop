@@ -1,7 +1,7 @@
 <% provide(:title, "Add item to cart") %>
 <% provide(:modal_style, "modal-lg") %>
 
-<%= render 'carts/table_header' %>
+<%= render 'shared/order_header' %>
 <%= render 'line_item_form', line_item_form: @line_item_duplicate || @line_item %>
-<%= render 'carts/table_footer' %>
+<%= render 'shared/order_footer', order: @cart %>
 

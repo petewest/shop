@@ -13,11 +13,11 @@
 	<%= render 'address_wrapper', address: @cart.billing, mode: :billing %>
 </div>
 
-<%= render 'table_header' %>
+<%= render 'shared/order_header' %>
 
 <%= render @cart.line_items %>
 
-<%= render 'table_footer' %>
+<%= render 'shared/order_footer', order: @cart %>
 
 <div class="pull-right">
 	<%= button_to "Confirm order", confirm_cart_path, method: :patch, class: "btn btn-primary btn_confirm" %>

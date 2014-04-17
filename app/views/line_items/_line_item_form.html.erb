@@ -9,9 +9,8 @@
 			<%= render 'line_items/sub_product_choices', sub_products: f.object.product.sub_products %>
 		</div>
 	</div>
-	<% else %>
-		<%= f.hidden_field :product_id %>
 	<% end %>
+	<%= f.hidden_field :product_id %>
 	<%= render 'line_items/line_item_fields', f: f %>
 	<div class="row">
 		<div class="cart_save_button pull-right">

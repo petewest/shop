@@ -1,0 +1,13 @@
+<% provide(:title, "Order #{@order.id} information") %>
+
+<%= content_tag(:h1, "Order #{@order.id} information") %>
+
+<%= render 'orders/order_detail', order: @order %>
+<%= render 'shared/postage_cost', postage_cost: @order.postage_cost %>
+
+<div class="row">
+	<div class="col-md-12">
+	<%= content_tag(:h5, "Order flow") %>
+	<%= render 'order_status_form', order: @order %>
+	</div>
+</div>

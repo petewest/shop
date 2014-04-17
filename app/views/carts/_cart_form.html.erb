@@ -1,7 +1,7 @@
 <% if cart.line_items.any? %>
 	<%= form_for cart, remote: true do |f| %>
         <%= render 'shared/form_error', object: f.object %>
-		<%= render 'table_header' %>
+		<%= render 'shared/order_header' %>
 		<%= f.fields_for :line_items, include_id: false do |li| %>
 			<div class="row">
 				<%= render 'line_items/line_item_fields', f: li %>
@@ -9,7 +9,7 @@
 				li.hidden_field :id if !li.object.id.nil? %>
 			</div>
 		<% end %>
-		<%= render 'table_footer' %>
+		<%= render 'shared/order_footer', order: cart %>
 		<div class="btn-group pull-right">
 		    <%= link_to "Continue shopping", products_path, class: "btn btn-default" %>
 		    <%= f.submit "Update basket", class: "btn btn-default" %>

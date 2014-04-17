@@ -1,15 +1,15 @@
 </div>
-<%= render 'postage_cost', postage_cost: @cart.postage_cost if @cart %>
+<%= render 'shared/postage_cost', postage_cost: order.postage_cost if order %>
 <div class="row">
 	<div class="cart_product">
 	</div>
 	<div class="cart_actions">
 	</div>
 	<div class="cart_line_item text-right">
-		Total cost:
+		<%= "Total cost:" if order %>
 	</div>
 	<div class="cart_line_cost text-right">
-		<%= cost_to_currency(*@cart.try(:costs_with_postage)) %>
+		<%= cost_to_currency(*order.try(:costs_with_postage)) %>
 	</div>
 	<div class="clearfix"></div>
 </div>
