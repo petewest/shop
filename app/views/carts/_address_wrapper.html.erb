@@ -1,6 +1,6 @@
 <div class="address_wrapper" id="<%= mode.to_s %>">
 	<div class="address_picker">
-		<%= form_for [:update_address, @cart], remote: true, html: {class: "form-inline"} do |f| %>
+		<%= form_for update_address_cart_path(@cart), remote: true, html: {class: "form-inline"} do |f| %>
 			<%= f.fields_for mode do |add| %>
 				<%= add.label :source_address_id, mode.to_s.capitalize, class: "control-label" %>
 				<div class="input-group">
