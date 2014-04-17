@@ -62,7 +62,11 @@ class Order < ActiveRecord::Base
 
   private 
     def pre_save
-      self.type=((status=="cart") ? "Cart" : nil) if status_changed?
+      if status_changed?
+        self.type=((status=="cart") ? "Cart" : nil)
+        #Record timestamps if order changes status
+        self.send(status+"_at=", DateTime.now) if self.respond_to?(status+"_at=")
+      end
       true
     end
 

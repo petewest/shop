@@ -289,6 +289,13 @@ class OrderTest < ActiveSupport::TestCase
     assert_equal (product.cost*quantity)+postage_cost.cost, order.costs_with_postage[0][:cost], "product_cost: #{product.unit_cost*quantity}, postage_cost: #{postage_cost.unit_cost}.\ncosts_with_postage: #{order.costs_with_postage.inspect}"
   end
 
+  test "should record time when changing status to placed" do
+    order=Order.create(valid)
+    assert_nil order.placed_at
+    order.placed!
+    assert_not_nil order.placed_at
+  end
+
 
 
   private
