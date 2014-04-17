@@ -10,12 +10,14 @@ seller:
   email: "seller@reseller.com"
   password_digest: test_digest
   type: Seller
+  bcc_on_email: true
 
 seller2:
   name: "Seller user"
   email: "seller2@reseller.com"
   password_digest: test_digest
   type: Seller
+  bcc_on_email: false
 
 
 buyer:
@@ -30,3 +32,7 @@ without_addresses:
   email: user@no-address.com
   name: User without any delivery addresses
 
+buyer_with_bcc:
+  email: buyer_with_bcc@test.com
+  name: Buyer with bcc flag set
+  bcc_on_email: true
