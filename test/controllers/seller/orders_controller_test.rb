@@ -18,4 +18,12 @@ class Seller::OrdersControllerTest < ActionController::TestCase
     assert_response :success
     assert_not_nil assigns(:orders)
   end
+
+  test "should be able to progress order from placed to dispatched" do
+    sign_in users(:seller)
+    order=orders(:placed)
+    patch :update, id: order.id, order: {status: "dispatched"}
+    order.reload
+    assert order.dispatched?
+  end
 end

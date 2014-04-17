@@ -1,0 +1,2 @@
+<%= render 'shared/refresh_flash' %>
+jQuery("#<%= css_id(@order) %>").replaceWith("<%= escape_javascript(render 'order', order: @order) %>");

@@ -1,5 +1,6 @@
-<tr>
+<tr id="<%= css_id(order) %>">
 	<td><%= link_to order.id, seller_order_path(order) %></td>
 	<td><%= (order.user ? order.user.email : "anonymous") %></td>
 	<td><%= order.status %></td>
+	<td><%= render 'order_status_form', order: order %></td>
 </tr>

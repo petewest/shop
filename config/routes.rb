@@ -42,7 +42,7 @@ Rails.application.routes.draw do
   resources :postage_costs, except: :show
 
   namespace :seller do
-    resources :orders, only: [:index, :show]
+    resources :orders, only: [:index, :show, :update]
   end
   
 
