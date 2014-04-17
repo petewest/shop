@@ -4,7 +4,7 @@ module CartsHelper
       token=Rails.application.message_verifier(:cart_token).verify(cookies[:cart_token]) if !cookies[:cart_token].blank?
       @current_cart||=Cart.find_by_cart_token!(token) if token
     rescue ActiveRecord::RecordNotFound, ActiveSupport::MessageVerifier::InvalidSignature => exception
-      cookies[:cart_token]=nil
+      self.current_cart=nil
     end
     @current_cart||=current_user.carts.first if signed_in? and current_user.carts.any?
     @current_cart||=Cart.new(user: current_user)
@@ -14,7 +14,7 @@ module CartsHelper
 
   def current_cart=(cart)
     if cart.nil?
-      cookies[:cart_token]=nil
+      cookies.delete(:cart_token)
       @current_cart=cart
     elsif !cart.new_record? or cart.save
       cookies.permanent[:cart_token]=Rails.application.message_verifier(:cart_token).generate(cart.cart_token)
