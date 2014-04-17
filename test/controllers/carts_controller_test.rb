@@ -12,7 +12,8 @@ class CartsControllerTest < ActionController::TestCase
 
   test "should retrieve cart from cookie if present" do
     cart=Cart.create
-    cookies[:cart_token]=cart.cart_token
+    self.current_cart=cart
+    @current_cart=nil
     assert_equal cart, current_cart
   end
 
@@ -24,7 +25,8 @@ class CartsControllerTest < ActionController::TestCase
   test "should retrieve from cookie if signed in but with cookie present" do
     sign_in users(:buyer)
     cart=Cart.create
-    cookies[:cart_token]=cart.cart_token
+    self.current_cart=cart
+    @current_cart=nil
     assert_equal cart, current_cart
     assert_not_equal cart, current_user.carts.first
   end
@@ -36,14 +38,14 @@ class CartsControllerTest < ActionController::TestCase
   end
 
   test "should not destroy without login" do
-    cookies[:cart_token]="cart_token_for_cart"
+    self.current_cart=orders(:cart)
     assert_no_difference "Cart.count" do
       delete :destroy
     end
   end
 
   test "should clear cookie without login" do
-    cookies[:cart_token]="cart_token_for_cart"
+    self.current_cart=orders(:cart)
     delete :destroy
     assert_nil cookies[:cart_token]
   end
@@ -57,7 +59,7 @@ class CartsControllerTest < ActionController::TestCase
 
   test "should not clear cart if it belongs to a different user" do
     sign_in users(:seller)
-    cookies[:cart_token]=orders(:cart).cart_token
+    self.current_cart=orders(:cart)
     assert_no_difference "Cart.count" do
       delete :destroy
     end
@@ -157,7 +159,6 @@ class CartsControllerTest < ActionController::TestCase
     #clear instance variable as current_cart= sets it
     #for this instance
     @current_cart=nil
-    assert_equal orders(:cart).cart_token, cookies[:cart_token]
     assert_not_equal orders(:cart), current_cart
   end
 
