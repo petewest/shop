@@ -1,0 +1,8 @@
+<div class="order_detail" id="<%= css_id(order) %>">
+	<%= render 'address', order: order, mode: :billing %>
+	<%= render 'address', order: order, mode: :delivery %>
+	<div class="line_item_summary">
+		<%= render partial: 'line_item_summary', collection: order.line_items %>
+	</div>
+</div>
+

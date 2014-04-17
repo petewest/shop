@@ -5,6 +5,10 @@ class OrdersController < ApplicationController
     @orders=current_user.orders.includes(line_items: [:product, :currency]).order(status: :asc).all
   end
 
+  def show
+    @order=current_user.orders.find(params[:id])
+  end
+
   def set_current
     @order=current_user.carts.find_by(id: params[:id])
     if @order

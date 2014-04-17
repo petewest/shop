@@ -1,3 +1,7 @@
 <% provide(:title, "View order") %>
 
 <%= content_tag(:h1, "View order") %>
+
+<%= render 'order_detail', order: @order %>
+
+

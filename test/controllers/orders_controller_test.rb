@@ -75,4 +75,20 @@ class OrdersControllerTest < ActionController::TestCase
     assert_redirected_to checkout_url
   end
 
+  test "should view order" do
+    sign_in users(:buyer)
+    order=users(:buyer).orders.first
+    get :show, id: order.id
+    assert_response :success
+  end
+
+  test "should not get order" do
+    sign_in users(:seller)
+    order=users(:buyer).orders.first
+    assert_raises ActiveRecord::RecordNotFound do
+      get :show, id: order.id
+    end
+  end
+
+
 end

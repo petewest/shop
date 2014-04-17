@@ -1,0 +1,7 @@
+<div class="order_address">
+	<h5><%= mode.to_s.titleize %> address</h5>
+	<address>
+		<%= simple_format order.send(mode).try(:address) %>
+	</address>
+</div>
+
