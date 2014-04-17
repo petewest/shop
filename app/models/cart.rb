@@ -11,10 +11,6 @@ class Cart < Order
     SecureRandom.urlsafe_base64
   end
 
-  def self.model_name
-    Order.model_name
-  end
-
 
   private
     def create_token
