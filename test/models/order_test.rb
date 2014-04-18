@@ -296,6 +296,33 @@ class OrderTest < ActiveSupport::TestCase
     assert_not_nil order.placed_at
   end
 
+  test "should record time when changing status to dispatched" do
+    order=orders(:paid)
+    assert_nil order.dispatched_at
+    order.dispatched!
+    assert_not_nil order.dispatched_at
+  end
+
+  test "should not be able to progress an order from cart to dispatched" do
+    order=Order.create(valid)
+    assert_raises ActiveRecord::RecordInvalid do
+      order.dispatched!
+    end
+    order.reload
+    assert_not order.dispatched?
+  end
+
+  test "should be able to move an order from cancelled to cart" do
+    order=orders(:cancelled)
+    assert_difference "Cart.count" do
+      order.cart!
+    end
+    order.reload
+    assert_equal "cart", order.status
+    assert_equal "Cart", order.type, "Debug: #{order.inspect}"
+  end
+
+
 
 
   private

@@ -20,12 +20,12 @@ class Seller::OrdersControllerTest < ActionController::TestCase
     assert_select "tr", Order.count+1
   end
 
-  test "should be able to progress order from placed to dispatched" do
+  test "should be able to progress order from paid to dispatched" do
     sign_in users(:seller)
-    order=orders(:placed)
+    order=orders(:paid)
     patch :update, id: order.id, order: {status: "dispatched"}
     order.reload
-    assert order.dispatched?
+    assert order.dispatched?, "Debug: #{order.errors.inspect}"
   end
 
   test "should get detail page for order" do
@@ -34,5 +34,15 @@ class Seller::OrdersControllerTest < ActionController::TestCase
     get :show, id: order.id
     assert_response :success
     assert_not_nil assigns(:order)
+  end
+
+  test "should send dispatch notification" do
+    sign_in users(:seller)
+    order=orders(:paid)
+    ActionMailer::Base.deliveries.clear
+    patch :update, id: order.id, order: {status: "dispatched"}
+    assert_not ActionMailer::Base.deliveries.empty?
+    email=ActionMailer::Base.deliveries.first
+    assert_equal order.user.email, email.to
   end
 end

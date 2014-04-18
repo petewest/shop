@@ -1,6 +1,7 @@
 class Seller::OrdersController < ApplicationController
   before_action :signed_in_seller
   before_action :order_from_params, only: [:update, :show]
+
   def index
     @orders=Order
     @orders=StockLevel.find(params[:stock_level_id]).orders if params[:stock_level_id]

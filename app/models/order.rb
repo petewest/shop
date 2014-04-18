@@ -1,9 +1,13 @@
 class Order < ActiveRecord::Base
+  ## Relationships
   belongs_to :user, inverse_of: :orders
   has_many :line_items, inverse_of: :order, dependent: :destroy
   has_many :products, through: :line_items, inverse_of: :orders
   belongs_to :delivery, class_name: "OrderAddress", dependent: :destroy
   belongs_to :billing, class_name: "OrderAddress", dependent: :destroy
+
+
+  ## Validations
 
   #For anything not in "cart" status
   #So all validations that make sure it's an order instead of a shopping cart
@@ -22,17 +26,29 @@ class Order < ActiveRecord::Base
     placed.validates :postage_cost, presence: {message: "missing, please contact the seller"}
   end
 
+  validate :check_flow, if: -> {status_changed? and status_was.present?}
+
   accepts_nested_attributes_for :line_items, allow_destroy: true
   accepts_nested_attributes_for :delivery, allow_destroy: true
   accepts_nested_attributes_for :billing, allow_destroy: true
 
   enum status: {cart: 0, checkout: 10, placed: 20, paid: 30, dispatched: 40, cancelled: 100}
 
-  before_create -> {self.status||=:cart}
 
+  ## Callbacks
+
+  before_create -> {self.status||=:cart}
   before_save :pre_save
 
+  ## Scopes
+
   default_scope -> {includes(line_items: [:product, :currency])}
+  def self.pending
+    where(status: [self.statuses[:placed], self.statuses[:paid]])
+  end
+
+
+  ## Methods
 
   #Total order cost, grouped by currency
   def costs
@@ -44,8 +60,14 @@ class Order < ActiveRecord::Base
     calculate_costs(*line_items, postage_cost)
   end
 
-  def self.pending
-    where(status: [self.statuses[:placed], self.statuses[:paid]])
+  #Which status flows are allowed?
+  def self.allowed_status_flows
+    {
+      cart: [:placed, :cancelled],
+      placed: [:paid, :dispatched, :cancelled],
+      paid: [:dispatched],
+      cancelled: :cart
+    }
   end
 
   #Find the total weight by summing the weights of each line item
@@ -82,5 +104,12 @@ class Order < ActiveRecord::Base
         these_items.select{|i| i.respond_to? :currency}.group_by(&:currency).map do |currency, items|
           Hash(currency: currency, cost: items.map(&:cost).sum)
         end if these_items.any?
+    end
+
+    def check_flow
+      #Find the list of permitted statuses that status_was is allowed to move to
+      #use splat operator so they can be defined as arrays or not
+      permitted=*self.class.allowed_status_flows[status_was.to_sym]
+      errors[:status]="cannot change from #{status_was} to #{status}" if !permitted.include? status.to_sym
     end
 end

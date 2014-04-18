@@ -16,6 +16,8 @@ paid:
   placed_at: 2014-03-30 17:13:24
   paid_at: 2014-03-30 17:13:24
   dispatched_at:
+  delivery: :delivery_for_paid
+  billing: :billing_for_paid
 
 cart:
   user: :buyer
@@ -60,4 +62,11 @@ with_addresses:
   user: :buyer
   status: <%= Order.statuses[:placed] %>
 
+cancelled:
+  user: :buyer
+  status: <%= Order.statuses[:cancelled] %>
+  placed_at:
+  paid_at: 
+  dispatched_at: 
+  cart_token: cart_token_for_cancelled
 

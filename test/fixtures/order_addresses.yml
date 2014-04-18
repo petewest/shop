@@ -7,3 +7,11 @@ billing_for_placed:
 delivery_for_placed:
   source_address: :work
   address: MyText
+
+billing_for_paid:
+  source_address: :home
+  address: MyText
+
+delivery_for_paid:
+  source_address: :work
+  address: MyText
