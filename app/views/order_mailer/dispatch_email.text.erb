@@ -1,0 +1,10 @@
+Your order has been dispatched!
+======================================
+
+Dear <%= @user.name %>,
+Your order #<%= @order.id %> has been dispatched and is winging its way to you.
+
+Here's a quick summary of your order:
+<%= render partial: 'line_item', collection: @order.line_items %>
+
+You can find more detail here: <%= order_url(@order) %>
