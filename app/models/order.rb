@@ -61,13 +61,18 @@ class Order < ActiveRecord::Base
   end
 
   #Which status flows are allowed?
+  #Class method for all allowed
   def self.allowed_status_flows
     {
       cart: [:placed, :cancelled],
       placed: [:paid, :dispatched, :cancelled],
-      paid: [:dispatched],
+      paid: :dispatched,
       cancelled: :cart
     }
+  end
+  #Instance method for allowed from this status
+  def allowed_status_flows
+    permitted=*self.class.allowed_status_flows[status.to_sym]
   end
 
   #Find the total weight by summing the weights of each line item
