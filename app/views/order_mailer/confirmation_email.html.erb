@@ -1,7 +1,7 @@
 <%= content_tag(:h1, "Thank you for your order!") %>
 
 <p>Dear <%= @user.name %>,</p>
-<p>This is confirmation of your order reference <%= @order.id %><p>
+<p>This is confirmation of your <%= link_to "order ##{@order.id}", order_url(@order) %><p>
 
 <p>Here's a quick summary of your order:</p>
 <table>
@@ -15,3 +15,5 @@
 		<%= render partial: 'line_item', collection: @order.line_items %>
 	</tbody>
 </table>
+
+<p>For more information visit: <%= link_to order_url(@order), order_url(@order) %></p>

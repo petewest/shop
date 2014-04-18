@@ -6,3 +6,5 @@ This is confirmation of your order reference <%= @order.id %>
 
 Here's a quick summary of your order:
 <%= render partial: 'line_item', collection: @order.line_items %>
+
+For more information visit: <%= order_url(@order) %>

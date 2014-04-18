@@ -4,12 +4,12 @@ class OrderMailer < ActionMailer::Base
   def confirmation_email(order)
     @order=order
     @user=@order.user
-    mail(to: @user.email, subject: "Order confirmation #{order.id}")
+    mail(to: @user.email, subject: "Order confirmation ##{@order.id}")
   end
 
   def dispatch_email(order)
     @order=order
     @user=@order.user
-    mail(to: @user.email, subject: "Order dispatched")
+    mail(to: @user.email, subject: "Order ##{@order.id} dispatched")
   end
 end

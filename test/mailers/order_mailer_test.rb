@@ -22,6 +22,6 @@ class OrderMailerTest < ActionMailer::TestCase
     assert_not ActionMailer::Base.deliveries.empty?
     assert_equal [buyer.email], email.to
     assert_equal [seller.email], email.from
-    assert_equal "Order dispatched", email.subject
+    assert_equal "Order ##{order.id} dispatched", email.subject
   end
 end
