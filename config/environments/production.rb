@@ -72,6 +72,9 @@ Rails.application.configure do
   # Send deprecation notices to registered listeners.
   config.active_support.deprecation = :notify
 
+  #Set default url for mails
+  config.action_mailer.default_url_options = { host: ENV['BASE_URI'] }
+
   # Disable automatic flushing of the log to improve performance.
   # config.autoflush_log = false
 
