@@ -322,6 +322,15 @@ class OrderTest < ActiveSupport::TestCase
     assert_equal "Cart", order.type, "Debug: #{order.inspect}"
   end
 
+  test "should release stock when the order is cancelled" do
+    order=orders(:placed)
+    assert_difference "Allocation.count", -1 do
+      assert_difference "stock_levels(:product_0).reload.current_quantity" do
+        order.cancelled!
+      end
+    end
+  end
+
 
 
 

@@ -26,7 +26,7 @@ class Order < ActiveRecord::Base
     placed.validates :postage_cost, presence: {message: "missing, please contact the seller"}
   end
 
-  validate :check_flow, if: -> {status_changed? and status_was.present?}
+  validate :check_flow, if: -> {status_changed? and persisted?}
 
   accepts_nested_attributes_for :line_items, allow_destroy: true
   accepts_nested_attributes_for :delivery, allow_destroy: true
@@ -91,9 +91,12 @@ class Order < ActiveRecord::Base
   private 
     def pre_save
       if status_changed?
+        #Check if we're switching to cart status, so change type to Cart
         self.type=((status=="cart") ? "Cart" : nil)
         #Record timestamps if order changes status
         self.send(status+"_at=", DateTime.now) if self.respond_to?(status+"_at=")
+        #Release stock if an order has been cancelled
+        line_items.all?(&:release_stock) if status=="cancelled"
       end
       true
     end
