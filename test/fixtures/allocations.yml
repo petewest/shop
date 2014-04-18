@@ -6,6 +6,6 @@ one:
   quantity: 1
 
 two:
-  line_item_id: 
-  stock_level_id: 
+  line_item: :two 
+  stock_level: :product_0
   quantity: 1

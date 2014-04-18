@@ -55,6 +55,10 @@ class LineItem < ActiveRecord::Base
     raise ActiveRecord::Rollback
   end
 
+  def release_stock
+    allocations.destroy_all
+  end
+
   def weight
     product.weight.to_f*quantity.to_i if product
   end

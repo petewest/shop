@@ -138,6 +138,18 @@ class LineItemTest < ActiveSupport::TestCase
     assert_equal product.weight*20, line_item.weight
   end
 
+  test "should respond to release_stock" do
+    line_item=LineItem.new
+    assert_respond_to line_item, :release_stock
+  end
+
+  test "should release stock when told" do
+    line_item=line_items(:two)
+    assert_difference "Allocation.count", -1 do
+      line_item.release_stock
+    end
+  end
+
   private
     def valid
       @line_item||={product: products(:product_20), order: orders(:cart), quantity: 1}

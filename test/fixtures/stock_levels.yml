@@ -44,3 +44,10 @@ with_allocation:
   due_at: <%= 1.day.ago %>
   start_quantity: 5
   current_quantity: 4
+
+product_0:
+  product: :product_0
+  due_at: <%= 1.day.ago %>
+  start_quantity: 5
+  current_quantity: 4
+
