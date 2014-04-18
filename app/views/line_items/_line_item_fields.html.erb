@@ -16,12 +16,3 @@
 <div class="cart_line_cost text-right">
 	<%= cost_to_currency(f.object) %>
 </div>
-<% if f.object.persisted? %>
-<div class="cart_save_button">
-	<div class="checkbox">
-		<label>
-			<%= f.check_box :_destroy, data: {submit_on_change: true} %> Remove
-		</label>
-	</div>
-</div>
-<% end %>

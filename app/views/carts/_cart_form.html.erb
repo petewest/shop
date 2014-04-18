@@ -5,6 +5,15 @@
 		<%= f.fields_for :line_items, include_id: false do |li| %>
 			<div class="row">
 				<%= render 'line_items/line_item_fields', f: li %>
+				<% if li.object.persisted? %>
+					<div class="cart_save_button">
+						<div class="checkbox">
+							<label>
+								<%= li.check_box :_destroy, data: {submit_on_change: true} %> Remove
+							</label>
+						</div>
+					</div>
+				<% end %>
 				<%= #Manually include the id here otherwise it gets added to end and breaks nth styling css
 				li.hidden_field :id if !li.object.id.nil? %>
 			</div>

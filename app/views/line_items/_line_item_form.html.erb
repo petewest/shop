@@ -6,21 +6,24 @@
 		</div>
 	</div>
 <% else %>
-	<%= form_for line_item_form, remote: true, html: {class: "form-inline"} do |f| %>
-		<% if f.object.errors.any? %>
-			<%= render 'shared/form_error', object: f.object %>
-		<% end %>
-		<%= f.hidden_field :product_id %>
-		<%= render 'line_items/line_item_fields', f: f %>
-		<div class="row">
-			<div class="cart_save_button pull-right">
-				<% if f.object.product.current_stock.available>0 %>
-				<%= f.submit "Add to cart", class: "btn btn-default" %>
-				<% else %>
-				Out of stock
-				<% end %>
+	<% if line_item_form.product.current_stock.available>0 %>
+		<%= form_for line_item_form, remote: true, html: {class: "form-inline"} do |f| %>
+			<% if f.object.errors.any? %>
+				<%= render 'shared/form_error', object: f.object %>
+			<% end %>
+			<%= f.hidden_field :product_id %>
+			<%= render 'line_items/line_item_fields', f: f %>
+			<div class="row">
+				<div class="cart_save_button pull-right">
+					<%= f.submit "Add to cart", class: "btn btn-default" %>
+				</div>
 			</div>
-		</div>
+		<% end %>
+	<% else %>
+		<%= line_item_form.product.name %> out of stock
+	<% end %>
+	<% if line_item_form.new_record? and line_item_form.product.master_product.present? %>
+		<%= render 'line_items/sub_product_choices', sub_products: line_item_form.product.master_product.sub_products %>
 	<% end %>
 <% end %>
 </div>
