@@ -1,28 +1,13 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Basic shopping website with stock control.  Uses Amazon Web Services S3 for image uploads.
 
-Things you may want to cover:
+== Environment variables to set
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* <tt>AWS_ACCESS_KEY_ID</tt> to be your Amazon Web Services access key
+* <tt>AWS_SECRET_ACCESS_KEY</tt> to be your Amazon Web Services secret access key
+* <tt>S3_BUCKET_NAME</tt> to the name of your AWS S3 bucket for images
+* <tt>S3_ENDPOINT</tt> the endpoint you need to use to connect to Amazon S3
+* <tt>BASE_URI</tt> to be the hostname to be used for urls in emails
 
 
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
