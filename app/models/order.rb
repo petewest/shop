@@ -71,8 +71,9 @@ class Order < ActiveRecord::Base
     }
   end
   #Instance method for allowed from this status
-  def allowed_status_flows
-    permitted=*self.class.allowed_status_flows[status.to_sym]
+  def allowed_status_flows(start=nil)
+    start||=status
+    permitted=*self.class.allowed_status_flows[start.to_sym]
   end
 
   #Find the total weight by summing the weights of each line item
@@ -112,9 +113,7 @@ class Order < ActiveRecord::Base
     end
 
     def check_flow
-      #Find the list of permitted statuses that status_was is allowed to move to
-      #use splat operator so they can be defined as arrays or not
-      permitted=*self.class.allowed_status_flows[status_was.to_sym]
+      permitted=allowed_status_flows(status_was)
       errors[:status]="cannot change from #{status_was} to #{status}" if !permitted.include? status.to_sym
     end
 end
