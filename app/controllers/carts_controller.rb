@@ -70,7 +70,7 @@ class CartsController < ApplicationController
     @cart.status=:placed
     if @cart.save
       flash[:success]="Thank you for your order!"
-      OrderMailer.confirmation_email(current_user, @cart).deliver
+      OrderMailer.confirmation_email(@cart).deliver
       redirect_to order_path(@cart)
     else
       flash.now[:danger]="Error processing cart"

@@ -5,7 +5,7 @@ class OrderMailerTest < ActionMailer::TestCase
     buyer=users(:buyer)
     seller=users(:seller)
     order=buyer.orders.first
-    email=OrderMailer.confirmation_email(buyer, order).deliver
+    email=OrderMailer.confirmation_email(order).deliver
     assert_not ActionMailer::Base.deliveries.empty?
     assert_equal [buyer.email], email.to
     assert_equal [seller.email], email.from
@@ -18,7 +18,7 @@ class OrderMailerTest < ActionMailer::TestCase
     buyer=users(:buyer)
     seller=users(:seller)
     order=buyer.orders.first
-    email=OrderMailer.dispatch_email(buyer, order).deliver
+    email=OrderMailer.dispatch_email(order).deliver
     assert_not ActionMailer::Base.deliveries.empty?
     assert_equal [buyer.email], email.to
     assert_equal [seller.email], email.from
