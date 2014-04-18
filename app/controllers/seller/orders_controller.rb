@@ -12,8 +12,8 @@ class Seller::OrdersController < ApplicationController
     if @order.update_attributes(order_params)
       flash.now[:success]="Order updated"
       case @order.status
-      when "dispateched"
-        OrderMailer.dispatch_email(@order)
+      when "dispatched"
+        OrderMailer.dispatch_email(@order).deliver
       end
     else
       flash.now[:danger]="Update failed"

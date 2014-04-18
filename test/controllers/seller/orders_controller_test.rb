@@ -43,6 +43,6 @@ class Seller::OrdersControllerTest < ActionController::TestCase
     patch :update, id: order.id, order: {status: "dispatched"}
     assert_not ActionMailer::Base.deliveries.empty?
     email=ActionMailer::Base.deliveries.first
-    assert_equal order.user.email, email.to
+    assert_equal [order.user.email], email.to
   end
 end
