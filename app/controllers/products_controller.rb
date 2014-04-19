@@ -39,6 +39,7 @@ class ProductsController < ApplicationController
   end
 
   def edit
+    @product.images.new
   end
 
   def update
