@@ -2,8 +2,13 @@
 <label><%= f.check_box :main %> Main image</label>
 </div>
 <div class="form-group">
-  <%= f.label :image, class: "control-label" %>
-  <%= f.file_field :image %>
+  <% if f.object.image_file_name.present? %>
+  	<%= image_tag f.object.image.url(:thumb) %>
+  	<%= f.object.image_file_name %>
+  <% else %>
+	  <%= f.label :image, class: "control-label" %>
+	  <%= f.file_field :image %>
+  <% end %>
 </div>
 <% if !f.object.new_record? %>
 <div class="checkbox">

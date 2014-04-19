@@ -1,10 +1,9 @@
 <div class="product_card">
 	<div class="col-md-6 col-sm-6 col-xs-3">
-		<div class="product_card_image_box"><%= image_tag product.main_image.image.url(:thumb), alt: product.name, class: "product_card_image" if product.main_image %></div>
+		<div class="product_card_image_box"><%= link_to image_tag(product.main_image.image.url(:thumb), alt: product.name, class: "product_card_image"), product if product.main_image %></div>
 	</div>
 	<div class="col-md-6 col-sm-6 col-xs-9">
 		<div class="product_card_name"><%= link_to product.name, product %></div>
-		<div class="product_card_description"><%= simple_format product.description %></div>
 		<div class="product_cost">Price: <%= cost_to_currency(product) %></div>
 		<div class="product_card_purchase"><%= render 'add_to_cart', object: product %></div>
 	</div>

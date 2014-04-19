@@ -20,5 +20,5 @@ class Product < ActiveRecord::Base
   has_many :sub_products, inverse_of: :master_product, foreign_key: "master_product_id", dependent: :destroy
 
 
-  accepts_nested_attributes_for :images, allow_destroy: true
+  accepts_nested_attributes_for :images, allow_destroy: true, reject_if: -> (item) {item[:image].blank? and item[:id].nil?}
 end
