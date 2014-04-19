@@ -3,7 +3,6 @@
 <%= content_tag(:h1, "Order #{@order.id} information") %>
 
 <%= render 'orders/order_detail', order: @order %>
-<%= render 'shared/postage_cost', postage_cost: @order.postage_cost %>
 
 <div class="row">
 	<div class="col-md-12">

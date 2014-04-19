@@ -1,7 +1,10 @@
-<div class="order_address">
-	<h5><%= mode.to_s.titleize %> address</h5>
-	<address>
-		<%= simple_format order.send(mode).try(:address) %>
-	</address>
+<div class="address_wrapper">
+	<div class="address_entry">
+		<div class="address_label"><%= mode.to_s.titleize %> address</div>
+		<div class="address_body">
+			<address>
+				<%= simple_format order.send(mode).try(:address) %>
+			</address>
+		</div>
+	</div>
 </div>
-
