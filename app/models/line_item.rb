@@ -24,7 +24,7 @@ class LineItem < ActiveRecord::Base
   end
 
   def cost
-    ((unit_cost || product.unit_cost)*self.quantity) / 10.0**currency.try(:decimal_places).to_i
+    ((unit_cost || product.unit_cost)*self.quantity)
   end
 
   def stock_check

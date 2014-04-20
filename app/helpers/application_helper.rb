@@ -19,7 +19,7 @@ module ApplicationHelper
   def cost_to_currency(*items)
     items.select{|i| i}.map do |item|
       currency=item[:currency] || item.currency
-      cost=item[:cost] || item.cost
+      cost=(item[:cost] || item.cost) / (10**currency.decimal_places)
       number_to_currency(cost, unit: currency.symbol, precision: currency.decimal_places)
     end.join
   end

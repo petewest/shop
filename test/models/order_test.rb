@@ -96,8 +96,8 @@ class OrderTest < ActiveSupport::TestCase
     order.line_items.each(&:copy_cost_from_product)
     assert_equal 2, order.costs.count
     assert currencies(:gbp), order.costs.first[:currency]
-    assert_equal 50, order.costs.first[:cost]
-    assert_equal 30, order.costs.last[:cost]
+    assert_equal 5000, order.costs.first[:cost]
+    assert_equal 3000, order.costs.last[:cost]
   end
 
   test "should change class when changing status" do

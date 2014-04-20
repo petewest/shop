@@ -4,7 +4,7 @@ module Costable
     belongs_to :currency
   end
   def cost
-    unit_cost / 10.0**currency.try(:decimal_places).to_i
+    unit_cost
   end
 
 end
