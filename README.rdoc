@@ -9,5 +9,7 @@ Basic shopping website with stock control.  Uses Amazon Web Services S3 for imag
 * <tt>S3_BUCKET_NAME</tt> to the name of your AWS S3 bucket for images
 * <tt>S3_ENDPOINT</tt> the endpoint you need to use to connect to Amazon S3
 * <tt>BASE_URI</tt> to be the hostname to be used for urls in emails
+* <tt>STRIPE_PUBLISHABLE_KEY</tt> to be your publishable key from your Stripe account
+* <tt>STRIPE_SECRET_KEY</tt> to be your secret key from your Stripe account
 
 

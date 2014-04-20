@@ -23,9 +23,10 @@ Rails.application.routes.draw do
     resources :orders, only: [:index], module: :seller
   end
 
-  resources :orders, except: [:destroy, :new, :create] do
+  resources :orders, except: [:destroy, :new, :create, :edit] do
     member do
       patch 'set_current'
+      get 'pay'
     end
   end
   resource :cart, only: [:show, :destroy, :update] do

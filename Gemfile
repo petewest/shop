@@ -33,6 +33,9 @@ gem 'bootstrap-will_paginate', '0.0.10'
 gem 'paperclip'
 gem 'RedCloth'
 
+#Payments processing by stripe
+gem 'stripe', git: 'https://github.com/stripe/stripe-ruby'
+
 
 group :production do
   gem 'rails_12factor', '0.0.2'

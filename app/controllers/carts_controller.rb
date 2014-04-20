@@ -69,9 +69,7 @@ class CartsController < ApplicationController
     @cart.billing||=OrderAddress.new(source_address: current_user.addresses.billing.first).copy_address
     @cart.status=:placed
     if @cart.save
-      flash[:success]="Thank you for your order!"
-      OrderMailer.confirmation_email(@cart).deliver
-      redirect_to order_path(@cart)
+      redirect_to pay_order_path(@cart)
     else
       flash.now[:danger]="Error processing cart"
       render 'checkout'

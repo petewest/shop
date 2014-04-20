@@ -149,8 +149,8 @@ class CartsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:cart)
     assert_equal current_user, assigns(:cart).user
     assert_equal "placed", assigns(:cart).status
-    assert_equal "Thank you for your order!", flash[:success]
-    assert_redirected_to order_path(assigns(:cart))
+    assert_nil flash[:success]
+    assert_redirected_to pay_order_path(assigns(:cart))
   end
 
   test "should create new cart if current doesn't belong to user" do
@@ -188,7 +188,7 @@ class CartsControllerTest < ActionController::TestCase
     assert_equal billing_address.address, cart.billing.address
   end
 
-  test "should not set billing address on order (html)" do
+  test "should not set billing address on order (html) when not signed in" do
     cart=users(:buyer).carts.first
     billing_address=users(:buyer).addresses.billing.first
     assert_not_equal billing_address.address, cart.billing.try(:address)

@@ -90,5 +90,37 @@ class OrdersControllerTest < ActionController::TestCase
     end
   end
 
+  test "should get pay page" do
+    sign_in users(:buyer)
+    order=orders(:placed)
+    get :pay, id: order.id
+    assert_response :success
+    assert_select "h1", "Payment"
+    assert_select "form"
+  end
+
+  test "should not get pay page when not placed" do
+    sign_in users(:buyer)
+    order=orders(:cart)
+    get :pay, id: order.id
+    assert_response :redirect
+  end
+
+  test "should not get pay page when other user" do
+    sign_in users(:buyer)
+    order=orders(:cart_for_other_user)
+    assert_raises ActiveRecord::RecordNotFound do
+      get :pay, id: order.id
+    end
+  end
+
+  test "should not get pay page when anonymous" do
+    order=orders(:placed)
+    get :pay, id: order.id
+    assert_response :redirect
+    assert_redirected_to signin_path
+  end
+
+
 
 end

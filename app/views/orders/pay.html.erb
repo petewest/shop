@@ -1,0 +1,23 @@
+<% provide(:title, "Payment") %>
+
+<%= content_tag(:h1, "Payment") %>
+
+<%= content_tag(:h5, "Please review your order and click 'Pay'.  Once paid orders cannot be changed.") %>
+
+
+<%= render 'order_detail', order: @order %>
+
+<%= form_for @order do |f| %>
+	<% @order.costs_with_postage.each do |cost| %>
+	<%= javascript_include_tag "https://checkout.stripe.com/checkout.js", class: "btn btn-primary", 
+	data: {
+		key: Rails.application.secrets.stripe_publishable_key,
+		name: "Shop",
+		description: @order.line_items.map(&:product).map(&:name).join(", "),
+		currency: cost[:currency].iso_code.downcase,
+		amount: cost[:cost],
+		label: "Pay"
+	}
+	%>
+	<% end %>
+<% end %>
