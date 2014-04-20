@@ -81,6 +81,7 @@ class OrdersController < ApplicationController
     @order.status=:paid
     if @order.save
       flash[:success]="Thank you for your order!"
+      OrderMailer.confirmation_email(@order).deliver
     else
       flash[:warning]="Error processing order, please contact seller"
     end
