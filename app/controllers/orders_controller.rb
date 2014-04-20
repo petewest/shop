@@ -35,13 +35,24 @@ class OrdersController < ApplicationController
     # Get the credit card details submitted by the form
     token = params[:stripeToken]
 
+    if token.empty?
+      flash[:warning]="Missing payment data, please try again"
+      redirect_to pay_order_path(@order)
+      return
+    end
+
     begin
+      #This won't work if there are multiple currencies in the order
+      #as the token can only be used once.
+      #TODO think about this.  Maybe validate line_items to make sure it's the same currency?
+      #Or combine multiple currencies to the charge currency, but then have to keep FX rates up to date
+      #Leave as-is for now
       charges=@order.costs_with_postage.map do |cost|
         Stripe::Charge.create(
           amount: cost[:cost],
           currency: cost[:currency].iso_code.downcase,
           card: token,
-          description: @order.user.email
+          description: "Order: ##{@order.id}: #{@order.user.email}"
         )
       end
     rescue Stripe::CardError => e
@@ -53,17 +64,27 @@ class OrdersController < ApplicationController
 
     rescue Stripe::InvalidRequestError => e
       # Invalid parameters were supplied to Stripe's API
+      flash[:warning]="Invalid payment request, please contact seller"
     rescue Stripe::AuthenticationError => e
       # Authentication with Stripe's API failed
       # (maybe you changed API keys recently)
+      flash[:warning]="Failed to authenticate with payment system, please contact seller"
     rescue Stripe::APIConnectionError => e
       # Network communication with Stripe failed
+      flash[:warning]="Failed to contact payment system, please contact seller"
     rescue Stripe::StripeError => e
-      # Display a very generic error to the user, and maybe send
-      # yourself an email
-    rescue => e
-      # Something else happened, completely unrelated to Stripe
+      # Display a very generic error to the user
+      flash[:warning]="Unknown error, please contact seller"
     end
+    redirect_to pay_order_path(@order) and return if flash[:warning].present?
+    @order.stripe_charge_reference=charges.map(&:id).join(", ")
+    @order.status=:paid
+    if @order.save
+      flash[:success]="Thank you for your order!"
+    else
+      flash[:warning]="Error processing order, please contact seller"
+    end
+    redirect_to order_path(@order)
   end
 
 

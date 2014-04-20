@@ -9,7 +9,7 @@
 
 <%= form_for @order do |f| %>
 	<% @order.costs_with_postage.each do |cost| %>
-	<%= javascript_include_tag "https://checkout.stripe.com/checkout.js", class: "btn btn-primary", 
+	<%= javascript_include_tag "https://checkout.stripe.com/checkout.js", class: "stripe-button", 
 	data: {
 		key: Rails.application.secrets.stripe_publishable_key,
 		name: "Shop",
