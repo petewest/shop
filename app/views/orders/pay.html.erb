@@ -4,6 +4,7 @@
 
 <%= content_tag(:h5, "Please review your order and click 'Pay'.  Once paid orders cannot be changed.") %>
 
+<%= render 'shared/form_error', object: @order %>
 
 <%= render 'order_detail', order: @order %>
 

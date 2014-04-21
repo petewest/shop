@@ -47,7 +47,11 @@ class OrdersController < ApplicationController
     #to POST to the page manually
     @order.status=:paid
 
-    redirect_to pay_order_path(@order), flash: {danger: "Could not process order"} and return if !@order.valid?
+    if !@order.valid?
+      flash.now[:danger]="Could not process order"
+      render 'pay'
+      return
+    end
 
     #Check to make sure this order doesn't already have a payment reference
     redirect_to order_path(@order), flash: {warning: "Order already paid"} and return if @order.stripe_charge_reference.present?

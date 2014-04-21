@@ -24,6 +24,9 @@
 					</div>
 				<% end %>
 			<% end %>
+			<% if order.allowed_status_flows.include? :paid %>
+				<%= link_to "Pay", pay_order_path(order), class: "btn btn-default" %>
+			<% end %>
 		</div>
 	</div>
 </div>
