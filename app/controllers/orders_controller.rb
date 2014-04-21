@@ -35,12 +35,24 @@ class OrdersController < ApplicationController
     # Get the credit card details submitted by the form
     token = params[:stripeToken]
 
-    if token.empty?
+    if token.blank?
       flash[:warning]="Missing payment data, please try again"
       redirect_to pay_order_path(@order)
       return
     end
 
+    #set status to paid here (won't get actioned until we save the record later)
+    #in order to test for validity before attempting to create the charge
+    #This shouldn't happen in the normal course of events but incase anyone tries
+    #to POST to the page manually
+    @order.status=:paid
+
+    redirect_to pay_order_path(@order), flash: {danger: "Could not process order"} and return if !@order.valid?
+
+    #Check to make sure this order doesn't already have a payment reference
+    redirect_to order_path(@order), flash: {warning: "Order already paid"} and return if @order.stripe_charge_reference.present?
+
+    #Actually create the charge in Stripes systems
     begin
       #This won't work if there are multiple currencies in the order
       #as the token can only be used once.
@@ -78,7 +90,6 @@ class OrdersController < ApplicationController
     end
     redirect_to pay_order_path(@order) and return if flash[:warning].present?
     @order.stripe_charge_reference=charges.map(&:id).join(", ")
-    @order.status=:paid
     if @order.save
       flash[:success]="Thank you for your order!"
       OrderMailer.confirmation_email(@order).deliver

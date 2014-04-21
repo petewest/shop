@@ -121,6 +121,43 @@ class OrdersControllerTest < ActionController::TestCase
     assert_redirected_to signin_path
   end
 
+  test "should not process without stripeToken" do
+    sign_in users(:buyer)
+    order=orders(:placed)
+    patch :update, id: order.id
+    assert_redirected_to pay_order_path(order)
+    assert_equal "Missing payment data, please try again", flash[:warning]
+  end
+
+  test "should not be able to pay for an order not in placed status" do
+    sign_in users(:buyer)
+    order=orders(:cart)
+    patch :update, id: order.id, stripeToken: "dummy_token"
+    assert_redirected_to pay_order_path(order)
+    assert_equal "Could not process order", flash[:danger]
+  end
+
+  test "should not be able to pay for an order that already has a charge reference" do
+    sign_in users(:buyer)
+    order=orders(:placed)
+    order.stripe_charge_reference="dummy charge reference"
+    order.save
+    patch :update, id: order.id, stripeToken: "dummy_token"
+    assert_redirected_to order_path(order)
+    assert_equal "Order already paid", flash[:warning]
+  end
+
+  test "should not be able to update when other user" do
+    sign_in users(:buyer)
+    order=orders(:cart_for_other_user)
+    assert_raises ActiveRecord::RecordNotFound do
+      patch :update, id: order.id
+    end
+  end
+
+
+
+
 
 
 end
