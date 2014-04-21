@@ -30,7 +30,6 @@ class OrdersController < ApplicationController
   end
 
   def update
-    Stripe.api_key = Rails.application.secrets.stripe_secret_key
 
     # Get the credit card details submitted by the form
     token = params[:stripeToken]
