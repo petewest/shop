@@ -13,7 +13,7 @@
 			<%= render partial: 'line_item_summary', collection: order.line_items %>
 		</div>
 		<div class="order_total">
-			Total cost: <%= cost_to_currency(*order.costs) %>
+			Total cost: <%= cost_to_currency(*order.costs_with_postage) %>
 		</div>
 		<div class="order_actions">
 			<% if order.is_a? Cart %>
