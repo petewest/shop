@@ -133,7 +133,7 @@ class OrdersControllerTest < ActionController::TestCase
     sign_in users(:buyer)
     order=orders(:cart)
     patch :update, id: order.id, stripeToken: "dummy_token"
-    assert_redirected_to pay_order_path(order)
+    assert_template 'pay'
     assert_equal "Could not process order", flash[:danger]
   end
 
