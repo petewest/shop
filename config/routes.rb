@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     member do
       patch 'set_current'
       get 'pay'
+      patch 'cancel'
     end
   end
   resource :cart, only: [:show, :destroy, :update] do

@@ -88,6 +88,14 @@
 	}
 }
 
+.order_status_cancelled {
+	@extend .panel-danger;
+	>.order_id>a {
+		color: inherit;
+	}
+}
+
+
 .order_status {
 	margin-left: 10px;
 }

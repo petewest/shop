@@ -1,6 +1,6 @@
 class OrdersController < ApplicationController
   before_action :signed_in_user
-  before_action :order_from_params, only: [:show, :pay, :update]
+  before_action :order_from_params, only: [:show, :pay, :update, :cancel]
 
   def index
     @orders=current_user.orders.includes(line_items: [:product, :currency]).order(status: :asc).all
@@ -101,6 +101,15 @@ class OrdersController < ApplicationController
       flash[:warning]="Error processing order, please contact seller"
     end
     redirect_to order_path(@order)
+  end
+
+  def cancel
+    if @order.cancelled!
+      flash[:success]="Order cancelled"
+    else
+      flash[:danger]="Could not cancel order"
+    end
+    redirect_to orders_path
   end
 
 

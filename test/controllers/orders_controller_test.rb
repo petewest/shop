@@ -155,6 +155,36 @@ class OrdersControllerTest < ActionController::TestCase
     end
   end
 
+  test "should cancel order" do
+    sign_in users(:buyer)
+    order=orders(:placed)
+    patch :cancel, id: order.id
+    order.reload
+    assert order.cancelled?
+    assert_redirected_to orders_path
+  end
+
+  test "should not cancel other users order" do
+    sign_in users(:seller)
+    order=orders(:placed)
+    assert_raises ActiveRecord::RecordNotFound do
+      patch :cancel, id: order.id
+    end
+    order.reload
+    assert_not order.cancelled?
+  end
+
+  test "should not cancel dispatched order" do
+    sign_in users(:buyer)
+    order=orders(:placed)
+    #Force status to dispatched
+    order.dispatched!
+    assert_raises ActiveRecord::RecordInvalid do
+      patch :cancel, id: order.id
+    end
+    order.reload
+    assert_not order.cancelled?
+  end
 
 
 
