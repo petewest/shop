@@ -1,3 +1,8 @@
 <% provide(:title, "My account") %>
 
 <%= content_tag(:h1, "My account") %>
+
+<%= form_for @user, url: user_path do |f| %>
+  <%= render 'name_fields', f: f %>
+  <%= f.submit 'Save details', data: {disable_with: "Saving"}, class: "btn btn-default" %>
+<% end %>

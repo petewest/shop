@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
   before_action :signed_in_user, only: [:edit]
+  before_action :get_user, only: [:edit]
+
   def new
     @user=User.new
   end
@@ -23,5 +25,8 @@ class UsersController < ApplicationController
   private
     def user_params
       params.require(:user).permit(:name, :email, :password, :password_confirmation)
+    end
+    def get_user
+      @user=current_user
     end
 end

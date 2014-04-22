@@ -38,6 +38,12 @@ class UsersControllerTest < ActionController::TestCase
     get :edit
     assert_response :success
     assert_select "h1", "My account"
+    assert_not_nil assigns(:user)
+    assert_equal users(:buyer), assigns(:user)
+    assert_select "form"
+    assert_select "input[type=password]", 0
+    assert_select "input[name='user[name]']"
+    assert_select "input[name='user[email]']"
   end
 
   private
