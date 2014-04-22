@@ -91,6 +91,56 @@ class UserTest < ActiveSupport::TestCase
     assert_respond_to user, :carts
   end
 
+  test "should not validate password when existing object" do
+    user=users(:buyer)
+    assert_nil user.password
+    assert user.valid?
+  end
+
+  test "should validate password when new one being set" do
+    user=users(:buyer)
+    assert user.valid?
+    user.password="sh"
+    user.password_confirmation="sh"
+    assert_not user.valid?, "Debug: #{user.inspect}"
+  end
+
+  test "should change password" do
+    user=User.create(valid)
+    assert_equal user, user.authenticate(valid[:password])
+    user.password="new password"
+    user.password_confirmation="new password"
+    user.save
+    user=nil
+    user=User.find_by(email: valid[:email])
+    assert_not_equal user, user.authenticate(valid[:password])
+    assert_equal user, user.authenticate("new password")
+  end
+
+  test "should not change password when confirmation blank" do
+    user=User.create(valid)
+    assert_equal user, user.authenticate(valid[:password])
+    user.password="new password"
+    user.password_confirmation=""
+    assert_not user.save
+  end
+
+  test "should not change password when confirmation nil" do
+    user=User.create(valid)
+    assert_equal user, user.authenticate(valid[:password])
+    user.password="new password"
+    user.password_confirmation=nil
+    assert_not user.save
+  end
+
+  test "should not change password when password is blank" do
+    user=users(:buyer)
+    user.password="    "
+    user.password_confirmation=user.password
+    assert_not user.valid?, "Debug: #{user.inspect}"
+  end
+
+
 
 
   private
