@@ -28,6 +28,17 @@ class UsersControllerTest < ActionController::TestCase
     assert_not_equal "New user creation failed", flash[:danger]
   end
 
+  test "should not get edit page" do
+    get :edit
+    assert_redirected_to signin_path
+  end
+
+  test "should get edit page" do
+    sign_in users(:buyer)
+    get :edit
+    assert_response :success
+    assert_select "h1", "My account"
+  end
 
   private
     def valid

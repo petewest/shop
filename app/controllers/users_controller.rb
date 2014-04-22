@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_action :signed_in_user, only: [:edit]
   def new
     @user=User.new
   end
@@ -13,6 +14,9 @@ class UsersController < ApplicationController
       flash.now[:danger]="New user creation failed"
       render 'new'
     end
+  end
+
+  def edit
   end
 
 
