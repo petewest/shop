@@ -46,6 +46,20 @@ class UsersControllerTest < ActionController::TestCase
     assert_select "input[name='user[email]']"
   end
 
+  test "should change name" do
+    user=users(:buyer)
+    sign_in user
+    patch :update, user: {name: "New name"}
+    user.reload
+    assert_equal "New name", user.name, "Debug: #{assigns(:user).errors.inspect}"
+    assert_redirected_to my_account_path
+  end
+
+  test "should not allow update without signin" do
+    patch :update, user: {name: "New name"}
+    assert_redirected_to signin_path
+  end
+
   private
     def valid
       {name: "Test name", email: "test@email.com", password: "foobar", password_confirmation: "foobar"}

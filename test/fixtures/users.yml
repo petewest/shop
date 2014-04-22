@@ -22,6 +22,7 @@ seller2:
 
 buyer:
   email: buyer_only@email.com
+  password_digest: buyer_password_digest
   name: Buyer beware
 
 without_cart:
