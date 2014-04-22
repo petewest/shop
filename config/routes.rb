@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   delete '/signout' => 'sessions#destroy'
   resources :sessions, only: [:create]
   get '/signup' => 'users#new'
+  get '/my-account' => 'users#edit'
   resources :users, only: [:create]
 
   concern :buyable do
