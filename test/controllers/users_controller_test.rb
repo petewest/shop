@@ -44,6 +44,14 @@ class UsersControllerTest < ActionController::TestCase
     assert_select "input[type=password]", 0
     assert_select "input[name='user[name]']"
     assert_select "input[name='user[email]']"
+    assert_select "input[name='user[bcc_on_email]']", 0
+  end
+  test "should show different form for seller" do
+    sign_in users(:seller)
+    get :edit
+    assert_select "input[name='seller[name]']"
+    assert_select "input[name='seller[email]']"
+    assert_select "input[name='seller[bcc_on_email]']"
   end
 
   test "should change name" do
@@ -52,7 +60,7 @@ class UsersControllerTest < ActionController::TestCase
     patch :update, user: {name: "New name"}
     user.reload
     assert_equal "New name", user.name, "Debug: #{assigns(:user).errors.inspect}"
-    assert_redirected_to my_account_path
+    assert_redirected_to root_url
   end
 
   test "should not allow update without signin" do
@@ -60,6 +68,36 @@ class UsersControllerTest < ActionController::TestCase
     assert_redirected_to signin_path
   end
 
+  test "should not allow seller params for buyer" do
+    sign_in users(:buyer)
+    assert_raises ActionController::ParameterMissing do
+      patch :update, seller: {name: "New name"}
+    end
+  end
+  test "should not allow buyer params for seller" do
+    sign_in users(:seller)
+    assert_raises ActionController::ParameterMissing do
+      patch :update, user: {name: "New name"}
+    end
+  end
+
+  test "should update bcc flag for seller" do
+    user=users(:seller2)
+    sign_in user
+    assert_not user.bcc_on_email
+    patch :update, seller: {bcc_on_email: 't'}
+    user.reload
+    assert user.bcc_on_email
+  end
+
+  test "should not update bcc flag for buyer" do
+    user=users(:buyer)
+    sign_in user
+    assert_not user.bcc_on_email
+    patch :update, user: {bcc_on_email: 't'}
+    user.reload
+    assert_not user.bcc_on_email
+  end
   private
     def valid
       {name: "Test name", email: "test@email.com", password: "foobar", password_confirmation: "foobar"}

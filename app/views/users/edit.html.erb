@@ -4,5 +4,6 @@
 
 <%= form_for @user, url: user_path do |f| %>
   <%= render 'name_fields', f: f %>
+  <%= render 'seller_fields', f: f if @user.is_a? Seller %>
   <%= f.submit 'Save details', data: {disable_with: "Saving"}, class: "btn btn-default" %>
 <% end %>
