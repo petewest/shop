@@ -117,8 +117,29 @@ class UsersControllerTest < ActionController::TestCase
     user=User.create(valid)
     sign_in user
     patch :update_password, user: { old_password: valid[:password], password: "new password", password_confirmation: "new password" }
+    user.reload
+    assert_not user.authenticate(valid[:password])
+    assert_equal user, user.authenticate("new password")
   end
 
+  test "should not change password if old password doesn't match" do
+    user=User.create(valid)
+    sign_in user
+    patch :update_password, user: { old_password: "something else", password: "new password", password_confirmation: "new password" }
+    user.reload
+    assert_not user.authenticate("new password")
+    assert_equal user, user.authenticate(valid[:password])
+  end
+
+  test "should not give success with blank password" do
+    user=User.create(valid)
+    sign_in user
+    patch :update_password, user: { old_password: valid[:password], password: "", password_confirmation: "" }
+    user.reload
+    assert_equal "Password change failed", flash[:danger]
+    assert_nil flash[:success]
+    assert_template 'password'
+  end
   private
     def valid
       {name: "Test name", email: "test@email.com", password: "foobar", password_confirmation: "foobar"}
