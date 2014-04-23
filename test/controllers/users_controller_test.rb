@@ -122,6 +122,15 @@ class UsersControllerTest < ActionController::TestCase
     assert_equal user, user.authenticate("new password")
   end
 
+  test "should change password for seller" do
+    user=User.create(valid.merge(type: "Seller"))
+    sign_in user
+    patch :update_password, seller: { old_password: valid[:password], password: "new password", password_confirmation: "new password" }
+    user.reload
+    assert_not user.authenticate(valid[:password])
+    assert_equal user, user.authenticate("new password")
+  end
+
   test "should not change password if old password doesn't match" do
     user=User.create(valid)
     sign_in user
