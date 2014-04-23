@@ -40,7 +40,8 @@ class UsersController < ApplicationController
     password_params=seller_password_params if @user.is_a?(Seller)
     password_params||=user_password_params
     if !@user.authenticate(password_params[:old_password])
-      flash.now[:warning]="Old password does not match"
+      @user.errors[:old_password]="is not valid"
+      flash.now[:warning]="Password change failed"
       render 'password'
       return
     end

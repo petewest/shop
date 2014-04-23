@@ -136,6 +136,7 @@ class UsersControllerTest < ActionController::TestCase
     sign_in user
     patch :update_password, user: { old_password: "something else", password: "new password", password_confirmation: "new password" }
     user.reload
+    assert_select ".field_with_errors>input[name='user[old_password]']"
     assert_not user.authenticate("new password")
     assert_equal user, user.authenticate(valid[:password])
   end
