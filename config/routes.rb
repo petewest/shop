@@ -8,7 +8,13 @@ Rails.application.routes.draw do
   resources :sessions, only: [:create]
   get '/signup' => 'users#new'
   get '/my_account' => 'users#edit'
-  resource :user, only: [:create, :update]
+  resource :user, only: [:create, :update] do
+    member do
+      get 'password'
+      patch 'update_password'
+      post 'update_password'
+    end
+  end
 
   concern :buyable do
     get 'buy' => 'line_items#new'

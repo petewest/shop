@@ -98,6 +98,27 @@ class UsersControllerTest < ActionController::TestCase
     user.reload
     assert_not user.bcc_on_email
   end
+
+  test "should get password screen" do
+    user=users(:buyer)
+    sign_in user
+    get :password
+    assert_response :success
+    assert_not_nil assigns(:user)
+    assert_select "form[action=#{update_password_user_path}]"
+  end
+
+  test "should not get password screen" do
+    get :password
+    assert_redirected_to signin_path
+  end
+
+  test "should change password" do
+    user=User.create(valid)
+    sign_in user
+    patch :update_password, user: { old_password: valid[:password], password: "new password", password_confirmation: "new password" }
+  end
+
   private
     def valid
       {name: "Test name", email: "test@email.com", password: "foobar", password_confirmation: "foobar"}

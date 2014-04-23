@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_action :signed_in_user, only: [:edit, :update]
-  before_action :get_user, only: [:edit, :update]
+  before_action :signed_in_user, only: [:edit, :update, :password]
+  before_action :get_user, only: [:edit, :update, :password]
 
   def new
     @user=User.new
@@ -31,6 +31,9 @@ class UsersController < ApplicationController
       flash.now[:danger]="Update failed"
       render 'edit'
     end
+  end
+
+  def password
   end
 
 
