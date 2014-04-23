@@ -40,7 +40,7 @@ class UsersController < ApplicationController
     password_params=seller_password_params if @user.is_a?(Seller)
     password_params||=user_password_params
     if !@user.authenticate(password_params[:old_password])
-      flash[:warning]="Old password does not match"
+      flash.now[:warning]="Old password does not match"
       render 'password'
       return
     end
@@ -70,7 +70,7 @@ class UsersController < ApplicationController
       params.require(:user).permit(:password, :password_confirmation, :old_password)
     end
     def seller_password_params
-      params.require(:user).permit(:password, :password_confirmation, :old_password)
+      params.require(:seller).permit(:password, :password_confirmation, :old_password)
     end
     def get_user
       @user=current_user
