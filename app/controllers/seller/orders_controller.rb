@@ -3,7 +3,7 @@ class Seller::OrdersController < ApplicationController
   before_action :order_from_params, only: [:update, :show]
 
   def index
-    @orders=Order
+    @orders=Order.includes(:user)
     @orders=StockLevel.find(params[:stock_level_id]).orders if params[:stock_level_id]
     @orders=@orders.all
   end
