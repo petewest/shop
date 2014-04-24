@@ -6,9 +6,9 @@ module CartsHelper
     rescue ActiveRecord::RecordNotFound, ActiveSupport::MessageVerifier::InvalidSignature => exception
       self.current_cart=nil
     end
-    @current_cart||=current_user.carts.first if signed_in? and current_user.carts.any?
+    @current_cart||=current_user.try(:carts).try(:first)
     @current_cart||=Cart.new(user: current_user)
-    @current_cart=Cart.new(user: current_user) if @current_cart.user and @current_cart.user!=current_user
+    @current_cart=Cart.new(user: current_user) if @current_cart.user && !current_user?(@current_cart.user)
     @current_cart
   end
 
