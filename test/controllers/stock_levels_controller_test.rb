@@ -46,6 +46,12 @@ class StockLevelsControllerTest < ActionController::TestCase
         post :create, product_id: @product.id, stock_level: valid
       end
     end
+    stock_level=assigns(:stock_level)
+    assert_not_nil stock_level
+    assert_equal valid[:due_at].inspect, stock_level.due_at.inspect
+    assert_equal valid[:start_quantity], stock_level.start_quantity
+    assert_equal valid[:start_quantity], stock_level.current_quantity
+    assert_equal valid[:expires_at].inspect, stock_level.expires_at.inspect
     assert_redirected_to product_stock_levels_url(@product)
   end
 
@@ -88,6 +94,6 @@ class StockLevelsControllerTest < ActionController::TestCase
 
   private
     def valid
-      @stock_level||={due_at: 5.days.ago, start_quantity: 20, allow_preorder: 'f'}
+      @stock_level||={due_at: 5.days.ago, expires_at: 10.days.from_now, start_quantity: 20, allow_preorder: 'f'}
     end
 end
