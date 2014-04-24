@@ -3,21 +3,14 @@
 		<%= link_to product.name, product %>
 		<%= action_bar product, dropdown: true do |a| %>
 			<%= a.item "Add sub product", new_product_sub_product_path(product) %>
-			<%= a.item "Add stock", new_product_stock_level_path(product) %>
+			<%= a.item "Add stock", new_product_stock_level_path(product), data: { modal_target: '#modal' } %>
 		<% end %>
 		<div class="clearfix"></div>
 	</div>
-	<% if product.stock_levels.any? %>
-		<table class="table table-striped" id="stock_level_<%= css_id(product) %>">
-			<%= render 'stock_levels/stock_level_header' %>
-			<tbody>
-				<%= render partial: 'stock_levels/stock_level', collection: product.stock_levels %>
-			</tbody>
-		</table>
-	<% end %>
+	<%= render 'stock_levels/product_stock_level', product: product %>
 	<% if product.sub_products.any? %>
 		<div class="panel-body">
-		<%= render partial: 'product', collection: product.sub_products %>
+			<%= render partial: 'product', collection: product.sub_products %>
 		</div>
 	<% end %>
 </div>

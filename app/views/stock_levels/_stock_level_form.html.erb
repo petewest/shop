@@ -1,4 +1,10 @@
-<%= form_for [product, stock_level] do |f| %>
+<%
+options={}
+#If we've started in remote:true, we'll stay that way
+options[:remote]=true if request.xhr?
+%>
+<%= form_for [product, stock_level], options do |f| %>
+  <%= render 'shared/form_error', object: f.object %>
   <div class="form-group">
     <%= f.label :due_at, class: "control-label" %>
     <%= f.date_field :due_at, class: "form-control" %>

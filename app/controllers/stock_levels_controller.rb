@@ -14,8 +14,11 @@ class StockLevelsController < ApplicationController
   def create
     @stock_level=@product.stock_levels.new(stock_level_params)
     if @stock_level.save
-      flash[:success]="Stock added"
-      redirect_to product_stock_levels_url(@product)
+      flash.now[:success]="Stock added"
+      respond_to do |format|
+        format.html { redirect_to product_stock_levels_url(@product) }
+        format.js
+      end
     else
       flash.now[:danger]="Error saving stock"
       render 'new'

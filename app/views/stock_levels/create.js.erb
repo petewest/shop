@@ -1,0 +1,3 @@
+jQuery("#stock_level_<%= css_id(@product) %>").replaceWith("<%= escape_javascript(render 'stock_levels/product_stock_level', product: @product) %>");
+<%= render 'shared/refresh_flash' %>
+<%= render 'shared/hide_modal' %>

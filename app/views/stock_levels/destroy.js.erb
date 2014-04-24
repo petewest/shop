@@ -1,7 +1,7 @@
 <%= render 'shared/refresh_flash' %>
 <% if !@stock_level.persisted? %>
-	jQuery("#<%= css_id(@stock_level) %>").remove();
+	jQuery("#<%= css_id(@stock_level) %>").slideToggle(function() { jQuery(this).remove(); });
 <% end %>
 <% if @product.stock_levels.empty? %>
-	jQuery("#stock_level_<%= css_id(@product) %>").remove();
+	jQuery("#stock_level_<%= css_id(@product) %>>table").slideToggle(function() { jQuery(this).remove(); });
 <% end %>

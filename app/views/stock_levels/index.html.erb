@@ -4,11 +4,6 @@
 <%= link_to @product.name, @product %> stock levels
 <% end %>
 
-<table class="table table-striped table-condensed stock_level" id="stock_level_<%= css_id(@product) %>">
-	<%= render 'stock_level_header' %>
-	<tbody>
-		<%= render @stock_levels %>	
-	</tbody>
-</table>
+<%= render 'product_stock_level', product: @product %>
 
 <%= link_to "Add stock", new_product_stock_level_path(@product), class: "btn btn-default" %>

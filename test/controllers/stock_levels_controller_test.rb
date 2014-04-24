@@ -39,7 +39,7 @@ class StockLevelsControllerTest < ActionController::TestCase
     assert_response :redirect
   end
 
-  test "should create new stock when valid" do
+  test "should create new stock when valid (html)" do
     sign_in users(:seller)
     assert_difference "StockLevel.count" do
       assert_difference "@product.stock_levels.count" do
@@ -48,6 +48,17 @@ class StockLevelsControllerTest < ActionController::TestCase
     end
     assert_redirected_to product_stock_levels_url(@product)
   end
+
+  test "should create new stock when valid (js)" do
+    sign_in users(:seller)
+    assert_difference "StockLevel.count" do
+      assert_difference "@product.stock_levels.count" do
+        xhr :post, :create, product_id: @product.id, stock_level: valid
+      end
+    end
+    assert_template 'create'
+  end
+
 
   test "should create pre-orderable stock" do
     sign_in users(:seller)
@@ -71,7 +82,7 @@ class StockLevelsControllerTest < ActionController::TestCase
     assert_difference "StockLevel.count", -1 do
       xhr :delete, :destroy, id: stock_level.id
     end
-    assert_template 'delete'
+    assert_template 'destroy'
   end
 
 
