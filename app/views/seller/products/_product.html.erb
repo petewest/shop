@@ -1,9 +1,9 @@
 <div class="panel panel-info">
 	<div class="panel-heading">
 		<%= link_to product.name, product %>
-		<%= action_bar product, dropdown: true do %>
-			<li><%= link_to "Add sub product", new_product_sub_product_path(product), class: "btn btn-default" %></li>
-			<li><%= link_to "Add stock", new_product_stock_level_path(product), class: "btn btn-default" %></li>
+		<%= action_bar product, dropdown: true do |a| %>
+			<%= a.item "Add sub product", new_product_sub_product_path(product) %>
+			<%= a.item "Add stock", new_product_stock_level_path(product) %>
 		<% end %>
 		<div class="clearfix"></div>
 	</div>

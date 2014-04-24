@@ -3,37 +3,58 @@ module ApplicationHelper
     "Shop!" + (t.blank? ? "" : " | #{t}")
   end
 
+  class ActionBarBuilder 
+    include ActionView::Helpers::UrlHelper
+
+    def initialize(options={})
+      @options=options
+      @link_class=(options[:dropdown] ? "" : "btn btn-default")
+    end
+    def header
+      html=%Q{<div class="#{@options[:class]}#{@options[:dropdown] ? ' dropdown' : '' }">}
+      if @options[:title].present?
+        html<<%Q{#{content_tag(:h4, @options[:title])}} if !@options[:dropdown]
+        html<<%Q{<a href='#' data-toggle="dropdown" class="#{@options[:class]}">#{@options[:title]} <span class="caret"></span></a>} if @options[:dropdown]
+      end
+      html<<%Q{<div class="btn-group#{@options[:vertical] ? "-vertical" : ""}">} if !@options[:dropdown]
+      html<<%Q{<ul class="dropdown-menu">} if @options[:dropdown]
+      html
+    end
+    def item(text, url, options={})
+      html=""
+      html<<"<li>" if @options[:dropdown]
+      html<< link_to(text, url, {class: @link_class}.merge(options))
+      html<<"</li>" if @options[:dropdown]
+      html<<"\n"
+      html.html_safe
+    end
+    def footer
+      html=""
+      if @options[:dropdown]
+        html<<%Q{</ul>} 
+      else
+        html<<"</div>"
+      end
+      html<<%Q{</div>}
+    end
+  end
+
   def action_bar(item, options={}, &block)
     default_actions=[:edit, :delete]
     default_options={class: "action_bar", title: "Actions", vertical: true, dropdown: false}
     default_options.merge!(options)
+    action_buttons=ActionBarBuilder.new(default_options)
     actions=default_actions - options[:except].to_a
     actions=*options[:only] if options[:only]
-    link_class=(default_options[:dropdown] ? "" : "btn btn-default")
-    html=%Q{<div class="#{default_options[:class]}#{ default_options[:dropdown] ? ' dropdown' : '' }">}
-    if default_options[:title].present?
-      html+=%Q{#{content_tag(:h4, default_options[:title])}} if !default_options[:dropdown]
-      html+=%Q{<a href='#' data-toggle="dropdown" class="#{default_options[:class]}">#{default_options[:title]} <span class="caret"></span></a>} if default_options[:dropdown]
-    end
-    html+=%Q{<div class="btn-group#{default_options[:vertical] ? "-vertical" : ""}">} if !default_options[:dropdown]
-    html<<%Q{<ul class="dropdown-menu">} if default_options[:dropdown]
-    html<<capture(&block) if block_given?
+    html=action_buttons.header
+    html<<capture(action_buttons, &block) if block_given?
     if actions.include? :edit
-      html<<"<li>" if default_options[:dropdown]
-      html<<link_to("Edit", [:edit, item], class: link_class)
-      html<<"</li>" if default_options[:dropdown]
+      html<<action_buttons.item("Edit", url_for([:edit, item]))
     end
     if actions.include? :delete
-      html<<"<li>" if default_options[:dropdown]
-      html<<link_to("Delete", item, method: :delete, data: {confirm: "Are you sure you wish to delete this #{item.class.name.downcase}?"}, class: link_class)
-      html<<"</li>" if default_options[:dropdown]
+      html<<action_buttons.item("Delete", url_for(item), method: :delete, data: {confirm: "Are you sure you wish to delete this #{item.class.name.downcase}?"})
     end
-    if default_options[:dropdown]
-      html<<%Q{</ul>} 
-    else
-      html<<"</div>"
-    end
-    html<<%Q{</div>}
+    html<<action_buttons.footer
     html.html_safe
   end
 

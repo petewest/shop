@@ -1,8 +1,8 @@
 <% provide(:title, @product.name) %>
 
-<%= action_bar(@product, title: "Seller actions") do %>
-	<%= link_to "Stock levels", product_stock_levels_path(@product), class: "btn btn-default" %>
-	<%= link_to "Sub products", product_sub_products_path(@product), class: "btn btn-default" %>
+<%= action_bar(@product, title: "Seller actions") do |a| %>
+	<%= a.item "Stock levels", product_stock_levels_path(@product) %>
+	<%= a.item "Sub products", product_sub_products_path(@product) %>
 <% end if signed_in_seller? %>
 
 <%= content_tag(:h1, @product.name) %>

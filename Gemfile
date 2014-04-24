@@ -1,7 +1,11 @@
 source 'https://rubygems.org'
 ruby '2.1.1'
 
-gem 'dotenv-rails', group: :development
+group :development do
+  gem 'dotenv-rails'
+  gem 'better_errors'
+  gem 'binding_of_caller'
+end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.0'
