@@ -5,7 +5,7 @@
 	<td><%= stock_level.current_quantity %></td>
 	<td><%= stock_level.allow_preorder? ? "yes" : "no" %></td>
 	<td>
-	<%= action_bar(stock_level, title: nil, direction: "horizontal", class: "", allow_edit: false)  do %>
+	<%= action_bar(stock_level, title: nil, vertical: false, class: "", except: [:edit])  do %>
 		<%= link_to "Orders", stock_level_orders_path(stock_level), class: "btn btn-default" %>
 	<% end %>
 	</td>

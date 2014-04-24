@@ -4,15 +4,36 @@ module ApplicationHelper
   end
 
   def action_bar(item, options={}, &block)
-    default_options={class: "action_bar", title: "Actions", direction: "vertical", allow_edit: true, allow_delete: true}
+    default_actions=[:edit, :delete]
+    default_options={class: "action_bar", title: "Actions", vertical: true, dropdown: false}
     default_options.merge!(options)
-    html=%Q{<div class="#{default_options[:class]}">}
-    html+=%Q{#{content_tag(:h4, default_options[:title])}} if !default_options[:title].blank?
-    html+=%Q{<div class="btn-group#{default_options[:direction]=="vertical" ? "-vertical" : ""}">}
+    actions=default_actions - options[:except].to_a
+    actions=*options[:only] if options[:only]
+    link_class=(default_options[:dropdown] ? "" : "btn btn-default")
+    html=%Q{<div class="#{default_options[:class]}#{ default_options[:dropdown] ? ' dropdown' : '' }">}
+    if default_options[:title].present?
+      html+=%Q{#{content_tag(:h4, default_options[:title])}} if !default_options[:dropdown]
+      html+=%Q{<a href='#' data-toggle="dropdown" class="#{default_options[:class]}">#{default_options[:title]} <span class="caret"></span></a>} if default_options[:dropdown]
+    end
+    html+=%Q{<div class="btn-group#{default_options[:vertical] ? "-vertical" : ""}">} if !default_options[:dropdown]
+    html<<%Q{<ul class="dropdown-menu">} if default_options[:dropdown]
     html<<capture(&block) if block_given?
-    html<<link_to("Edit", [:edit, item], class: "btn btn-default") if default_options[:allow_edit]
-    html<<link_to("Delete", item, method: :delete, data: {confirm: "Are you sure you wish to delete this #{item.class.name.downcase}?"}, class: "btn btn-danger") if default_options[:allow_delete]
-    html<<%Q{</div></div>}
+    if actions.include? :edit
+      html<<"<li>" if default_options[:dropdown]
+      html<<link_to("Edit", [:edit, item], class: link_class)
+      html<<"</li>" if default_options[:dropdown]
+    end
+    if actions.include? :delete
+      html<<"<li>" if default_options[:dropdown]
+      html<<link_to("Delete", item, method: :delete, data: {confirm: "Are you sure you wish to delete this #{item.class.name.downcase}?"}, class: link_class)
+      html<<"</li>" if default_options[:dropdown]
+    end
+    if default_options[:dropdown]
+      html<<%Q{</ul>} 
+    else
+      html<<"</div>"
+    end
+    html<<%Q{</div>}
     html.html_safe
   end
 
