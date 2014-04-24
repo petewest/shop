@@ -1,0 +1,21 @@
+<div class="panel panel-info">
+	<div class="panel-heading">
+		<%= product.name %>
+		<%= action_bar product, title: nil, direction: "horizontal" %>
+		<div class="clearfix"></div>
+	</div>
+	<% if product.stock_levels.any? %>
+		<table class="table table-striped">
+			<%= render 'stock_levels/stock_level_header' %>
+			<tbody>
+				<%= render partial: 'stock_levels/stock_level', collection: product.stock_levels %>
+			</tbody>
+		</table>
+	<% end %>
+	<% if product.sub_products.any? %>
+		<div class="panel-body">
+		<%= render partial: 'product', collection: product.sub_products %>
+		</div>
+	<% end %>
+</div>
+

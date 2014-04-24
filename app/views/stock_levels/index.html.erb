@@ -5,16 +5,7 @@
 <% end %>
 
 <table class="table table-striped table-condensed stock_level">
-	<thead>
-		<tr>
-			<th>Due at</th>
-			<th>Expires at</th>
-			<th>Start quantity</th>
-			<th>Current quantity</th>
-			<th>Allow pre-order</th>
-			<th>Actions</th>
-		</tr>
-	</thead>
+	<%= render 'stock_level_header' %>
 	<tbody>
 		<%= render @stock_levels %>	
 	</tbody>

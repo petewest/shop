@@ -52,6 +52,7 @@ Rails.application.routes.draw do
 
   namespace :seller do
     resources :orders, only: [:index, :show, :update]
+    resources :products, only: [:index]
   end
   
 

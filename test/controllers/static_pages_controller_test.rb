@@ -39,7 +39,7 @@ class StaticPagesControllerTest < ActionController::TestCase
 
 
   def seller_links
-    [new_product_path, currencies_path, postage_costs_path, seller_orders_path]
+    [new_product_path, currencies_path, postage_costs_path, seller_orders_path, seller_products_path]
   end
 
   def buyer_links
