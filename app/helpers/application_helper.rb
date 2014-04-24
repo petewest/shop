@@ -49,10 +49,12 @@ module ApplicationHelper
     html=action_buttons.header
     html<<capture(action_buttons, &block) if block_given?
     if actions.include? :edit
-      html<<action_buttons.item("Edit", url_for([:edit, item]))
+      edit_options={}.merge(default_options[:edit].to_h)
+      html<<action_buttons.item("Edit", url_for([:edit, item]), edit_options)
     end
     if actions.include? :delete
-      html<<action_buttons.item("Delete", url_for(item), method: :delete, data: {confirm: "Are you sure you wish to delete this #{item.class.name.downcase}?"})
+      delete_options={method: :delete, data: {confirm: "Are you sure you wish to delete this #{item.class.name.downcase}?"}}.merge(default_options[:delete].to_h)
+      html<<action_buttons.item("Delete", url_for(item), delete_options)
     end
     html<<action_buttons.footer
     html.html_safe

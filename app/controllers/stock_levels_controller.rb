@@ -25,11 +25,14 @@ class StockLevelsController < ApplicationController
   def destroy
     @product=@stock_level.product
     if @stock_level.destroy
-      flash[:success]="Stock level removed"
+      flash.now[:success]="Stock level removed"
     else
-      flash[:danger]="Could not delete stock: " + @stock_level.errors.full_messages.join(", ")
+      flash.now[:danger]="Could not delete stock: " + @stock_level.errors.full_messages.join(", ")
     end
-    redirect_to product_stock_levels_url(@product)
+    respond_to do |format|
+      format.html { redirect_to product_stock_levels_url(@product) }
+      format.js
+    end
   end
 
   private

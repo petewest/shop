@@ -1,0 +1,7 @@
+<%= render 'shared/refresh_flash' %>
+<% if !@stock_level.persisted? %>
+	jQuery("#<%= css_id(@stock_level) %>").remove();
+<% end %>
+<% if @product.stock_levels.empty? %>
+	jQuery("#stock_level_<%= css_id(@product) %>").remove();
+<% end %>

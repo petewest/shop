@@ -8,7 +8,7 @@
 		<div class="clearfix"></div>
 	</div>
 	<% if product.stock_levels.any? %>
-		<table class="table table-striped">
+		<table class="table table-striped" id="stock_level_<%= css_id(product) %>">
 			<%= render 'stock_levels/stock_level_header' %>
 			<tbody>
 				<%= render partial: 'stock_levels/stock_level', collection: product.stock_levels %>

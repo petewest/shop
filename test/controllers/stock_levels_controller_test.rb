@@ -56,7 +56,7 @@ class StockLevelsControllerTest < ActionController::TestCase
     end
   end
 
-  test "should allow deletion of stock" do
+  test "should allow deletion of stock (html)" do
     sign_in users(:seller)
     stock_level=@product.stock_levels.first
     assert_difference "StockLevel.count", -1 do
@@ -64,6 +64,16 @@ class StockLevelsControllerTest < ActionController::TestCase
     end
     assert_redirected_to product_stock_levels_url(@product)
   end
+
+  test "should allow deletion of stock (js)" do
+    sign_in users(:seller)
+    stock_level=@product.stock_levels.first
+    assert_difference "StockLevel.count", -1 do
+      xhr :delete, :destroy, id: stock_level.id
+    end
+    assert_template 'delete'
+  end
+
 
   private
     def valid
