@@ -19,7 +19,7 @@ class ChargesController < ApplicationController
     end
     flash[:warning]="No charges found" and return if @charges.empty?
     # find the orders that were paid during this date range
-    @orders=Order.where(paid_at: @from_date..@to_date)
+    @orders=Order.includes(:currency, line_items: [product: [:master_product]]).where(paid_at: @from_date..@to_date)
     #convert to an array so we can use Array's .delete() instead of ActiveRecord Relations :)
     @orders=@orders.to_a
     # match charges to orders
