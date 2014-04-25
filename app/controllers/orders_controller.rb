@@ -57,7 +57,7 @@ class OrdersController < ApplicationController
 
     #Actually create the charge in Stripes systems
     begin
-      Stripe::Charge.create(
+      charge=Stripe::Charge.create(
         amount: @order.cost,
         currency: @order.currency.iso_code.downcase,
         card: token,
@@ -84,8 +84,8 @@ class OrdersController < ApplicationController
       # Display a very generic error to the user
       flash[:warning]="Unknown error, please contact seller"
     end
-    redirect_to pay_order_path(@order) and return if flash[:warning].present?
-    @order.stripe_charge_reference=charges.map(&:id).join(", ")
+    redirect_to pay_order_path(@order) and return if charge.nil? or flash[:warning].present?
+    @order.stripe_charge_reference=charge.id
     if @order.save
       flash[:success]="Thank you for your order!"
       OrderMailer.confirmation_email(@order).deliver
