@@ -69,5 +69,7 @@ class LineItem < ActiveRecord::Base
       #if any of them are flagged as dirty
       errors[:base] << "Can't modify line item in non-cart states" and return false unless %w(cart checkout).include?(order.try(:status) || order.try(:status_was))
       copy_cost_from_product
+      # Check currency of this product matches currency of the order
+      errors[:base] << "Multi-currency orders currently unsupported" and return false unless self.currency==order.currency
     end
 end

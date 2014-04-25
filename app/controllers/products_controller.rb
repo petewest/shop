@@ -1,5 +1,5 @@
 class ProductsController < ApplicationController
-  before_action :signed_in_seller, except: [:index, :show, :buy]
+  before_action :signed_in_seller, except: [:index, :show]
   before_action :product_from_params, except: [:index, :new, :create]
 
   def index

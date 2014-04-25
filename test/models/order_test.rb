@@ -72,32 +72,30 @@ class OrderTest < ActiveSupport::TestCase
     assert pending_orders.all?{ |o| o.status.in? %w(placed paid) }
   end
 
-  test "should respond to costs" do
+  test "should respond to cost" do
     order=Order.new
-    assert_respond_to order, :costs
+    assert_respond_to order, :cost
   end
 
   test "should contain sum of line items in cost" do
     order=Order.new
-    products=[products(:tshirt)]
-    order.products=products
+    product=products(:tshirt)
+    order.products=[product]
     order.line_items.first.quantity=2
     order.line_items.each(&:copy_cost_from_product)
-    assert_equal 1, order.costs.count
-    assert currencies(:gbp), order.costs.first[:currency]
-    assert_equal products.first.cost*2, order.costs.first[:cost]
+    postage_cost=PostageCost.for_weight(product.weight*2)
+    assert currencies(:gbp), order.currency
+    assert_equal (product.cost*2)+postage_cost.cost, order.cost
   end
 
-  test "should combine costs by currency" do
+  test "should not allow multi-currency orders" do
     order=Order.new
-    products=[products(:tshirt), products(:other_currency), products(:mug)]
+    products=[products(:tshirt), products(:mug)]
     order.products=products
-    order.line_items.first.quantity=2
-    order.line_items.each(&:copy_cost_from_product)
-    assert_equal 2, order.costs.count
-    assert currencies(:gbp), order.costs.first[:currency]
-    assert_equal 5000, order.costs.first[:cost]
-    assert_equal 3000, order.costs.last[:cost]
+    assert order.save
+    assert_raises ActiveRecord::RecordNotSaved do
+      order.products<<products(:other_currency)
+    end
   end
 
   test "should change class when changing status" do
@@ -275,18 +273,13 @@ class OrderTest < ActiveSupport::TestCase
     assert_respond_to order, :postage_cost
   end
 
-  test "should respond to costs_with_postage" do
-    order=Order.new
-    assert_respond_to order, :costs_with_postage
-  end
-
   test "should give total cost including postage" do
     product=products(:with_weight)
     quantity=5
     postage_cost=PostageCost.for_weight(product.weight*quantity)
     order=Order.create(valid.merge(line_items_attributes: [{product_id: product.id, quantity: quantity}]))
     assert_equal postage_cost, order.postage_cost
-    assert_equal (product.cost*quantity)+postage_cost.cost, order.costs_with_postage[0][:cost], "product_cost: #{product.unit_cost*quantity}, postage_cost: #{postage_cost.unit_cost}.\ncosts_with_postage: #{order.costs_with_postage.inspect}"
+    assert_equal (product.cost*quantity)+postage_cost.cost, order.cost, "product_cost: #{product.unit_cost*quantity}, postage_cost: #{postage_cost.unit_cost}."
   end
 
   test "should record time when changing status to placed" do
@@ -334,6 +327,20 @@ class OrderTest < ActiveSupport::TestCase
   test "should respond to reconcile_charge" do
     order=Order.new
     assert_respond_to order, :reconcile_charge
+  end
+
+  test "should respond to fix_postage" do
+    order=Order.new
+    assert_respond_to order, :fix_postage
+  end
+
+  test "should set postage_cost_id on fix_postage" do
+    product=products(:with_weight)
+    quantity=5
+    postage_cost=PostageCost.for_weight(product.weight*quantity)
+    order=Order.create(valid.merge(line_items_attributes: [{product_id: product.id, quantity: quantity}]))
+    order.fix_postage
+    assert_equal postage_cost.id, order.postage_cost_id
   end
 
 

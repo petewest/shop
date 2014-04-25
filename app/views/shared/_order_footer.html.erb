@@ -9,7 +9,7 @@
 		<%= "Total cost:" if order %>
 	</div>
 	<div class="cart_line_cost text-right">
-		<%= cost_to_currency(*order.try(:costs_with_postage)) %>
+		<%= cost_to_currency(order) if order %>
 	</div>
 	<div class="clearfix"></div>
 </div>

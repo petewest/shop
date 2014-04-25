@@ -57,19 +57,12 @@ class OrdersController < ApplicationController
 
     #Actually create the charge in Stripes systems
     begin
-      #This won't work if there are multiple currencies in the order
-      #as the token can only be used once.
-      #TODO think about this.  Maybe validate line_items to make sure it's the same currency?
-      #Or combine multiple currencies to the charge currency, but then have to keep FX rates up to date
-      #Leave as-is for now
-      charges=@order.costs_with_postage.map do |cost|
-        Stripe::Charge.create(
-          amount: cost[:cost],
-          currency: cost[:currency].iso_code.downcase,
-          card: token,
-          description: "Order: ##{@order.id}: #{@order.user.email}"
-        )
-      end
+      Stripe::Charge.create(
+        amount: @order.cost,
+        currency: @order.currency.iso_code.downcase,
+        card: token,
+        description: "Order: ##{@order.id}: #{@order.user.email}"
+      )
     rescue Stripe::CardError => e
       # Since it's a decline, Stripe::CardError will be caught
       body = e.json_body

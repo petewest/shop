@@ -60,12 +60,11 @@ module ApplicationHelper
     html.html_safe
   end
 
-  def cost_to_currency(*items)
-    items.select{|i| i}.map do |item|
-      currency=item[:currency] || item.currency
-      cost=(item[:cost] || item.cost) / (10.0**currency.decimal_places)
-      number_to_currency(cost, unit: currency.symbol, precision: currency.decimal_places)
-    end.join
+  def cost_to_currency(item)
+    return if item.nil? or item.currency.nil?
+    currency=item.currency
+    cost=item.cost / (10.0**currency.decimal_places)
+    number_to_currency(cost, unit: currency.symbol, precision: currency.decimal_places)
   end
 
   def css_id(item)

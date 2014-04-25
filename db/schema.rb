@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140421083241) do
+ActiveRecord::Schema.define(version: 20140425202351) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "addresses", force: true do |t|
     t.string   "label"
@@ -97,11 +100,16 @@ ActiveRecord::Schema.define(version: 20140421083241) do
     t.integer  "delivery_id"
     t.string   "stripe_charge_reference"
     t.datetime "cancelled_at"
+    t.integer  "postage_cost_id"
+    t.integer  "currency_id"
+    t.integer  "unit_cost"
   end
 
   add_index "orders", ["billing_id"], name: "index_orders_on_billing_id", using: :btree
   add_index "orders", ["cart_token"], name: "index_orders_on_cart_token", unique: true, where: "((type)::text = 'Cart'::text)", using: :btree
+  add_index "orders", ["currency_id"], name: "index_orders_on_currency_id", using: :btree
   add_index "orders", ["delivery_id"], name: "index_orders_on_delivery_id", using: :btree
+  add_index "orders", ["postage_cost_id"], name: "index_orders_on_postage_cost_id", using: :btree
   add_index "orders", ["status"], name: "index_orders_on_status", using: :btree
   add_index "orders", ["user_id"], name: "index_orders_on_user_id", using: :btree
 

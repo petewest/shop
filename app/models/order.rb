@@ -1,10 +1,12 @@
 class Order < ActiveRecord::Base
+  include Costable
   ## Relationships
   belongs_to :user, inverse_of: :orders
   has_many :line_items, inverse_of: :order, dependent: :destroy
   has_many :products, through: :line_items, inverse_of: :orders
   belongs_to :delivery, class_name: "OrderAddress", dependent: :destroy
   belongs_to :billing, class_name: "OrderAddress", dependent: :destroy
+  belongs_to :postage_cost
 
 
   ## Validations
@@ -22,8 +24,8 @@ class Order < ActiveRecord::Base
   #process to check stock for validation, then allocate stock after successful save
   with_options if: -> { status_changed? and status=="placed" } do |placed|
     placed.validate :stock_check
-    placed.after_save :decrement_stock
     placed.validates :postage_cost, presence: {message: "missing, please contact the seller"}
+    placed.after_save :decrement_stock
   end
 
   validate :check_flow, if: -> {status_changed? and persisted?}
@@ -50,14 +52,9 @@ class Order < ActiveRecord::Base
 
   ## Methods
 
-  #Total order cost, grouped by currency
-  def costs
-    calculate_costs(*line_items)
-  end
-
   #Total order costs, with postage cost included
-  def costs_with_postage
-    calculate_costs(*line_items, postage_cost)
+  def cost
+    super || (line_items.map(&:cost).sum + postage_cost.try(:cost).to_i)
   end
 
   #Which status flows are allowed?
@@ -84,7 +81,13 @@ class Order < ActiveRecord::Base
 
   #Find the postage_cost item for this total_weight
   def postage_cost
-    PostageCost.for_weight(total_weight)
+    #First we'll check if postage_cost on the model is nil
+    super || PostageCost.for_weight(total_weight)
+  end
+
+  #Find the currency of the order
+  def currency
+    super || line_items.first.try(:currency)
   end
 
   # Reconcile this order with the charge
@@ -105,6 +108,18 @@ class Order < ActiveRecord::Base
       )
   end
 
+  #fix the postage cost
+  def fix_postage
+    self.postage_cost=postage_cost
+  end
+
+  #fix all costs
+  def fix_costs
+    fix_postage
+    self.currency=currency
+    self.unit_cost=cost
+  end
+
 
   private 
     def pre_save
@@ -115,6 +130,8 @@ class Order < ActiveRecord::Base
         self.send(status+"_at=", DateTime.now) if self.respond_to?(status+"_at=")
         #Release stock if an order has been cancelled
         line_items.all?(&:release_stock) if status=="cancelled"
+        #fix a copy of the costs when the order gets placed
+        fix_costs if status=="placed"
       end
       true
     end
@@ -125,12 +142,6 @@ class Order < ActiveRecord::Base
 
     def decrement_stock
       line_items.all?(&:take_stock)
-    end
-
-    def calculate_costs(*these_items)
-        these_items.select{|i| i.respond_to? :currency}.group_by(&:currency).map do |currency, items|
-          Hash(currency: currency, cost: items.map(&:cost).sum)
-        end if these_items.any?
     end
 
     def check_flow
