@@ -1,6 +1,7 @@
 <%
 charge=charge_and_order[:charge]
 order=charge_and_order[:order]
+reconcile_result=charge_and_order[:reconcile_result]
 %>
 <div class="panel panel-default">
 	<div class="panel-heading">
@@ -15,6 +16,12 @@ order=charge_and_order[:order]
 		Amount: <%= charge.amount %><br/>
 		In dispute: <%= charge.dispute ? "yes" : "no" %><br/>
 		Refunded: <%= charge.refunded ? "yes" : "no" %><br/>
+		<% if reconcile_result %>
+			<div>
+			Reconciliation result:<br/>
+			<%= render_result(reconcile_result) %>
+			</div>
+		<% end %>
 		<% if order %>
 			Order: <%= render order %>
 		<% else %>

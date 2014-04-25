@@ -331,6 +331,11 @@ class OrderTest < ActiveSupport::TestCase
     end
   end
 
+  test "should respond to reconcile_charge" do
+    order=Order.new
+    assert_respond_to order, :reconcile_charge
+  end
+
 
 
 

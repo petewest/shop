@@ -87,6 +87,24 @@ class Order < ActiveRecord::Base
     PostageCost.for_weight(total_weight)
   end
 
+  # Reconcile this order with the charge
+  def reconcile_charge(charge)
+    recon_costs={}
+    costs_with_postage.each do |cost|
+      recon_costs[cost[:currency]]={
+          currency: charge.currency.upcase==cost[:currency].iso_code.upcase,
+          cost: charge.amount==cost[:cost]
+        }
+    end
+    recon_status=true if status.in?(%w(paid dispatched)) and charge.paid==true and charge.refunded!=true
+    recon_status=true if status.in?(%w(cancelled)) and charge.refunded==true
+    recon_status||=false
+    Hash(
+      costs: recon_costs,
+      status: recon_status
+      )
+  end
+
 
   private 
     def pre_save
