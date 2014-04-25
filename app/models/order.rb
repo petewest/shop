@@ -79,19 +79,19 @@ class Order < ActiveRecord::Base
   #  they'll calculate what the item should be from its sub items
 
   #Total order costs, with postage cost included
-  def cost
-    super || (line_items.map(&:cost).sum + postage_cost.try(:cost).to_i)
+  def cost(recalculate=false)
+    (!recalculate && super()) || (line_items.map(&:cost).sum + postage_cost.try(:cost).to_i)
   end
 
   #Find the postage_cost item for this total_weight
-  def postage_cost
+  def postage_cost(recalculate=false)
     #First we'll check if postage_cost on the model is nil
-    super || PostageCost.for_weight(total_weight)
+    (!recalculate && super()) || PostageCost.for_weight(total_weight)
   end
 
   #Find the currency of the order
-  def currency
-    super || line_items.first.try(:currency)
+  def currency(recalculate=false)
+    (!recalculate && super()) || line_items.first.try(:currency)
   end
 
   # Reconcile this order with the charge
@@ -108,9 +108,9 @@ class Order < ActiveRecord::Base
 
   #fix all costs
   def fix_costs
-    self.postage_cost=postage_cost
-    self.currency=currency
-    self.unit_cost=cost
+    self.postage_cost=postage_cost(true)
+    self.currency=currency(true)
+    self.unit_cost=cost(true)
   end
 
   #helper method to fix all costs and save
