@@ -343,7 +343,7 @@ class OrderTest < ActiveSupport::TestCase
     assert_equal postage_cost.id, order.postage_cost_id
   end
 
-  test "should fix costs on placing" do
+  test "should fix costs, currency and postage on placing" do
     product=products(:with_weight)
     quantity=5
     postage_cost=PostageCost.for_weight(product.weight*quantity)
@@ -359,9 +359,27 @@ class OrderTest < ActiveSupport::TestCase
     assert_equal product.currency_id, order.currency_id, "Debug: Currency id isn't set"
   end
 
-
-
-
+  test "should retrieve cost from model when set and force-fix when told" do
+    product=products(:with_weight)
+    quantity=5
+    postage_cost=PostageCost.for_weight(product.weight*quantity)
+    postage_cost_other=PostageCost.where.not(id: postage_cost.id).first
+    currency_other=Currency.where.not(id: product.currency.id).first
+    order=Order.create(valid.merge(line_items_attributes: [{product_id: product.id, quantity: quantity}]))
+    order.placed!
+    order.postage_cost_id=postage_cost_other.id
+    order.currency_id=currency_other.id
+    order.unit_cost=20
+    order.save and order.reload
+    assert_equal postage_cost_other, order.postage_cost
+    assert_equal currency_other, order.currency
+    assert_equal 20, order.cost
+    order.fix_costs!
+    order.reload
+    assert_not_equal postage_cost_other, order.postage_cost
+    assert_not_equal currency_other, order.currency
+    assert_not_equal 20, order.cost
+  end
 
   private
     def valid
