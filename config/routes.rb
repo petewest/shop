@@ -20,6 +20,8 @@ Rails.application.routes.draw do
     get 'buy' => 'line_items#new'
   end
 
+  resources :charges, only: [:index]
+
   resources :products do
     concerns :buyable
     resources :stock_levels, only: [:index, :new, :create]

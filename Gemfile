@@ -1,8 +1,9 @@
 source 'https://rubygems.org'
 ruby '2.1.1'
 
+gem 'dotenv-rails', group: [:test, :development]
+
 group :development do
-  gem 'dotenv-rails'
   gem 'better_errors'
   gem 'binding_of_caller'
 end

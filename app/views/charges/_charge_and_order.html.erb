@@ -1,0 +1,19 @@
+<%
+charge=charge_and_order[:charge]
+order=charge_and_order[:order]
+%>
+<div class="panel panel-default">
+	<div class="panel-heading">
+		Charge ref: <%= charge.id %>
+	</div>
+	<div class="panel-body">
+		Paid: <%= charge.paid %><br/>
+		In dispute: <%= charge.dispute ? "yes" : "no" %><br/>
+		Refunded: <%= charge.refunded ? "yes" : "no" %><br/>
+		<% if order %>
+			Order: <%= render order %>
+		<% else %>
+			Order missing!
+		<% end %>
+	</div>
+</div>
