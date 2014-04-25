@@ -52,11 +52,6 @@ class Order < ActiveRecord::Base
 
   ## Methods
 
-  #Total order costs, with postage cost included
-  def cost
-    super || (line_items.map(&:cost).sum + postage_cost.try(:cost).to_i)
-  end
-
   #Which status flows are allowed?
   #Class method for all allowed
   def self.allowed_status_flows
@@ -77,6 +72,15 @@ class Order < ActiveRecord::Base
   #(which is product weight * quantity)
   def total_weight
     line_items.map(&:weight).sum
+  end
+
+  ## These functions all replace the ones added by activerecord
+  #  they'll call the AR function first, but if that returns nil (no data saved in record)
+  #  they'll calculate what the item should be from its sub items
+
+  #Total order costs, with postage cost included
+  def cost
+    super || (line_items.map(&:cost).sum + postage_cost.try(:cost).to_i)
   end
 
   #Find the postage_cost item for this total_weight
@@ -102,16 +106,17 @@ class Order < ActiveRecord::Base
       )
   end
 
-  #fix the postage cost
-  def fix_postage
-    self.postage_cost=postage_cost
-  end
-
   #fix all costs
   def fix_costs
-    fix_postage
+    self.postage_cost=postage_cost
     self.currency=currency
     self.unit_cost=cost
+  end
+
+  #helper method to fix all costs and save
+  def fix_costs!
+    fix_costs
+    save!
   end
 
 

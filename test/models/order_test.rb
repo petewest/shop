@@ -331,17 +331,34 @@ class OrderTest < ActiveSupport::TestCase
 
   test "should respond to fix_postage" do
     order=Order.new
-    assert_respond_to order, :fix_postage
+    assert_respond_to order, :fix_costs
   end
 
-  test "should set postage_cost_id on fix_postage" do
+  test "should set postage_cost_id on fix_costs" do
     product=products(:with_weight)
     quantity=5
     postage_cost=PostageCost.for_weight(product.weight*quantity)
     order=Order.create(valid.merge(line_items_attributes: [{product_id: product.id, quantity: quantity}]))
-    order.fix_postage
+    order.fix_costs
     assert_equal postage_cost.id, order.postage_cost_id
   end
+
+  test "should fix costs on placing" do
+    product=products(:with_weight)
+    quantity=5
+    postage_cost=PostageCost.for_weight(product.weight*quantity)
+    order=Order.create(valid.merge(line_items_attributes: [{product_id: product.id, quantity: quantity}]))
+    order.reload
+    assert_nil order.postage_cost_id
+    assert_nil order.unit_cost
+    assert_nil order.currency_id
+    order.placed!
+    order.reload
+    assert_equal postage_cost.id, order.postage_cost_id, "Debug postage cost id missing"
+    assert_equal product.cost*quantity+postage_cost.cost, order.unit_cost, "Debug: Cost doesn't match"
+    assert_equal product.currency_id, order.currency_id, "Debug: Currency id isn't set"
+  end
+
 
 
 
