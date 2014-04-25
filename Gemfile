@@ -19,6 +19,9 @@ gem 'coffee-rails', '~> 4.0.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer',  platforms: :ruby
 
+#Use unicorn for the web server
+gem 'unicorn', '4.8.2'
+
 gem 'bootstrap-sass', '3.1.1.0'
 gem 'bcrypt-ruby', '3.1.2'
 
