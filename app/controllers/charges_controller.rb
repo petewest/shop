@@ -1,5 +1,7 @@
 class ChargesController < ApplicationController
   before_action :signed_in_seller
+  before_action :find_charge, only: [:refund]
+
   def index
     begin
       # Grab the charges direct from Stripe
@@ -21,4 +23,18 @@ class ChargesController < ApplicationController
       )
     end
   end
+
+  def refund
+    if @charge.refund
+      flash[:success]="Charge refunded!"
+    else
+      flash[:danger]="Charge refund failed"
+    end
+    redirect_to charges_url
+  end
+
+  private
+    def find_charge
+      @charge=Stripe::Charge.retrieve(params[:id])
+    end
 end

@@ -20,7 +20,12 @@ Rails.application.routes.draw do
     get 'buy' => 'line_items#new'
   end
 
-  resources :charges, only: [:index]
+  resources :charges, only: [:index] do
+    member do
+      post 'refund'
+      patch 'refund'
+    end
+  end
 
   resources :products do
     concerns :buyable

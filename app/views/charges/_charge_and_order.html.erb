@@ -5,9 +5,14 @@ order=charge_and_order[:order]
 <div class="panel panel-default">
 	<div class="panel-heading">
 		Charge ref: <%= charge.id %>
+		<%= action_bar charge, except: [:edit, :delete], dropdown: true do |a| %>
+			<%= a.item "Refund", refund_charge_path(charge.id), method: :patch, data: {confirm: "Refund this charge?"} %>
+		<% end %>
 	</div>
 	<div class="panel-body">
 		Paid: <%= charge.paid %><br/>
+		Currency: <%= charge.currency %><br/>
+		Amount: <%= charge.amount %><br/>
 		In dispute: <%= charge.dispute ? "yes" : "no" %><br/>
 		Refunded: <%= charge.refunded ? "yes" : "no" %><br/>
 		<% if order %>
