@@ -1,0 +1,3 @@
+<div class="item<%= product_image.main? ? ' active' : '' %>">
+  <%= image_tag product_image.image.url(:medium), alt: @product.name if product_image %>
+</div>

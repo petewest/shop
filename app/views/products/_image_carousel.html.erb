@@ -1,0 +1,21 @@
+<div id="images_<%= css_id(product) %>" class="carousel slide" data-interval="false">
+  <!-- indicators -->
+  <ol class="carousel-indicators">
+    <% product.images.count.times do |i| %>
+      <li data-target="#images_<%= css_id(product) %>" data-slide-to="<%= i %>" class="<%= i==0 ? 'active' : '' %>"></li>
+    <% end %>
+  </ol>
+
+  <!-- actual slides -->
+  <div class="carousel-inner">
+    <%= render partial: 'product_image', collection: product.images %>
+  </div>
+
+  <!-- Controls -->
+  <a class="left carousel-control" href="#images_<%= css_id(product) %>" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left"></span>
+  </a>
+  <a class="right carousel-control" href="#images_<%= css_id(product) %>" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right"></span>
+  </a>
+</div>
