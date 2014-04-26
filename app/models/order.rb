@@ -86,7 +86,7 @@ class Order < ActiveRecord::Base
   #Find the postage_cost item for this total_weight
   def postage_cost(recalculate=false)
     #First we'll check if postage_cost on the model is nil
-    (!recalculate && super()) || PostageCost.for_weight(total_weight)
+    (!recalculate && super()) || PostageCost.where(currency: currency).for_weight(total_weight)
   end
 
   #Find the currency of the order
