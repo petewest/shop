@@ -6,6 +6,7 @@ gem 'dotenv-rails', group: [:test, :development]
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'meta_request'
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
