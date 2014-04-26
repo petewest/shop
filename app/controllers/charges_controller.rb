@@ -16,8 +16,15 @@ class ChargesController < ApplicationController
     rescue Stripe::AuthenticationError => e
       flash[:danger]="Error authenticating with Stripe.  Check your API key."
       return
+    rescue Stripe::APIConnectionError => e
+      # Network communication with Stripe failed
+      flash[:danger]="Failed to contact payment system, please contact seller"
+      return
+    rescue Stripe::StripeError => e
+      flash[:danger]="Stripe error: #{e.to_s}"
+      return
     end
-    flash[:warning]="No charges found" and return if @charges.empty?
+    flash[:warning]="No charges found" and return if @charges.nil? or @charges.empty?
     # find the orders that were paid during this date range
     @orders=Order.includes(:currency, line_items: [product: [:master_product]]).where(paid_at: @from_date..@to_date)
     #convert to an array so we can use Array's .delete() instead of ActiveRecord Relations :)
@@ -38,7 +45,7 @@ class ChargesController < ApplicationController
   end
 
   def refund
-    if @charge.refund
+    if @charge.try(:refund)
       flash[:success]="Charge refunded!"
     else
       flash[:danger]="Charge refund failed"
@@ -49,5 +56,8 @@ class ChargesController < ApplicationController
   private
     def find_charge
       @charge=Stripe::Charge.retrieve(params[:id])
+    rescue Stripe::StripeError => e
+      @charge=nil
+      flash[:warning]="Stripe error: #{e.to_s}"
     end
 end
