@@ -58,7 +58,7 @@ class Order < ActiveRecord::Base
     {
       cart: [:placed, :cancelled],
       placed: [:paid, :dispatched, :cancelled],
-      paid: :dispatched,
+      paid: [:dispatched, :cancelled],
       cancelled: :cart
     }
   end
