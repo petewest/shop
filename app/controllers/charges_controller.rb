@@ -45,21 +45,34 @@ class ChargesController < ApplicationController
   end
 
   def refund
-    begin
-      @charge.refund
-    rescue Stripe::StripeError => e
-      flash[:danger]="#{e.message}"
-    else
-      flash[:success]="Charge refunded!"
+    if @order and params[:cancel]
+      @order.cancelled!
+      flash.now[:success]="Order cancelled. "
     end
-    redirect_to charges_url
+    @charge.refund
+    flash.now[:success]+="Charge refunded!"
+  rescue Stripe::StripeError => e
+    flash.now[:danger]=e.message
+  rescue ActiveRecord::RecordInvalid => e
+    flash.now[:danger]="Error cancelling order: #{e.message}"
+  ensure
+    reconcile_result=@order.reload.reconcile_charge(@charge) if @order
+    @charge_and_order={
+      charge: @charge,
+      order: @order,
+      reconcile_result: reconcile_result
+    }
+    respond_to do |format|
+      format.html { flash.keep and redirect_to charges_url }
+      format.js
+    end
   end
 
   private
     def find_charge
       @charge=Stripe::Charge.retrieve(params[:id])
+      @order=Order.find_by_stripe_charge_reference(params[:id])
     rescue Stripe::StripeError => e
-      @charge=nil
       flash[:warning]="Stripe error: #{e.message}"
       respond_to do |format|
         format.html { redirect_to charges_url }

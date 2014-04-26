@@ -7,8 +7,9 @@ reconcile_result=charge_and_order[:reconcile_result]
 	<div class="panel-heading">
 		Charge ref: <%= charge.id %>
 		<%= action_bar charge, except: [:edit, :delete], dropdown: true do |a| %>
-			<%= a.item "Refund", refund_charge_path(charge.id), method: :patch, data: {confirm: "Refund this charge?"} %>
-		<% end %>
+			<%= a.item "Refund", refund_charge_path(charge.id), method: :patch, remote: true, data: {confirm: "Refund this charge?"} %>
+			<%= a.item "Refund and cancel", refund_charge_path(charge.id, cancel: true), method: :patch, remote: true, data: {confirm: "Refund this charge and cancel order?"} if order and order.allowed_status_flows.include?(:cancelled) %>
+		<% end if !charge.refunded %>
 	</div>
 	<div class="panel-body">
 		Paid: <%= charge.paid %><br/>

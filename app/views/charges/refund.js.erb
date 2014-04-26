@@ -1,0 +1,2 @@
+jQuery("#<%= @charge.id %>").replaceWith("<%= escape_javascript(render 'charge_and_order', charge_and_order: @charge_and_order) %>");
+<%= render 'shared/refresh_flash' %>
