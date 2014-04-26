@@ -2,23 +2,25 @@
 images_sorted=product.images.order(main: :desc)
 %>
 <div id="images_<%= css_id(product) %>" class="carousel slide" data-interval="false">
-  <!-- indicators -->
-  <ol class="carousel-indicators">
-    <% images_sorted.each.with_index do |image, i| %>
-      <li data-target="#images_<%= css_id(product) %>" data-slide-to="<%= i %>" class="<%= image.main? ? 'active' : '' %>"></li>
-    <% end %>
-  </ol>
+  <% if images_sorted.any? %>
+    <!-- indicators -->
+    <ol class="carousel-indicators">
+      <% images_sorted.each.with_index do |image, i| %>
+        <li data-target="#images_<%= css_id(product) %>" data-slide-to="<%= i %>" class="<%= image.main? ? 'active' : '' %>"></li>
+      <% end %>
+    </ol>
 
-  <!-- actual slides -->
-  <div class="carousel-inner">
-    <%= render partial: 'product_image', collection: images_sorted %>
-  </div>
+    <!-- actual slides -->
+    <div class="carousel-inner">
+      <%= render partial: 'product_image', collection: images_sorted %>
+    </div>
 
-  <!-- Controls -->
-  <a class="left carousel-control" href="#images_<%= css_id(product) %>" data-slide="prev">
-    <span class="glyphicon glyphicon-chevron-left"></span>
-  </a>
-  <a class="right carousel-control" href="#images_<%= css_id(product) %>" data-slide="next">
-    <span class="glyphicon glyphicon-chevron-right"></span>
-  </a>
+    <!-- Controls -->
+    <a class="left carousel-control" href="#images_<%= css_id(product) %>" data-slide="prev">
+      <span class="glyphicon glyphicon-chevron-left"></span>
+    </a>
+    <a class="right carousel-control" href="#images_<%= css_id(product) %>" data-slide="next">
+      <span class="glyphicon glyphicon-chevron-right"></span>
+    </a>
+  <% end %>
 </div>
