@@ -14,14 +14,14 @@ class ChargesController < ApplicationController
       #convert them to an array instead of a Stripe::List
       @charges=@charges.to_a
     rescue Stripe::AuthenticationError => e
-      flash[:danger]="Error authenticating with Stripe.  Check your API key."
+      flash[:danger]="Error authenticating with Stripe. #{e.message}"
       return
     rescue Stripe::APIConnectionError => e
       # Network communication with Stripe failed
-      flash[:danger]="Failed to contact payment system, please contact seller"
+      flash[:danger]="Failed to contact payment system: #{e.message}"
       return
     rescue Stripe::StripeError => e
-      flash[:danger]="Stripe error: #{e.to_s}"
+      flash[:danger]="Stripe error: #{e.message}"
       return
     end
     flash[:warning]="No charges found" and return if @charges.nil? or @charges.empty?
@@ -45,10 +45,12 @@ class ChargesController < ApplicationController
   end
 
   def refund
-    if @charge.try(:refund)
-      flash[:success]="Charge refunded!"
+    begin
+      @charge.refund
+    rescue Stripe::StripeError => e
+      flash[:danger]="#{e.message}"
     else
-      flash[:danger]="Charge refund failed"
+      flash[:success]="Charge refunded!"
     end
     redirect_to charges_url
   end
@@ -58,6 +60,10 @@ class ChargesController < ApplicationController
       @charge=Stripe::Charge.retrieve(params[:id])
     rescue Stripe::StripeError => e
       @charge=nil
-      flash[:warning]="Stripe error: #{e.to_s}"
+      flash[:warning]="Stripe error: #{e.message}"
+      respond_to do |format|
+        format.html { redirect_to charges_url }
+        format.js { render partial: 'shared/refresh_flash'}
+      end
     end
 end

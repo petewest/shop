@@ -3,7 +3,7 @@ charge=charge_and_order[:charge]
 order=charge_and_order[:order]
 reconcile_result=charge_and_order[:reconcile_result]
 %>
-<div class="panel panel-default">
+<div class="panel panel-default" id="<%= charge.id %>">
 	<div class="panel-heading">
 		Charge ref: <%= charge.id %>
 		<%= action_bar charge, except: [:edit, :delete], dropdown: true do |a| %>
