@@ -1,8 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  product_id: 
-  main: false
+tshirt:
+  product: :tshirt
+  main: true
+  image_file_name: IMG_0589.jpg
+  image_content_type: image/jpeg
+  image_file_size: 652549
 
 two:
   product_id: 

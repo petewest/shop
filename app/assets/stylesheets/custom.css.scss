@@ -159,3 +159,16 @@
 .product_page_buy {
 	@extend .col-md-1, .col-sm-6, .col-xs-6;
 }
+
+.carousel-caption>a {
+	color: inherit;
+}
+
+.main_image_full {
+	@extend .col-md-12;
+	img {
+		display: block;
+		max-width: 100%;
+		height: auto;
+	}	
+}

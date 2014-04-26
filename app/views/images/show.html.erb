@@ -1,0 +1,7 @@
+<% provide(:title, "#{@image.product.name}") %>
+
+<div class="row">
+	<div class="main_image_full">
+		<%= image_tag @image.image.url, alt: @image.product.name %>
+	</div>
+</div>
