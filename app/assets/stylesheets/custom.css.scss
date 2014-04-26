@@ -1,5 +1,12 @@
 @import "bootstrap";
 
+#flash {
+	position: fixed;
+	left: 50%;
+	margin-left: -250px;
+	width: 500px;
+}
+
 .field_with_errors {
   @extend .has-error;
 }
