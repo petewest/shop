@@ -27,6 +27,15 @@
 	@extend .pull-right;
 }
 
+.filter_menu {
+	@extend .pull-right;
+	position: relative;
+	>a {
+		@extend .btn, .btn-default;
+	}
+}
+
+
 .cart_container>div:nth-child(odd) {
 	background-color: $table-bg-accent;
 }
