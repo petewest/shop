@@ -30,6 +30,8 @@ module ChargesHelper
   def charges_filter
     #Grab the first paid order from the database
     first_paid_order=Order.where.not(paid_at: nil).order(paid_at: :desc).first
+    #If we don't have any paid orders, quit no
+    return {} if first_paid_order.nil?
     #then the last
     last_paid_order=Order.where.not(paid_at: nil).order(paid_at: :desc).last
     #Work out our start & end dates
