@@ -65,19 +65,30 @@ module ApplicationHelper
   def filter_bar(filters)
     action_bar(title: "Filters", dropdown: true, class: "filter_menu") do |a|
       filters.map do |filter,value|
-        text=filter.to_s.titleize
-        # Find out if the filter is active
-        if params[filter]
-          #If it is, we'll tick it
-          text+=%Q{ <span class="glyphicon glyphicon-ok"></span>}
-          #and the new url will exclude it
-          url=url_for(params.except(filter))
-        else
-          #If not we'll set it
-          url=url_for(params.merge(filter => value))
-        end
-        a.item(text.html_safe, url)
+        construct_filter(a, filter, value)
       end.join.html_safe
+    end
+  end
+
+  def construct_filter(builder, filter, value, use_value_as_title=false)
+    text=(use_value_as_title ? value : filter).to_s.titleize
+    #if it's an array of options
+    if value.is_a?(Array)
+      #Allow the user to activate each one
+      text=%Q{<li class="dropdown-header">#{text}</li>}
+      text+=value.map{ |i| construct_filter(builder, filter, i, true) }.join
+    else
+      # Find out if the filter is active
+      if params[filter]==value.to_s
+        #If it is, we'll tick it
+        text+=%Q{ <span class="glyphicon glyphicon-ok"></span>}
+        #and the new url will exclude it
+        url=url_for(params.except(filter))
+      else
+        #If not we'll set it
+        url=url_for(params.merge(filter => value))
+      end
+      builder.item(text.html_safe, url)
     end
   end
 
