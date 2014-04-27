@@ -3,9 +3,11 @@
 one:
   line_item: :with_allocation 
   stock_level: :with_allocation
+  product: :product_2
   quantity: 1
 
 two:
   line_item: :two 
   stock_level: :product_0
+  product: :product_0
   quantity: 1

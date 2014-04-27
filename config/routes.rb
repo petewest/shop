@@ -37,6 +37,8 @@ Rails.application.routes.draw do
     resources :orders, only: [:index], module: :seller
   end
 
+  resources :allocations, only: [:index]
+
   resources :images, only: [:show]
 
   resources :orders, except: [:destroy, :new, :create, :edit] do

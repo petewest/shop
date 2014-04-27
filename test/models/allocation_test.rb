@@ -80,6 +80,20 @@ class AllocationTest < ActiveSupport::TestCase
     end
   end
 
+  test "should respond to product" do
+    allocation=Allocation.new
+    assert_respond_to allocation, :product
+  end
+
+  test  "should copy product_id from line_item on save" do
+    allocation=Allocation.new(valid)
+    assert_nil allocation.product
+    assert_nil allocation.product_id
+    allocation.save
+    assert_equal valid[:line_item].product, allocation.product
+    assert_equal valid[:line_item].product_id, allocation.product_id
+  end
+
   private
     def valid
       @alloc||={line_item: line_items(:one), stock_level: stock_levels(:tshirt_stock), quantity: 1}

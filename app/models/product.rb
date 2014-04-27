@@ -16,6 +16,7 @@ class Product < ActiveRecord::Base
   has_many :images, inverse_of: :product, dependent: :destroy
   has_one :main_image, ->{main}, class_name: "Image"
   has_many :stock_levels, inverse_of: :product, dependent: :destroy
+  has_many :allocations, inverse_of: :product
   has_many :current_stock, -> {current}, class_name: "StockLevel"
   has_many :sub_products, inverse_of: :master_product, foreign_key: "master_product_id", dependent: :destroy
 
