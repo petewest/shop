@@ -4,10 +4,13 @@ class ChargesController < ApplicationController
 
   def index
     #collect date range from params, or use this last month
-    @to_date=DateTime.parse(params[:to_date]) if params[:to_date]
-    @to_date||=DateTime.now
-    @from_date=DateTime.parse(params[:from_date]) if params[:from_date]
-    @from_date||=@to_date-1.month
+    @to_date=DateTime.parse(params[:to_date]).end_of_day if params[:to_date]
+    @to_date||=DateTime.now.end_of_month
+    @from_date=DateTime.parse(params[:from_date]).beginning_of_day if params[:from_date]
+    @from_date||=DateTime.now.beginning_of_month
+    #Set the params so we can use them later (in the filter checker)
+    params[:to_date]=@to_date.to_date.inspect
+    params[:from_date]=@from_date.to_date.inspect
     begin
       # Grab the charges direct from Stripe for this date period
       @charges=Stripe::Charge.all(created: { gte: @from_date.to_i, lte: @to_date.to_i })

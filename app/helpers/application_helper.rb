@@ -71,7 +71,8 @@ module ApplicationHelper
   end
 
   def construct_filter(builder, filter, value, use_value_as_title=false)
-    text=(use_value_as_title ? value : filter).to_s.titleize
+    text=(use_value_as_title ? value : filter)
+    text=text.to_s.titleize
     #if it's an array of options
     if value.is_a?(Array)
       #Allow the user to activate each one

@@ -1,5 +1,7 @@
 <% provide(:title, "Charges") %>
 
+<%= filter_bar(charges_filter) %>
+
 <%= content_tag(:h1, "Charges") %>
 
 <%= render partial: 'charge_and_order', collection: @charges_and_orders %>
