@@ -4,7 +4,10 @@ class Seller::OrdersController < ApplicationController
 
   def index
     @orders=Order.includes(:user)
-    @orders=StockLevel.find(params[:stock_level_id]).orders if params[:stock_level_id]
+    if params[:stock_level_id]
+      a_table=Allocation.arel_table
+      @orders=@orders.joins(:allocations).where(a_table[:stock_level_id].eq(params[:stock_level_id]))
+    end
     @orders=@orders.all
   end
 
