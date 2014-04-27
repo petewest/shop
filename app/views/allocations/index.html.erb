@@ -1,10 +1,11 @@
 <%
 
-title=["Allocated stock"]
-title<<"for orders with status #{params[:order_status]}" if params[:order_status] and params[:order_status].in?(Order.statuses.keys)
-title<<"grouped by product" if params[:by_product]
+title=["Allocated stock "]
+title<<"<small>for orders with status #{params[:order_status]} </small>" if params[:order_status] and params[:order_status].in?(Order.statuses.keys)
+title<<"<small>for #{@allocations.first.product.name} </small>" if params[:product_id] and @allocations.first
+title<<"<small>grouped by product </small>" if params[:by_product]
 
-title=title.join(" ")
+title=title.join
 
 %>
 
@@ -12,7 +13,7 @@ title=title.join(" ")
 
 <%= filter_bar(allocation_filter) %>
 
-<%= content_tag(:h1, title) %>
+<%= content_tag(:h1, title.html_safe) %>
 
 <table class="table table-striped table-condensed">
 	<thead>

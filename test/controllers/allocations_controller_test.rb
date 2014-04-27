@@ -15,6 +15,23 @@ class AllocationsControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     assert_not_nil assigns(:allocations)
+    assert_equal Allocation.count, assigns(:allocations).size
+  end
+
+  test "should get index with product_id" do
+    sign_in users(:seller)
+    product=products(:product_0)
+    get :index, product_id: product.id
+    assert_response :success
+    assert_equal product.allocations.count, assigns(:allocations).size
+  end
+
+  test "should get index with stock_level_id" do
+    sign_in users(:seller)
+    stock_level=stock_levels(:product_0)
+    get :index, stock_level_id: stock_level.id
+    assert_response :success
+    assert_equal stock_level.allocations.count, assigns(:allocations).size
   end
 
 end

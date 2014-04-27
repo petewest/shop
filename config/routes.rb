@@ -31,10 +31,12 @@ Rails.application.routes.draw do
     concerns :buyable
     resources :stock_levels, only: [:index, :new, :create]
     resources :sub_products, only: [:index, :new]
+    resources :allocations, only: [:index]
   end
 
   resources :stock_levels, only: [:destroy] do
     resources :orders, only: [:index], module: :seller
+    resources :allocations, only: [:index]
   end
 
   resources :allocations, only: [:index]

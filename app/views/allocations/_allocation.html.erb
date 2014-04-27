@@ -1,6 +1,11 @@
 <tr>
 	<td>
-		<%= link_to "Order", order_path(allocation.order) if allocation.id.present? %>
+		<% if allocation.id.present? %>
+			<%= link_to "Order ##{allocation.order.id}", order_path(allocation.order) %>
+		<% else %>
+			<%= link_to "Details", product_allocations_path(allocation.product, params.except(:by_product))
+			%>
+		<% end %>
 	</td>
 	<td>
 		<%= allocation.product.name %>
