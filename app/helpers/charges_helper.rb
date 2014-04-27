@@ -28,19 +28,18 @@ module ChargesHelper
   end
 
   def charges_filter
-    pretty_dates= -> (d) { d.to_date.inspect }
-    # Calculate some dates using SQL-specific jazz
-    case ActiveRecord::Base.connection
-    # PG gives us 'date_trunc' as a function to strip away bits of a date we don't want
-    when ActiveRecord::ConnectionAdapters::PostgreSQLAdapter
-      start_dates=Order.where.not(paid_at: nil).select("DATE_TRUNC('month', paid_at) AS paid_at").group("DATE_TRUNC('month', paid_at)").map(&:paid_at)
-    # if we don't know how to handle the current db, default to letting ruby do the hard work
-    else
-      start_dates=Order.where.not(paid_at: nil).pluck(:paid_at).map(&:beginning_of_month).uniq
-    end
+    #Grab the first paid order from the database
+    first_paid_order=Order.where.not(paid_at: nil).order(paid_at: :desc).first
+    #then the last
+    last_paid_order=Order.where.not(paid_at: nil).order(paid_at: :desc).last
+    #Work out our start & end dates
+    start_date=first_paid_order.paid_at.beginning_of_month.to_date
+    end_date=last_paid_order.paid_at.to_date
+    #Set up our date range to be all months between the two
+    date_range=(start_date..end_date).select{|d| d.day==1}
     Hash(
-      from_date: start_dates.map(&pretty_dates),
-      to_date: start_dates.map(&:end_of_month).map(&pretty_dates)
+      from_date: date_range.map(&:inspect),
+      to_date: date_range.map{ |d| d.end_of_month.inspect }
       )
   end
 end
