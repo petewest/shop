@@ -1,0 +1,11 @@
+<tr>
+	<td>
+		<%= link_to "Order", order_path(allocation.order) if allocation.id.present? %>
+	</td>
+	<td>
+		<%= allocation.product.name %>
+	</td>
+	<td>
+		<%= allocation.quantity %>
+	</td>
+</tr>
