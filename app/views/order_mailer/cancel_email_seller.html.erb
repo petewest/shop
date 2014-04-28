@@ -1,0 +1,13 @@
+<%= content_tag(:h1, "Order cancelled") %>
+
+<p>The following order has been <strong>cancelled</strong></p>
+
+<p>
+User email address: <%= mail_to @user.email, @user.email %><br/>
+Order: <%= link_to "##{@order.id}", seller_order_url(@order) %><br/>
+<% if @order.stripe_charge_reference.present? %>
+	This order has been <strong>paid</strong> so please check if a refund is due:<br/>
+	Charge: <%= link_to @order.stripe_charge_reference, charge_url(@order.stripe_charge_reference) %><br/>
+<% end %>
+</p>
+

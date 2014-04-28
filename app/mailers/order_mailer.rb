@@ -12,4 +12,16 @@ class OrderMailer < ActionMailer::Base
     @user=@order.user
     mail(to: @user.email, subject: "Order ##{@order.id} dispatched")
   end
+
+  def cancel_email(order)
+    @order=order
+    @user=@order.user
+    mail(to: @user.email, subject: "Order ##{@order.id} cancelled")
+  end
+
+  def cancel_email_seller(order)
+    @order=order
+    @user=@order.user
+    mail(to: Seller.pluck(:email), subject: "Order ##{@order.id} cancelled")
+  end
 end

@@ -6,4 +6,10 @@ class OrderMailerPreview < ActionMailer::Preview
   def dispatch
     OrderMailer.dispatch_email(Order.first)
   end
+  def cancel
+    OrderMailer.cancel_email(Order.paid.first)
+  end
+  def cancel_seller
+    OrderMailer.cancel_email_seller(Order.paid.first)
+  end
 end

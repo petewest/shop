@@ -1,0 +1,13 @@
+Order CANCELLED
+======================================
+
+The following order has been CANCELLED
+
+
+User email address: <%= @user.email %>
+Order: <%= seller_order_url(@order) %>
+<% if @order.stripe_charge_reference.present? %>
+	This order has been PAID so please check if a refund is due:
+	Charge: <%= charge_url(@order.stripe_charge_reference) %>
+<% end %>
+

@@ -1,0 +1,13 @@
+Your order has been CANCELLED!
+======================================
+
+Dear <%= @user.name %>,
+Your order #<%= @order.id %> has been cancelled.
+
+The seller has been notified and will process a refund if one is due.  In the event that a refund is not possible they will contact you directly.
+
+You can find more detail here: <%= order_url(@order) %>
+
+
+<%= root_url %>
+

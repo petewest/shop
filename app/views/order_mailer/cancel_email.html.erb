@@ -1,0 +1,10 @@
+<%= content_tag(:h1, "Order cancelled!") %>
+
+<p>Dear <%= @user.name %>,</p>
+<p>This is confirmation that you have <strong>cancelled</strong> your <%= link_to "order ##{@order.id}", order_url(@order) %><p>
+
+<p>The seller has been notified and will process a refund if one is due.  In the event that a refund is not possible they will contact you directly.</p>
+
+<p>For more information visit: <%= link_to order_url(@order), order_url(@order) %></p>
+
+<p><%= link_to root_url, root_url %></p>

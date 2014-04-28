@@ -16,6 +16,7 @@ paid:
   placed_at: 2014-03-30 17:13:24
   paid_at: 2014-03-30 17:13:24
   dispatched_at:
+  stripe_charge_reference: stripe_ref
   delivery: :delivery_for_paid
   billing: :billing_for_paid
 

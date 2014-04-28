@@ -23,4 +23,25 @@ class OrderMailerTest < ActionMailer::TestCase
     assert_equal ["test@example.com"], email.from
     assert_equal "Order ##{order.id} dispatched", email.subject
   end
+
+  test "should create cancellation email for buyer" do
+    buyer=users(:buyer)
+    order=buyer.orders.first
+    email=OrderMailer.cancel_email(order).deliver
+    assert_not ActionMailer::Base.deliveries.empty?
+    assert_equal [buyer.email], email.to
+    assert_equal ["test@example.com"], email.from
+    assert_equal "Order ##{order.id} cancelled", email.subject
+  end
+
+  test "should inform the seller the order has been cancelled" do
+    buyer=users(:buyer)
+    order=buyer.orders.first
+    email=OrderMailer.cancel_email_seller(order).deliver
+    assert_not ActionMailer::Base.deliveries.empty?
+    assert_equal Seller.pluck(:email), email.to
+    assert_not email.to.include?(buyer.email)
+    assert_equal ["test@example.com"], email.from
+    assert_equal "Order ##{order.id} cancelled", email.subject
+  end
 end
