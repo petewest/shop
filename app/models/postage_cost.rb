@@ -1,10 +1,12 @@
 class PostageCost < ActiveRecord::Base
   include Costable
+  belongs_to :postage_service
 
   validates :from_weight, presence: true, numericality: {greater_than_or_equal_to: 0}
   validates :to_weight, presence: true, numericality: {greater_than: :from_weight}
   validates :unit_cost, presence: true, numericality: true
   validates :currency, presence: true
+  validates :postage_service, presence: true
 
   validate :no_overlap
 
@@ -24,6 +26,8 @@ class PostageCost < ActiveRecord::Base
         at[:to_weight].gt(from_weight)
       ).where(
         at[:from_weight].lt(to_weight)
+      ).where(
+        postage_service: postage_service
       )
       check=check.where(at[:id].not_eq(id)) if persisted?
       errors[:base] << "Overlaps other postage boundaries" if check.any? 

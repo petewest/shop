@@ -8,6 +8,7 @@ class Order < ActiveRecord::Base
   belongs_to :delivery, class_name: "OrderAddress", dependent: :destroy
   belongs_to :billing, class_name: "OrderAddress", dependent: :destroy
   belongs_to :postage_cost
+  belongs_to :postage_service
 
 
   ## Validations
@@ -87,13 +88,19 @@ class Order < ActiveRecord::Base
   #Find the postage_cost item for this total_weight
   def postage_cost(recalculate=false)
     #First we'll check if postage_cost on the model is nil
-    (!recalculate && super()) || PostageCost.where(currency: currency).for_weight(total_weight)
+    (!recalculate && super()) || PostageCost.where(currency: currency).where(postage_service: postage_service).for_weight(total_weight)
   end
 
   #Find the currency of the order
   def currency(recalculate=false)
     (!recalculate && super()) || line_items.first.try(:currency)
   end
+
+  #Find the postage service to use
+  def postage_service
+    super || PostageService.default
+  end
+
 
   # Reconcile this order with the charge
   def reconcile_charge(charge)
@@ -112,6 +119,7 @@ class Order < ActiveRecord::Base
     self.postage_cost=postage_cost(true)
     self.currency=currency(true)
     self.unit_cost=cost(true)
+    self.postage_service=postage_service
   end
 
   #helper method to fix all costs and save

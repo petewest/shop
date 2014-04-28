@@ -5,15 +5,18 @@ one:
   to_weight: 5
   unit_cost: 1
   currency: :gbp
+  postage_service: :first_class
 
 two:
   from_weight: 5
   to_weight: 10
   unit_cost: 1
   currency: :gbp 
+  postage_service: :first_class
 
 for_order_test:
   from_weight: 490
   to_weight: 510
   unit_cost: 90
   currency: :gbp
+  postage_service: :first_class

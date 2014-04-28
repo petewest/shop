@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140427092804) do
+ActiveRecord::Schema.define(version: 20140428181008) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -105,6 +105,7 @@ ActiveRecord::Schema.define(version: 20140427092804) do
     t.integer  "postage_cost_id"
     t.integer  "currency_id"
     t.integer  "unit_cost"
+    t.integer  "postage_service_id"
   end
 
   add_index "orders", ["billing_id"], name: "index_orders_on_billing_id", using: :btree
@@ -112,6 +113,7 @@ ActiveRecord::Schema.define(version: 20140427092804) do
   add_index "orders", ["currency_id"], name: "index_orders_on_currency_id", using: :btree
   add_index "orders", ["delivery_id"], name: "index_orders_on_delivery_id", using: :btree
   add_index "orders", ["postage_cost_id"], name: "index_orders_on_postage_cost_id", using: :btree
+  add_index "orders", ["postage_service_id"], name: "index_orders_on_postage_service_id", using: :btree
   add_index "orders", ["status"], name: "index_orders_on_status", using: :btree
   add_index "orders", ["user_id"], name: "index_orders_on_user_id", using: :btree
 
@@ -122,9 +124,18 @@ ActiveRecord::Schema.define(version: 20140427092804) do
     t.integer  "currency_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "postage_service_id"
   end
 
   add_index "postage_costs", ["currency_id"], name: "index_postage_costs_on_currency_id", using: :btree
+  add_index "postage_costs", ["postage_service_id"], name: "index_postage_costs_on_postage_service_id", using: :btree
+
+  create_table "postage_services", force: true do |t|
+    t.string   "name"
+    t.boolean  "default",    default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "products", force: true do |t|
     t.string   "name"

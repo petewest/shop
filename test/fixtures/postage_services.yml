@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+first_class:
+  name: First class
+  default: true
+
+second_class:
+  name: Second class
+  default: 

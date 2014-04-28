@@ -55,6 +55,13 @@ class PostageCostTest < ActiveSupport::TestCase
     end
   end
 
+  test "should allow overlap if postage_service differs" do
+    postage=PostageCost.create(valid)
+    postage2=postage.dup
+    postage2.postage_service=postage_services(:second_class)
+    assert postage2.save
+  end
+
   test "should allow lower bound of this to touch upper bound of other record" do
     postage=PostageCost.new(valid)
     postage.save
@@ -91,8 +98,14 @@ class PostageCostTest < ActiveSupport::TestCase
     assert_not_equal postage, PostageCost.for_weight(valid[:from])
   end
 
+  test "should not save without postage_service" do
+    postage=PostageCost.new(valid.except(:postage_service))
+    assert_not postage.valid?
+    assert_not postage.save
+  end
+
   private
     def valid
-      @postage_cost||={from_weight: 20, to_weight: 50, unit_cost: 80, currency: currencies(:gbp)}
+      @postage_cost||={postage_service: postage_services(:first_class), from_weight: 20, to_weight: 50, unit_cost: 80, currency: currencies(:gbp)}
     end
 end

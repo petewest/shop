@@ -19,11 +19,13 @@ Currency.create([
   }
 ])
 
+first_class=PostageService.find_or_create_by(name: "Royal Mail UK standard first class", default: true)
+
 gbp=Currency.find_by(iso_code: "GBP")
 
 #Postage costs from http://www.royalmail.com/sites/default/files/RM_OurPrices_Mar2014a.pdf
 #UK standard 1st class for large letter & small parcel
-PostageCost.create([
+first_class.postage_costs=PostageCost.create([
   {
     from_weight: 0,
     to_weight: 100,
