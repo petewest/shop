@@ -2,4 +2,9 @@
 
 <%= content_tag(:h1, "Postage services") %>
 
-<%= render @postage_services %>
+
+<%= link_to "New", new_postage_service_path, data: {modal_target: '#modal'}, class: "btn btn-default" %>
+
+<div id="postage_services">
+	<%= render @postage_services %>
+</div>

@@ -16,6 +16,9 @@
 
 	<%= render 'shared/flash' %>
 
+  <% h1=yield(:heading) %>
+  <%= content_tag(:h1, h1) if h1.present? %>
+
 	<%= yield %>
 
 <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal_label" aria-hidden="true">
