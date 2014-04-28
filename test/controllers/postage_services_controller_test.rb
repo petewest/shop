@@ -69,6 +69,24 @@ class PostageServicesControllerTest < ActionController::TestCase
     assert_not postage_service.default?
   end
 
+  test "should not update item (js)" do
+    sign_in users(:seller)
+    postage_service=postage_services(:first_class)
+    xhr :patch, :update, id: postage_service.id, postage_service: valid.merge(name: "")
+    assert_equal "Update failed", flash[:danger]
+    assert_template 'edit'
+  end
+
+
+  test "should destroy item (html)" do
+    sign_in users(:seller)
+    postage_service=postage_services(:first_class)
+    assert_difference "PostageService.count", -1 do
+      delete :destroy, id: postage_service.id
+    end
+    assert_template 'destroy'
+  end
+
 
   private
     def valid

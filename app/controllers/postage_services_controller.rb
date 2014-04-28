@@ -1,6 +1,6 @@
 class PostageServicesController < ApplicationController
   before_action :signed_in_seller
-  before_action :find_postage_service, only: [:edit, :update]
+  before_action :find_postage_service, only: [:edit, :update, :destroy]
 
   def index
     @postage_services=PostageService.all
@@ -38,6 +38,22 @@ class PostageServicesController < ApplicationController
     else
       flash.now[:danger]="Update failed"
       render 'edit'
+    end
+  end
+
+  def destroy
+    if @postage_service.destroy
+      flash.now[:success]="Postage service removed"
+      respond_to do |format|
+        format.html { flash.keep and redirect_to postage_services_path }
+        format.js
+      end
+    else
+      flash.now[:danger]="Deletion failed"
+      respond_to do |format|
+        format.html { flash.keep and redirect_to postage_services_path }
+        format.js { render partial: 'shared/refresh_flash' }
+      end
     end
   end
 

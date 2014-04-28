@@ -1,7 +1,7 @@
-<div class="panel panel-default">
+<div class="panel panel-default" id="<%= css_id(postage_service) %>">
 	<div class="panel-heading">
 		<%= postage_service.name %>
-		<%= action_bar(postage_service, dropdown: true) do |bar| %>
+		<%= action_bar(postage_service, dropdown: true, delete: {remote: true}, edit: {data: {modal_target: '#modal'} }) do |bar| %>
 			<%= bar.item "New postage cost", new_postage_service_postage_cost_path(postage_service), data: {modal_target: '#modal'} %>
 		<% end %>
 	</div>
