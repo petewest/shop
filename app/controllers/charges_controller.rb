@@ -30,14 +30,11 @@ class ChargesController < ApplicationController
     flash[:warning]="No charges found" and return if @charges.nil? or @charges.empty?
     # find the orders that were paid during this date range
     @orders=Order.includes(:currency, line_items: [product: [:master_product]]).where(paid_at: @from_date..@to_date)
-    #convert to an array so we can use Array's .delete() instead of ActiveRecord Relations :)
-    @orders=@orders.to_a
     # match charges to orders
     @charges_and_orders=@charges.map do |ch|
       order=@orders.find{ |o| o.stripe_charge_reference==ch.id }
       if order
         reconcile=order.reconcile_charge(ch)
-        @orders.delete(order)
       end
       Hash(
         charge: ch,
