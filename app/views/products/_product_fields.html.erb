@@ -17,9 +17,10 @@
 <div class="cost">
         <%= render 'shared/cost_fields', f: f %>
     </div>
-<div class="image_list">
+<div class="image_list" id="images_list">
+	Images: <%= add_fields_for_button(f, :images) %>
 	<%= f.fields_for :images do |image| %>
-		<%= render 'shared/images_fields', f: image %>
+		<%= render 'images/image_fields', f: image %>
 	<% end %>
 </div>
 <div class="form-group">

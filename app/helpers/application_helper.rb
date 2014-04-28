@@ -103,4 +103,17 @@ module ApplicationHelper
   def css_id(item)
     "#{item.class.name.parameterize}_#{item.new_record? ? 'new' : item.id }"
   end
+
+  def add_fields_for_button(form, collection, options={})
+    title=(options[:title] || 'Add')
+    css_class=(options[:class] || "btn btn-default")
+    #create a new object in the collection
+    new_object=form.object.reflections[collection].build_association(nil)
+    #Find the partial name from options, or from the object
+    partial=(options[:partial] || new_object.to_partial_path + '_fields')
+    #grab the html to create a new version of this collection object
+    form_html=form.fields_for(collection, new_object, child_index: 'dummy_id'){ |f| render partial, f: f }
+    # Use string interpolation so that the html gets embedded properly
+    html=link_to title, '#', class: css_class, data: { fields_for_html: "#{form_html}", fields_for_collection: collection.to_s }
+  end
 end

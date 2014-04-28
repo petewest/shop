@@ -1,0 +1,23 @@
+<div class="image_input">
+	<div class="col-md-3">
+		<div class="form-group">
+		  <% if f.object.image_file_name.present? %>
+		  	<%= image_tag f.object.image.url(:thumb) %>
+		  	<%= f.object.image_file_name %>
+		  <% else %>
+			  <%= f.label :image, class: "control-label" %>
+			  <%= f.file_field :image %>
+		  <% end %>
+		</div>
+	</div>
+	<div class="col-md-3">
+		<div class="checkbox">
+		<label><%= f.check_box :main %> Main image</label>
+		</div>
+		<% if !f.object.new_record? %>
+		<div class="checkbox">
+		<label><%= f.check_box :_destroy %> Remove</label>
+		</div>
+		<% end %>
+	</div>
+</div>

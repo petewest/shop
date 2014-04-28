@@ -8,7 +8,6 @@ class ProductsController < ApplicationController
 
   def new
     @product=Product.new
-    @product.images.new
   end
 
   def create
@@ -39,7 +38,6 @@ class ProductsController < ApplicationController
   end
 
   def edit
-    @product.images.new
   end
 
   def update
