@@ -1,0 +1,3 @@
+<%= render 'shared/hide_modal' %>
+<%= render 'shared/refresh_flash' %>
+jQuery("#costs_for_<%= css_id(@postage_cost.postage_service) %>").append("<%= escape_javascript(render @postage_cost) %>");

@@ -27,6 +27,10 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :postage_services, except: [:show] do
+    resources :postage_costs, only: [:new]
+  end
+
   resources :products do
     concerns :buyable
     resources :stock_levels, only: [:index, :new, :create]

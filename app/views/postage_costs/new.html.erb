@@ -1,5 +1,5 @@
 <% provide(:title, "New postage cost") %>
 
-<%= content_tag(:h1, "New postage cost") %>
+<%= content_tag(:h1, "New postage cost") if !request.xhr? %>
 
 <%= render 'postage_cost_form', postage_cost: @postage_cost %>

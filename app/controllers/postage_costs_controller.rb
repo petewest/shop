@@ -11,8 +11,11 @@ class PostageCostsController < ApplicationController
 
   def update
     if @postage_cost.update_attributes(postage_params)
-      flash[:success]="Postage cost updated"
-      redirect_to postage_costs_url
+      flash.now[:success]="Postage cost updated"
+      respond_to do |format|
+        format.html {flash.keep and redirect_to postage_costs_url}
+        format.js
+      end
     else
       flash.now[:danger]="Postage cost update failed"
       render 'edit'
@@ -21,16 +24,20 @@ class PostageCostsController < ApplicationController
 
   def new
     @postage_cost=PostageCost.new
+    @postage_cost.postage_service=PostageService.find(params[:postage_service_id]) if params[:postage_service_id]
   end
 
   def create
     @postage_cost=PostageCost.new(postage_params)
     if @postage_cost.save
-      flash[:success]="Postage cost created"
-      redirect_to postage_costs_url
+      flash.now[:success]="Postage cost created"
+      respond_to do |format|
+        format.html { flash.keep and redirect_to postage_costs_url }
+        format.js
+      end
     else
       flash.now[:danger]="Postage cost creation failed"
-      render 'edit'
+      render 'new'
     end
   end
 
@@ -49,6 +56,6 @@ class PostageCostsController < ApplicationController
     end
 
     def postage_params
-      params.require(:postage_cost).permit(:from_weight, :to_weight, :unit_cost, :currency_id)
+      params.require(:postage_cost).permit(:postage_service_id, :from_weight, :to_weight, :unit_cost, :currency_id)
     end
 end

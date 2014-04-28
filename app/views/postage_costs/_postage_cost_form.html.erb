@@ -1,18 +1,30 @@
-<%= form_for postage_cost do |f| %>
+<%
+options={}
+options[:remote]=true if request.xhr? # If we asked for this in async, stay that way for form submission
+%>
+<%= form_for postage_cost, options do |f| %>
 	<%= render 'shared/form_error', object: f.object %>
 	<% if !f.object.postage_service %>
 		<div class="form-group">
 			<%= f.label :postage_service, class: "control-label" %>
 			<%= f.collection_select :postage_service_id, PostageService.all, :id, :name, {}, class: "form-control" %>
 		</div>
+	<% else %>
+		<%= f.hidden_field :postage_service_id %>
 	<% end %>
-	<div class="form-group">
-		<%= f.label :from_weight, class: "control-label" %>
-		<%= f.text_field :from_weight, class: "form-control" %>
+	<div class="col-md-6 col-sm-6 col-xs-12">
+		<div class="form-group">
+			<%= f.label :from_weight, class: "control-label" %>
+			<%= f.text_field :from_weight, class: "form-control" %>
+		</div>
 	</div>
-	<div class="form-group">
-		<%= f.label :to_weight, class: "control-label" %>
-		<%= f.text_field :to_weight, class: "form-control" %>
+	<div class="col-md-6 col-sm-6 col-xs-12">
+		<div class="form-group">
+			<%= f.label :to_weight, class: "control-label" %>
+			<%= f.text_field :to_weight, class: "form-control" %>
+		</div>
+	</div>
+	<div class="col-md-12">
 		<p class="help-block">
 			Postage cost is calculated up-to and including 'To weight'.  For example: If an item weighs 200g and you have a cost defined from 0-200, and one from 200-300 it'll use the 0-200 range.
 		</p>

@@ -77,6 +77,6 @@ class PostageCostsControllerTest < ActionController::TestCase
 
   private
     def valid
-      @postage_cost||={from_weight: 50, to_weight: 80, currency_id: currencies(:usd).id, unit_cost: 80}
+      @postage_cost||={postage_service_id: postage_services(:first_class).id, from_weight: 50, to_weight: 80, currency_id: currencies(:usd).id, unit_cost: 80}
     end
 end
