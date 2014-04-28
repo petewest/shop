@@ -18,6 +18,14 @@
 				li.hidden_field :id if !li.object.id.nil? %>
 			</div>
 		<% end %>
+		<div class="row">
+			<div class="col-md-4 col-sm-6 col-xs-12">
+				<div class="form-group">
+					<%= f.label :postage_service, class: "control-label" %>
+					<%= f.collection_select :postage_service_id, PostageService.all, :id, :name, {}, class: "form-control", data: {submit_on_change: true} %>
+				</div>
+			</div>
+		</div>
 		<%= render 'shared/order_footer', order: cart %>
 		<div class="btn-group pull-right">
 		    <%= link_to "Continue shopping", products_path, class: "btn btn-default" %>

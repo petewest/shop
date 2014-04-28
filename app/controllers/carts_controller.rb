@@ -23,16 +23,21 @@ class CartsController < ApplicationController
     end if params[:cart]
     if @cart.update_attributes(cart_params)
       if params[:commit]=="Checkout"
-        render 'redirect_to_checkout' and return if request.xhr?
-        redirect_to checkout_url and return
+        respond_to do |format|
+          format.html { redirect_to checkout_url }
+          format.js { render 'redirect_to_checkout' }
+        end
+        return
       else
-        flash[:success]="Cart updated"
+        flash.now[:success]="Cart updated"
       end
     else
       flash.now[:danger]="Couldn't update cart contents"
-      render 'show' and return
     end
-    redirect_to cart_path
+    respond_to do |format|
+      format.html { flash.keep and redirect_to cart_path }
+      format.js { render 'show'}
+    end
   end
 
   def checkout
@@ -78,7 +83,7 @@ class CartsController < ApplicationController
 
   private
     def cart_params
-      params.require(:cart).permit(line_items_attributes: [:id, :product_id, :quantity, :_destroy])
+      params.require(:cart).permit(:postage_service_id, line_items_attributes: [:id, :product_id, :quantity, :_destroy])
     end
 
     def address_params
