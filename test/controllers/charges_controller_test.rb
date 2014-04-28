@@ -28,4 +28,25 @@ class ChargesControllerTest < ActionController::TestCase
     post :refund, id: "ch_made_up"
     assert_redirected_to signin_path
   end
+
+  test "should not get show page for buyer" do
+    sign_in users(:buyer)
+    order=orders(:paid)
+    get :show, id: order.stripe_charge_reference
+    assert_redirected_to signin_path
+  end
+
+  test "should not get show page for anonymous" do
+    order=orders(:paid)
+    get :show, id: order.stripe_charge_reference
+    assert_redirected_to signin_path
+  end
+
+  test "should redirect to charges page for seller with incorrect id" do
+    #we don't have a valid id to test here, so just check it allows through the before_filter
+    sign_in users(:seller)
+    order=orders(:paid)
+    get :show, id: order.stripe_charge_reference
+    assert_redirected_to charges_url
+  end
 end

@@ -1,6 +1,6 @@
 class ChargesController < ApplicationController
   before_action :signed_in_seller
-  before_action :find_charge, only: [:refund]
+  before_action :find_charge, only: [:refund, :show]
 
   def index
     #collect date range from params, or use this last month
@@ -33,14 +33,7 @@ class ChargesController < ApplicationController
     # match charges to orders
     @charges_and_orders=@charges.map do |ch|
       order=@orders.find{ |o| o.stripe_charge_reference==ch.id }
-      if order
-        reconcile=order.reconcile_charge(ch)
-      end
-      Hash(
-        charge: ch,
-        order: order,
-        reconcile_result: reconcile
-      )
+      charge_and_order(ch, order)
     end
   end
 
@@ -56,16 +49,15 @@ class ChargesController < ApplicationController
   rescue ActiveRecord::RecordInvalid => e
     flash.now[:danger]="Error cancelling order: #{e.message}"
   ensure
-    reconcile_result=@order.reload.reconcile_charge(@charge) if @order
-    @charge_and_order={
-      charge: @charge,
-      order: @order,
-      reconcile_result: reconcile_result
-    }
+    @charge_and_order=charge_and_order(@charge, @order)
     respond_to do |format|
       format.html { flash.keep and redirect_to charges_url }
       format.js
     end
+  end
+
+  def show
+    @charge_and_order=charge_and_order(@charge, @order)
   end
 
   private
@@ -73,10 +65,19 @@ class ChargesController < ApplicationController
       @charge=Stripe::Charge.retrieve(params[:id])
       @order=Order.find_by_stripe_charge_reference(params[:id])
     rescue Stripe::StripeError => e
-      flash[:warning]="Stripe error: #{e.message}"
+      flash.now[:warning]="Stripe error: #{e.message}"
       respond_to do |format|
-        format.html { redirect_to charges_url }
+        format.html { flash.keep and redirect_to charges_url }
         format.js { render partial: 'shared/refresh_flash'}
       end
+    end
+
+    def charge_and_order(charge, order)
+      reconcile_result=order.reconcile_charge(charge) if order
+      {
+      charge: charge,
+      order: order,
+      reconcile_result: reconcile_result
+      }
     end
 end
