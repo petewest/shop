@@ -164,6 +164,19 @@ class OrdersControllerTest < ActionController::TestCase
     assert_redirected_to orders_path
   end
 
+  test "should generate buyer and seller emails on order cancellation" do
+    user=users(:buyer)
+    sign_in user
+    order=orders(:placed)
+    assert_difference "ActionMailer::Base.deliveries.count", 2 do
+      patch :cancel, id: order.id
+    end
+    mails=ActionMailer::Base.deliveries.last(2)
+    assert_not mails.select{|m| m.to.include?(user.email)}.empty?
+    assert_not mails.select{|m| m.to==Seller.pluck(:email)}.empty?
+  end
+
+
   test "should not cancel other users order" do
     sign_in users(:seller)
     order=orders(:placed)

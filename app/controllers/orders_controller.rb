@@ -98,6 +98,8 @@ class OrdersController < ApplicationController
   def cancel
     if @order.cancelled!
       flash[:success]="Order cancelled"
+      OrderMailer.cancel_email(@order).deliver
+      OrderMailer.cancel_email_seller(@order).deliver
     else
       flash[:danger]="Could not cancel order"
     end
