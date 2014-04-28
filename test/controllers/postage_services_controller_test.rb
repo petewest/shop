@@ -43,6 +43,32 @@ class PostageServicesControllerTest < ActionController::TestCase
     assert_template 'create'
   end
 
+  test "should get edit" do
+    sign_in users(:seller)
+    postage_service=postage_services(:first_class)
+    get :edit, id: postage_service.id
+    assert_response :success
+  end
+
+  test "should update item (html)" do
+    sign_in users(:seller)
+    postage_service=postage_services(:first_class)
+    patch :update, id: postage_service.id, postage_service: valid
+    postage_service.reload
+    assert_equal valid[:name], postage_service.name
+    assert_not postage_service.default?
+  end
+
+  test "should update item (js)" do
+    sign_in users(:seller)
+    postage_service=postage_services(:first_class)
+    xhr :patch, :update, id: postage_service.id, postage_service: valid
+    assert_template 'update'
+    postage_service.reload
+    assert_equal valid[:name], postage_service.name
+    assert_not postage_service.default?
+  end
+
 
   private
     def valid
