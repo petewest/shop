@@ -2,8 +2,10 @@ class PostageCost < ActiveRecord::Base
   include Costable
   belongs_to :postage_service
 
-  validates :from_weight, presence: true, numericality: {greater_than_or_equal_to: 0}
-  validates :to_weight, presence: true, numericality: {greater_than: :from_weight}
+  validates :from_weight, presence: true
+  validates :from_weight, numericality: {greater_than_or_equal_to: 0}, if: -> { from_weight.present? }
+  validates :to_weight, presence: true
+  validates :to_weight, numericality: {greater_than: :from_weight}, if: -> { from_weight.present? and to_weight.present? }
   validates :unit_cost, presence: true, numericality: true
   validates :currency, presence: true
   validates :postage_service, presence: true
