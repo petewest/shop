@@ -3,7 +3,7 @@ class Seller::OrdersController < ApplicationController
   before_action :order_from_params, only: [:update, :show]
 
   def index
-    @orders=Order.includes(:user)
+    @orders=Order.index_scope.includes(:user)
     @orders=@orders.where(status: Order.statuses[params[:order_status]]) if params[:order_status] and Order.statuses.has_key?(params[:order_status])
     #"status pending" is any order that can flow to "status"
     if params[:status_pending] and Order.statuses.has_key?(params[:status_pending])

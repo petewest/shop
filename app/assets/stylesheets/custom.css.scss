@@ -117,15 +117,15 @@
 }
 
 .order_summary {
-	@extend .col-md-6, .col-sm-6, .col-xs-12;
+	@extend .col-md-6, .col-sm-12, .col-xs-12;
 }
 
 .order_total {
-	@extend .col-md-2, .col-sm-3, .col-xs-6;
+	@extend .col-md-2, .col-sm-6, .col-xs-6;
 }
 
 .order_actions {
-	@extend .col-md-2, .col-sm-3, .col-xs-6, .pull-right;
+	@extend .col-md-4, .col-sm-6, .col-xs-6;
 }
 
 .currency_list>div:nth-child(odd) {

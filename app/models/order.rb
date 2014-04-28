@@ -45,7 +45,7 @@ class Order < ActiveRecord::Base
 
   ## Scopes
 
-  #default_scope -> {includes(line_items: [:product, :currency])}
+  scope :index_scope,  -> { includes(:currency, line_items: [:product, :currency]) }
   def self.pending
     where(status: [self.statuses[:placed], self.statuses[:paid]])
   end

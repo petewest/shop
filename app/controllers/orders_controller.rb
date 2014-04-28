@@ -3,7 +3,7 @@ class OrdersController < ApplicationController
   before_action :order_from_params, only: [:show, :pay, :update, :cancel]
 
   def index
-    @orders=current_user.orders.includes(:currency, line_items: [:product, :currency]).order(status: :asc).all
+    @orders=current_user.orders.index_scope.order(status: :asc).all
   end
 
   def show

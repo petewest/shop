@@ -47,7 +47,7 @@ module ApplicationHelper
     default_options.merge!(options)
     action_buttons=ActionBarBuilder.new(default_options)
     actions=default_actions - options[:except].to_a
-    actions=*options[:only] if options[:only]
+    actions=*options[:only] if options.has_key?(:only)
     html=action_buttons.header
     html<<capture(action_buttons, &block) if block_given?
     if item and actions.include?(:edit)

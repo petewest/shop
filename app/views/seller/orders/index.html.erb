@@ -4,18 +4,6 @@
 
 <%= content_tag(:h1, "Users orders") if !request.xhr? %>
 
-<table class="table table-condensed table-striped">
-	<thead>
-		<tr>
-			<th>Order number</th>
-			<th>User</th>
-			<th>Status</th>
-			<th>Change status</th>
-		</tr>
-	</thead>
-	<tbody>
-		<%= render partial: 'order', collection: @orders %>
-	</tbody>
-</table>
+<%= render partial: 'order', collection: @orders %>
 
 <%= will_paginate %>

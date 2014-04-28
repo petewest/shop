@@ -17,7 +17,7 @@ class Seller::OrdersControllerTest < ActionController::TestCase
     get :index
     assert_response :success
     assert_not_nil assigns(:orders)
-    assert_select "tr", Order.count+1
+    assert_select ".order_item", [30, Order.count].min
   end
 
   test "should be able to progress order from paid to dispatched" do

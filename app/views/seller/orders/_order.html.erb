@@ -1,6 +1,22 @@
-<tr id="<%= css_id(order) %>">
-	<td><%= link_to order.id, seller_order_path(order) %></td>
-	<td><%= (order.user ? order.user.email : "anonymous") %></td>
-	<td><%= order.status %></td>
-	<td><%= render 'order_status_form', order: order %></td>
-</tr>
+<div class="order_item order_status_<%= order.status%>" id="<%= css_id(order) %>">
+	<div class="order_id">
+		<%= link_to "Order ID: #{order.id}", seller_order_path(order) %>
+		<span class="order_status">
+			Status: <%= order.status %>
+		</span>
+		<span class="status_date">
+			<%= " on #{l(order.send(order.status + '_at').in_time_zone(t('time.zone')))}" if order.try(order.status+'_at') %>
+		</span>
+	</div>
+	<div class="order_body">
+		<div class="order_summary">
+			<%= render partial: 'orders/line_item_summary', collection: order.line_items %>
+		</div>
+		<div class="order_total">
+			Total cost: <%= cost_to_currency(order) %>
+		</div>
+		<div class="order_actions">
+			<%= render 'order_status_form', order: order %>
+		</div>
+	</div>
+</div>

@@ -24,7 +24,7 @@ reconcile_result=charge_and_order[:reconcile_result]
 			</div>
 		<% end %>
 		<% if order %>
-			Order: <%= render order %>
+			Order: <%= render 'seller/orders/order', order: order %>
 		<% else %>
 			Order missing!
 		<% end %>
