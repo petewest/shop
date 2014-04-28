@@ -23,11 +23,12 @@
 						<%= f.submit "Checkout", class: "btn btn-primary" %>
 					</div>
 				<% end %>
+			<% else %>
+				<div class="btn-group-vertical">
+					<%= link_to "Pay", pay_order_path(order), class: "btn btn-default" if order.allowed_status_flows.include? :paid %>
+					<%= link_to "Cancel", cancel_order_path(order), method: :patch, class: "btn btn-danger" if order.allowed_status_flows.include? :cancelled %>
+				</div>
 			<% end %>
-			<div class="btn-group-vertical">
-				<%= link_to "Pay", pay_order_path(order), class: "btn btn-default" if order.allowed_status_flows.include? :paid %>
-				<%= link_to "Cancel", cancel_order_path(order), method: :patch, class: "btn btn-danger" if order.allowed_status_flows.include? :cancelled %>
-			</div>
 		</div>
 	</div>
 </div>
