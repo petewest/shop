@@ -1,5 +1,7 @@
 <% provide(:title, "Users orders") %>
 
+<%= filter_bar(seller_orders_filter) %>
+
 <%= content_tag(:h1, "Users orders") if !request.xhr? %>
 
 <table class="table table-condensed table-striped">
@@ -15,3 +17,5 @@
 		<%= render partial: 'order', collection: @orders %>
 	</tbody>
 </table>
+
+<%= will_paginate %>

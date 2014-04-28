@@ -4,11 +4,26 @@ class Seller::OrdersController < ApplicationController
 
   def index
     @orders=Order.includes(:user)
+    @orders=@orders.where(status: Order.statuses[params[:order_status]]) if params[:order_status] and Order.statuses.has_key?(params[:order_status])
+    #"status pending" is any order that can flow to "status"
+    if params[:status_pending] and Order.statuses.has_key?(params[:status_pending])
+      #Find the order flows that'll permit this destination
+      flows=Order.allowed_status_flows.select do |status, flow|
+        #Allow for single flows by splatting to array
+        flow=*flow
+        #Check if this status has the desired status in its flow
+        flow.include?(params[:status_pending].to_sym)
+      end
+      #Convert these symbols to enum values
+      numeric_statuses=Order.statuses.slice(*flows.keys).values
+      #Filter the orders by these statuses
+      @orders=@orders.where(status: numeric_statuses)
+    end
     if params[:stock_level_id]
       a_table=Allocation.arel_table
       @orders=@orders.joins(:allocations).where(a_table[:stock_level_id].eq(params[:stock_level_id]))
     end
-    @orders=@orders.all
+    @orders=@orders.page(params[:page])
   end
 
   def update
