@@ -11,5 +11,5 @@ Basic shopping website with stock control.  Uses Amazon Web Services S3 for imag
 * <tt>BASE_URI</tt> to be the hostname to be used for urls in emails
 * <tt>STRIPE_PUBLISHABLE_KEY</tt> to be your publishable key from your Stripe account
 * <tt>STRIPE_SECRET_KEY</tt> to be your secret key from your Stripe account
-
+* <tt>FROM_EMAIL</tt> the email address your notifications will come from
 

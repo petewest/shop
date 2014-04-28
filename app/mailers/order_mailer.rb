@@ -1,5 +1,5 @@
 class OrderMailer < ActionMailer::Base
-  default from: Seller.pluck(:email).first, bcc: Seller.where(bcc_on_email: true).pluck(:email)
+  default from: Rails.application.secrets.from_email, bcc: Seller.where(bcc_on_email: true).pluck(:email)
 
   def confirmation_email(order)
     @order=order
