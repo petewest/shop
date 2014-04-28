@@ -28,16 +28,14 @@ module ChargesHelper
   end
 
   def charges_filter
-    #Grab the first paid order from the database
-    first_paid_order=Order.where.not(paid_at: nil).order(paid_at: :desc).first
+    #Grab the first paid order date from the database
+    start_date=Order.minimum(:paid_at).try(:beginning_of_month).try(:to_date)
     #If we don't have any paid orders, quit no
-    return {} if first_paid_order.nil?
+    return {} if start_date.nil?
     #then the last
-    last_paid_order=Order.where.not(paid_at: nil).order(paid_at: :desc).last
-    #Work out our start & end dates
-    start_date=first_paid_order.paid_at.beginning_of_month.to_date
-    end_date=last_paid_order.paid_at.to_date
+    end_date=Order.maximum(:paid_at).to_date
     #Set up our date range to be all months between the two
+    #where day==1 means the first day of the month
     date_range=(start_date..end_date).select{|d| d.day==1}
     Hash(
       from_date: date_range.map(&:inspect),
