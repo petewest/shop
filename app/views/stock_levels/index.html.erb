@@ -6,4 +6,4 @@
 
 <%= render 'product_stock_level', product: @product %>
 
-<%= link_to "Add stock", new_product_stock_level_path(@product), class: "btn btn-default" %>
+<%= link_to "Add stock", new_product_stock_level_path(@product), class: "btn btn-default", data: { modal_target: '#modal' } %>
