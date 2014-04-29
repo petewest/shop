@@ -40,7 +40,7 @@ class PostageCostsControllerTest < ActionController::TestCase
     assert_not_equal postage_cost.currency_id, valid[:currency_id]
     patch :update, id: postage_cost.id, postage_cost: valid
     assert_not_nil assigns(:postage_cost)
-    assert_redirected_to postage_costs_url
+    assert_redirected_to postage_services_url
     postage_cost.reload
     assert_equal valid[:from_weight], postage_cost.from_weight
     assert_equal valid[:to_weight], postage_cost.to_weight
@@ -62,7 +62,7 @@ class PostageCostsControllerTest < ActionController::TestCase
     assert_difference "PostageCost.count" do
       post :create, postage_cost: valid
     end
-    assert_redirected_to postage_costs_url
+    assert_redirected_to postage_services_url
   end
 
   test "should destroy postage cost" do
@@ -71,7 +71,7 @@ class PostageCostsControllerTest < ActionController::TestCase
     assert_difference "PostageCost.count", -1 do
       delete :destroy, id: postage_cost.id
     end
-    assert_redirected_to postage_costs_url
+    assert_redirected_to postage_services_url
   end
 
 

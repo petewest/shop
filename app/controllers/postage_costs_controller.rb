@@ -13,7 +13,7 @@ class PostageCostsController < ApplicationController
     if @postage_cost.update_attributes(postage_params)
       flash.now[:success]="Postage cost updated"
       respond_to do |format|
-        format.html {flash.keep and redirect_to postage_costs_url}
+        format.html {flash.keep and redirect_to postage_services_url}
         format.js
       end
     else
@@ -32,7 +32,7 @@ class PostageCostsController < ApplicationController
     if @postage_cost.save
       flash.now[:success]="Postage cost created"
       respond_to do |format|
-        format.html { flash.keep and redirect_to postage_costs_url }
+        format.html { flash.keep and redirect_to postage_services_url }
         format.js
       end
     else
@@ -43,11 +43,14 @@ class PostageCostsController < ApplicationController
 
   def destroy
     if @postage_cost.destroy
-      flash[:success]="Postage cost deleted"
+      flash.now[:success]="Postage cost deleted"
     else
-      flash[:danger]="Postage cost deletion failed"
+      flash.now[:danger]="Postage cost deletion failed"
     end
-    redirect_to postage_costs_url
+    respond_to do |format|
+      format.html { flash.keep and redirect_to postage_services_url }
+      format.js
+    end
   end
 
   private
