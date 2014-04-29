@@ -1,1 +1,5 @@
 jQuery("#modal").modal('hide');
+// If this code is triggering a hide it means the user has submitted an action
+// so we want to force a reload of the url on next action
+// If the user just presses cancel it'll still keep the cached copy
+jQuery("#modal").removeAttr("data-modal-ajax-current");
