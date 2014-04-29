@@ -84,6 +84,16 @@ class PostageServicesControllerTest < ActionController::TestCase
     assert_difference "PostageService.count", -1 do
       delete :destroy, id: postage_service.id
     end
+    assert_equal "Postage service removed", flash[:success]
+    assert_redirected_to postage_services_path
+  end
+
+  test "should destroy item (js)" do
+    sign_in users(:seller)
+    postage_service=postage_services(:first_class)
+    assert_difference "PostageService.count", -1 do
+      xhr :delete, :destroy, id: postage_service.id
+    end
     assert_template 'destroy'
   end
 
