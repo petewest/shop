@@ -46,7 +46,7 @@ module ApplicationHelper
     default_options={class: "action_bar", title: "Actions", vertical: true, dropdown: false}
     default_options.merge!(options)
     edit_options={data: {}}.merge(default_options[:edit].to_h)
-    delete_options={method: :delete, data: {confirm: "Are you sure you wish to delete this #{item.class.name.downcase}?"}}.merge(default_options[:delete].to_h)
+    delete_options={method: :delete, data: {confirm: "Are you sure you wish to delete this #{item.class.name.titleize}?"}}.merge(default_options[:delete].to_h)
     #use shortcut remote: true to specify default actions should be ajax
     if options[:remote]
       edit_options[:data].merge!(modal_target: '#modal')
