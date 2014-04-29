@@ -13,7 +13,7 @@ class CurrenciesController < ApplicationController
     if @currency.update_attributes(currency_params)
       flash.now[:success]="Currency updated"
       respond_to do |format|
-        format.html { redirect_to currencies_url }
+        format.html { flash.keep and redirect_to currencies_url }
         format.js
       end
     else
@@ -31,7 +31,7 @@ class CurrenciesController < ApplicationController
     if @currency.save
       flash.now[:success]="New currency #{@currency.iso_code} created"
       respond_to do |format|
-        format.html { redirect_to currencies_url }
+        format.html { flash.keep and redirect_to currencies_url }
         format.js
       end
     else
@@ -42,15 +42,15 @@ class CurrenciesController < ApplicationController
 
   def destroy
     if @currency.destroy
-      flash[:success]="Currency deleted"
+      flash.now[:success]="Currency deleted"
       respond_to do |format|
         format.js
-        format.html {redirect_to currencies_url}
+        format.html { flash.keep and redirect_to currencies_url}
       end
     else
-      flash[:danger]="Currency deletion failed"
+      flash.now[:danger]="Currency deletion failed"
       respond_to do |format|
-        format.html {redirect_to currencies_url}
+        format.html { flash.keep and redirect_to currencies_url }
         format.js { render partial: 'shared/refresh_flash' }
       end
     end

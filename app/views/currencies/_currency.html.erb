@@ -9,11 +9,6 @@
 		<%= currency.decimal_places %>
 	</div>
 	<div class="col-md-3">
-		<%= form_for currency, method: :delete, remote: true, html: {class: "form-inline"} do |f| %>
-		<div class="btn-group">
-			<%= link_to "Edit", [:edit, currency], remote: true, class: "btn btn-default" %>
-			<%= f.submit "Delete", data: {confirm: "Deleting this currency will mean all products currently associated with it will need to be manually updated with a new currency before they can be purchased.  Continue?"}, class: "btn btn-danger" %>
-		</div>
-		<% end %>
+		<%= action_bar(currency, vertical: false, remote: true, title: nil) %>
 	</div>
 </div>

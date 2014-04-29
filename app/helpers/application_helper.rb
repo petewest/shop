@@ -45,17 +45,22 @@ module ApplicationHelper
     default_actions=[:edit, :delete]
     default_options={class: "action_bar", title: "Actions", vertical: true, dropdown: false}
     default_options.merge!(options)
+    edit_options={data: {}}.merge(default_options[:edit].to_h)
+    delete_options={method: :delete, data: {confirm: "Are you sure you wish to delete this #{item.class.name.downcase}?"}}.merge(default_options[:delete].to_h)
+    #use shortcut remote: true to specify default actions should be ajax
+    if options[:remote]
+      edit_options[:data].merge!(modal_target: '#modal')
+      delete_options.merge!(remote: true)
+    end
     action_buttons=ActionBarBuilder.new(default_options)
     actions=default_actions - options[:except].to_a
     actions=*options[:only] if options.has_key?(:only)
     html=action_buttons.header
     html<<capture(action_buttons, &block) if block_given?
     if item and actions.include?(:edit)
-      edit_options={}.merge(default_options[:edit].to_h)
       html<<action_buttons.item("Edit", url_for([:edit, item]), edit_options)
     end
     if item and actions.include?(:delete)
-      delete_options={method: :delete, data: {confirm: "Are you sure you wish to delete this #{item.class.name.downcase}?"}}.merge(default_options[:delete].to_h)
       html<<action_buttons.item("Delete", url_for(item), delete_options)
     end
     html<<action_buttons.footer

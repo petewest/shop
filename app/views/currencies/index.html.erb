@@ -1,8 +1,8 @@
 <% provide(:title, "Currency maintenance") %>
 
-<%= content_tag(:h1, "Currency maintenance") %>
+<% provide(:heading, "Currency maintenance") %>
 
+<div id="currency_new" class="row"><%= link_to "Create new", new_currency_path, data: {modal_target: '#modal'}, class: "btn btn-default" %></div>
 <div class="currency_list">
 	<%= render @currencies %>
-	<div id="currency_new" class="row"><%= link_to "Create new", new_currency_path, remote: true, class: "btn btn-default" %></div>
 </div>

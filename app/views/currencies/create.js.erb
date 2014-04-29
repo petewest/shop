@@ -1,5 +1,4 @@
 //currency_new is the li with the form new_currency
-jQuery("#currency_new").before("<%= escape_javascript(render @currency) %>");
+jQuery("#currency_list").append("<%= escape_javascript(render @currency) %>");
 <%= render 'shared/refresh_flash' %>
-jQuery("#new_currency")[0].reset();
-jQuery("#new_currency [name='currency[iso_code]']").focus();
+<%= render 'shared/hide_modal' %>
