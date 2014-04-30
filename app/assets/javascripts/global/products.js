@@ -35,6 +35,6 @@ jQuery(function() {
 		var $this=jQuery(this);
 		var html_to_add=$this.attr("data-fields-for-html").replace(/dummy_id/g, new Date().getTime());
 		var target=$this.attr("data-fields-for-collection") +  '_list';
-		jQuery('#' + target).append(html_to_add);
+		jQuery('#' + target).append(JSON.parse(html_to_add));
 	});
 });

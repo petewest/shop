@@ -118,7 +118,6 @@ module ApplicationHelper
     partial=(options[:partial] || new_object.to_partial_path + '_fields')
     #grab the html to create a new version of this collection object
     form_html=form.fields_for(collection, new_object, child_index: 'dummy_id'){ |f| render partial, f: f }
-    # Use string interpolation so that the html gets embedded properly
-    html=link_to title, '#', class: css_class, data: { fields_for_html: "#{form_html}", fields_for_collection: collection.to_s }
+    html=link_to title, '#', class: css_class, data: { fields_for_html: form_html.to_json, fields_for_collection: collection.to_s }
   end
 end
