@@ -1,6 +1,9 @@
 <% provide(:title, "Product list") %>
 
-<%= content_tag(:h1, "Product list") %>
+<% provide(:heading, "Product list") %>
+
+
+<%= link_to 'New', new_product_path, class: "btn btn-default" %>
 
 <%= render partial: 'product', collection: @products %>
 
