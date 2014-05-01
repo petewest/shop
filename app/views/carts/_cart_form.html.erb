@@ -19,7 +19,7 @@
 			</div>
 		<% end %>
 		<div class="row">
-			<div class="col-md-4 col-sm-6 col-xs-12">
+			<div class="cart_postage_cost_select">
 				<div class="form-group">
 					<%= f.label :postage_service, class: "control-label" %>
 					<%= f.collection_select :postage_service_id, PostageService.all, :id, :name, {}, class: "form-control", data: {submit_on_change: true} %>

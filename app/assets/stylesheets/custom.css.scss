@@ -43,34 +43,38 @@
 }
 
 .cart_product {
-	@extend .col-md-4, .col-sm-4, .col-xs-12;
+	@extend .col-md-4, .col-sm-12, .col-xs-12;
 }
 
 .cart_container .cart_header {
-	@extend .visible-xs;
+	@extend .hidden-md, .hidden-lg;
 }
 
 
 .cart_actions {
-	@extend .col-md-2, .col-sm-2, .col-xs-4;
+	@extend .col-md-2, .col-sm-3, .col-xs-4;
 }
 
 .cart_line_item {
-	@extend .col-md-2, .col-sm-2, .col-xs-4;
+	@extend .col-md-2, .col-sm-3, .col-xs-4;
 }
 
 .cart_line_cost {
-	@extend .col-md-2, .col-sm-2, .col-xs-4;
+	@extend .col-md-2, .col-sm-3, .col-xs-4;
 }
 
 .cart_save_button {
-	@extend .col-md-2, .col-sm-2, .col-xs-12;
+	@extend .col-md-2, .col-sm-3, .col-xs-12;
+}
+
+.cart_postage_cost_select {
+	@extend .col-md-4, .col-sm-6, .col-xs-12;
 }
 
 .cart_header {
 	font-weight: bold;
 	>div {
-		@extend .hidden-xs;
+		@extend .hidden-xs, .hidden-sm;
 		font-weight: inherit;
 	}
 }
