@@ -1,18 +1,30 @@
 <div class="cart_product">
-        <%= render 'shared/form_error', object: f.object %>
+    <%= render 'shared/form_error', object: f.object %>
+    <div class="cart_header">
+    	Product
+    </div>
 	<div class="form-group">
-	<label class="label-control"><%= f.object.product.name %></label>
-	<% if @stock_level.try(:due_at) and @stock_level.due_at>DateTime.now %>
-		<p class="help-block">This item is available for pre-order with stock due on <%= l(@stock_level.due_at.in_time_zone(t('time.zone')).to_date) %></p>
-	<% end %>
+		<label class="label-control"><%= f.object.product.name %></label>
+		<% if @stock_level.try(:due_at) and @stock_level.due_at>DateTime.now %>
+			<p class="help-block">This item is available for pre-order with stock due on <%= l(@stock_level.due_at.in_time_zone(t('time.zone')).to_date) %></p>
+		<% end %>
 	</div>
 </div>
-	<div class="cart_actions form-group">
-		<%= f.text_field :quantity, value: f.object.quantity, class: "form-control", data: {submit_on_change: true} %>
+<div class="cart_actions form-group">
+	<div class="cart_header">
+		Quantity
 	</div>
+	<%= f.text_field :quantity, value: f.object.quantity, class: "form-control", data: {submit_on_change: true} %>
+</div>
 <div class="cart_line_item text-right">
+	<div class="cart_header">
+		Item cost
+	</div>
 	<%= cost_to_currency(f.object.product) %>
 </div>
 <div class="cart_line_cost text-right">
+	<div class="cart_header">
+		Total cost
+	</div>
 	<%= cost_to_currency(f.object) %>
 </div>
