@@ -381,6 +381,12 @@ class OrderTest < ActiveSupport::TestCase
     assert_not_equal 20, order.cost
   end
 
+  test "should keep a count of line_items" do
+    order=Order.create(valid)
+    order.reload
+    assert_equal 1, order[:line_items_count]
+  end
+
   private
     def valid
       @order||={user: users(:buyer), billing_attributes: { source_address: users(:buyer).addresses.billing.first}, delivery_attributes: {source_address: users(:buyer).addresses.delivery.first}, line_items_attributes: [{product_id: products(:mug).id, quantity: 1}]}

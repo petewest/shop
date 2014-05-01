@@ -11,7 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140428181008) do
+ActiveRecord::Schema.define(version: 20140501211008) do
+
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
 
   create_table "addresses", force: true do |t|
     t.string   "label"
@@ -103,6 +106,7 @@ ActiveRecord::Schema.define(version: 20140428181008) do
     t.integer  "currency_id"
     t.integer  "unit_cost"
     t.integer  "postage_service_id"
+    t.integer  "line_items_count",        default: 0, null: false
   end
 
   add_index "orders", ["billing_id"], name: "index_orders_on_billing_id", using: :btree

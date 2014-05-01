@@ -1,7 +1,7 @@
 class LineItem < ActiveRecord::Base
   include Costable
   belongs_to :product, inverse_of: :line_items
-  belongs_to :order, inverse_of: :line_items
+  belongs_to :order, inverse_of: :line_items, counter_cache: true
 
   has_many :allocations, inverse_of: :line_item, dependent: :destroy
 
