@@ -1,14 +1,26 @@
-<div class="row">
+<div class="row cart_container">
 	<div class="cart_product">
+		<div class="cart_header">
+			Product
+		</div>
 		<%= line_item.product.name %>
 	</div>
 	<div class="cart_actions">
+		<div class="cart_header">
+			Quantity
+		</div>
 		<%= line_item.quantity %>
 	</div>
 	<div class="cart_line_item text-right">
+		<div class="cart_header">
+			Item cost
+		</div>
 		<%= cost_to_currency(line_item.product) %>
 	</div>
 	<div class="cart_line_cost text-right">
+		<div class="cart_header">
+			Total cost
+		</div>
 		<%= cost_to_currency(line_item) %>
 	</div>
 </div>
