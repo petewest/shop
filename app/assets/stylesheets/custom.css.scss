@@ -92,7 +92,7 @@
 }
 
 .order_status_cart {
-	@extend .panel-info;
+	@extend .panel-default;
 	>.order_id>a {
 		color: inherit;
 	}
@@ -128,7 +128,7 @@
 
 
 .order_status {
-	margin-left: 10px;
+	float: right;
 }
 
 .order_summary {

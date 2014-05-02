@@ -3,9 +3,7 @@
 		<%= link_to "Order ID: #{order.id}", order_path(order) %>
 		<span class="order_status">
 			Status: <%= order.status %>
-		</span>
-		<span class="status_date">
-			<%= " on #{l(order.send(order.status + '_at').in_time_zone(t('time.zone')))}" if order.try(order.status+'_at') %>
+			<%= "on #{l(order.send(order.status + '_at').in_time_zone(t('time.zone')))}" if order.try(order.status+'_at') %>
 		</span>
 	</div>
 	<div class="order_body">
