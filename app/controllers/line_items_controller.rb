@@ -8,7 +8,10 @@ class LineItemsController < ApplicationController
   def create
     self.current_cart=current_cart if current_cart.save
     @line_item=current_cart.line_items.new(line_item_params)
-    if @line_item.save
+    if request.xhr? and params[:submitted_from]=~/quantity/
+      # if it's been submitted by changing the quantity we won't actually save the item
+      render 'new'
+    elsif @line_item.save
       flash.now[:success]="#{@line_item.product.name} added to cart"
       respond_to do |format|
         format.html { redirect_to products_path }
@@ -26,7 +29,13 @@ class LineItemsController < ApplicationController
 
   def update
     @line_item=current_cart.line_items.find(params[:id])
-    if @line_item.update_attributes(line_item_params)
+    # if someone has changed the quantity, we'll just pretend to update
+    if request.xhr? and params[:submitted_from]=~/quantity/
+      # soft update without save
+      @line_item.assign_attributes(line_item_params)
+      # and refresh the display
+      render 'new'
+    elsif @line_item.update_attributes(line_item_params)
       flash.now[:success]="Cart updated"
       respond_to do |format|
         format.html { redirect_to products_path }

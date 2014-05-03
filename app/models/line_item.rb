@@ -23,6 +23,11 @@ class LineItem < ActiveRecord::Base
     self
   end
 
+  # find currency from product if none specified
+  def currency
+    super || product.try(:currency)
+  end
+
   def cost
     ((unit_cost || product.unit_cost)*self.quantity)
   end

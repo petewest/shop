@@ -1,7 +1,7 @@
 <%= render 'shared/refresh_flash' %>
 <%= render 'shared/refresh_cart_count' %>
 <% if params[:commit]=="Add to cart" %>
-	jQuery("#modal").modal('hide');
+	<%= render 'shared/hide_modal' %>
 <% else %>
 	jQuery("#lineitem_new").replaceWith("<%= escape_javascript(render 'line_item_form', line_item_form: @line_item) %>");
 <% end %>
