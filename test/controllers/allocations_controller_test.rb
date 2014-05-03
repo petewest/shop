@@ -42,4 +42,22 @@ class AllocationsControllerTest < ActionController::TestCase
     assert_equal user.allocations.count, assigns(:allocations).size
   end
 
+  test "should group allocations by product" do
+    sign_in users(:seller)
+    get :index, by_product: true
+    assert_response :success
+    assert_not_nil allocations
+    allocations=assigns(:allocations)
+    assert_equal Allocation.pluck(:product_id).uniq.count, allocations.size
+  end
+
+  test "should filter by status" do
+    sign_in users(:seller)
+    get :index, order_status: "paid"
+    assert_response :success
+    assert_not_nil allocations
+    allocations=assigns(:allocations)
+    assert_equal Order.paid.map(&:allocations).flatten.count, allocations.size
+  end
+
 end

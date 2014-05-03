@@ -17,3 +17,9 @@ for_other:
   stock_level: :with_weight
   product: :with_weight
   quantity: 2
+
+product_2:
+  line_item: :one
+  stock_level: :with_allocation
+  product: :product_2
+  quantity: 1

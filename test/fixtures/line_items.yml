@@ -41,3 +41,10 @@ for_other_user:
   quantity: 2
   currency: gbp
   unit_cost: 1500
+
+product_2:
+  product: :product_2
+  order: :paid
+  quantity: 1
+  currency: :gbp
+  unit_cost: 2000

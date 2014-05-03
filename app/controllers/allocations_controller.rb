@@ -11,9 +11,11 @@ class AllocationsController < ApplicationController
     @allocations=@allocations.joins(:order).where(order_table[:status].eq(Order.statuses[params[:order_status]])) if params[:order_status] and params[:order_status].in?(Order.statuses.keys)
     if params[:by_product]
       # Combine the columns we want combining
-      @allocations=@allocations.select(allocation_table[:quantity].sum.as('quantity'), allocation_table[:product_id])
+      #We unscope the includes from above as there's no 'order' on aggregated data
+      @allocations=@allocations.unscope(:includes).select(allocation_table[:quantity].sum.as('quantity'), allocation_table[:product_id])
       # Group by product id
-      @allocations=@allocations.group(allocation_table[:product_id])
+      # add back in an includes for product so we do some eager loading
+      @allocations=@allocations.includes(:product).group(allocation_table[:product_id])
     end
     @allocations=@allocations.joins(:order).where(order_table[:user_id].eq(params[:user_id])) if params[:user_id]
   end
