@@ -12,6 +12,8 @@ class LineItemsController < ApplicationController
       # if it's been submitted by changing the quantity we won't actually save the item
       render 'new'
     elsif @line_item.save
+      # We've added a new line item, but the current_cart is still cached with the old value
+      current_cart.reload
       flash.now[:success]="#{@line_item.product.name} added to cart"
       respond_to do |format|
         format.html { redirect_to products_path }
