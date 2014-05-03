@@ -5,8 +5,8 @@
 	<td><%= stock_level.current_quantity %></td>
 	<td><%= stock_level.allow_preorder? ? "yes" : "no" %></td>
 	<td>
-	<%= action_bar(stock_level, title: nil, vertical: false, class: "", except: [:edit], delete: {remote: true}) do |a| %>
-		<%= a.item "Orders", stock_level_orders_path(stock_level), data: {modal_target: '#modal'} %>
+	<%= action_bar(stock_level, title: nil, vertical: false, class: "", except: :edit, remote: true) do |a| %>
+		<%= a.item "Orders", stock_level_orders_path(stock_level) %>
 	<% end %>
 	</td>
 </tr>

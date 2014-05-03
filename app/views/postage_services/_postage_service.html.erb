@@ -2,7 +2,7 @@
 	<div class="panel-heading">
 		<%= postage_service.name %>
 		<%= action_bar(postage_service, dropdown: true, remote: true) do |bar| %>
-			<%= bar.item "New postage cost", new_postage_service_postage_cost_path(postage_service), data: {modal_target: '#modal'} %>
+			<%= bar.item "New postage cost", new_postage_service_postage_cost_path(postage_service) %>
 		<% end %>
 	</div>
 	<table class="table table-striped table-condensed">
