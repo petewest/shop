@@ -6,10 +6,9 @@
 		<%= mail_to user.email, user.email %>
 	</div>
 	<div class="user_actions">
-		<%= action_bar(user, only: nil, vertical: false, title: nil) do |action| %>
-			<% modal_opts={data: {modal_target: '#modal'}} %>
-			<%= action.item("Orders", seller_user_orders_path(user), modal_opts) %>
-			<%= action.item("Allocations", seller_user_allocations_path(user), modal_opts) %>
+		<%= action_bar(user, only: nil, vertical: false, title: nil, remote: true) do |action| %>
+			<%= action.item("Orders", seller_user_orders_path(user)) %>
+			<%= action.item("Allocations", seller_user_allocations_path(user)) %>
 		<% end %>
 	</div>
 </div>
