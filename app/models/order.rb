@@ -2,7 +2,7 @@ class Order < ActiveRecord::Base
   include Costable
   ## Relationships
   belongs_to :user, inverse_of: :orders
-  has_many :line_items, inverse_of: :order, dependent: :destroy
+  has_many :line_items, inverse_of: :order, dependent: :destroy, counter_cache: true
   has_many :allocations, through: :line_items
   has_many :products, through: :line_items, inverse_of: :orders
   belongs_to :delivery, class_name: "OrderAddress", dependent: :destroy
