@@ -28,8 +28,13 @@ class LineItem < ActiveRecord::Base
     super || product.try(:currency)
   end
 
+  # find unit cost from product if none specified
+  def unit_cost
+    super || product.try(:unit_cost)
+  end
+
   def cost
-    ((unit_cost || product.unit_cost)*self.quantity)
+    unit_cost*quantity
   end
 
   def stock_check
