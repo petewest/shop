@@ -1,0 +1,11 @@
+<%
+
+provide(:title, "All users")
+
+provide(:heading, "All users")
+
+%>
+
+<%= render partial: 'user', collection: @users %>
+
+<%= will_paginate %>

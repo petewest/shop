@@ -37,3 +37,10 @@ buyer_with_bcc:
   email: buyer_with_bcc@test.com
   name: Buyer with bcc flag set
   bcc_on_email: true
+
+<% 100.times do |i| %>
+user_<%= i %>:
+  email: user_<%= i %>@example.com
+  name: user_<%= i %>
+
+<% end %>

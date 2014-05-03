@@ -34,4 +34,12 @@ class AllocationsControllerTest < ActionController::TestCase
     assert_equal stock_level.allocations.count, assigns(:allocations).size
   end
 
+  test "should get index with user_id" do
+    sign_in users(:seller)
+    user=users(:buyer)
+    get :index, user_id: user.id
+    assert_response :success
+    assert_equal user.allocations.count, assigns(:allocations).size
+  end
+
 end

@@ -4,6 +4,7 @@ class Allocation < ActiveRecord::Base
   belongs_to :stock_level, inverse_of: :allocations
   belongs_to :product, inverse_of: :allocations
   has_one :order, through: :line_item
+  has_one :user, through: :order
 
   ## Validations
   validates :line_item, presence: true, uniqueness: {scope: :stock_level}

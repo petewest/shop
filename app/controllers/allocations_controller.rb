@@ -4,7 +4,7 @@ class AllocationsController < ApplicationController
   def index
     allocation_table=Allocation.arel_table
     order_table=Order.arel_table
-    @allocations=Allocation.includes(:product)
+    @allocations=Allocation.includes(:product, :order)
     @allocations=@allocations.where(product_id: params[:product_id]) if params[:product_id]
     @allocations=@allocations.where(stock_level_id: params[:stock_level_id]) if params[:stock_level_id]
     #If we're only looking for orders of a certain status, check here
@@ -15,6 +15,7 @@ class AllocationsController < ApplicationController
       # Group by product id
       @allocations=@allocations.group(allocation_table[:product_id])
     end
+    @allocations=@allocations.joins(:order).where(order_table[:user_id].eq(params[:user_id])) if params[:user_id]
   end
 
 end

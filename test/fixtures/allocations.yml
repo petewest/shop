@@ -11,3 +11,9 @@ two:
   stock_level: :product_0
   product: :product_0
   quantity: 1
+
+for_other:
+  line_item: :for_other_user
+  stock_level: :with_weight
+  product: :with_weight
+  quantity: 2

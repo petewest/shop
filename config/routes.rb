@@ -70,6 +70,10 @@ Rails.application.routes.draw do
   namespace :seller do
     resources :orders, only: [:index, :show, :update]
     resources :products, only: [:index]
+    resources :users, only: [:index] do
+      resources :orders, only: :index
+      get '/allocations' => '/allocations#index'
+    end
   end
   
 

@@ -34,3 +34,10 @@ without_user:
   quantity: 1
   currency: gbp
   unit_cost: 15
+
+for_other_user:
+  product: :with_weight
+  order: :paid_for_other_user
+  quantity: 2
+  currency: gbp
+  unit_cost: 1500

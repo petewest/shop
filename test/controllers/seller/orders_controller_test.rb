@@ -45,4 +45,12 @@ class Seller::OrdersControllerTest < ActionController::TestCase
     email=ActionMailer::Base.deliveries.first
     assert_equal [order.user.email], email.to
   end
+
+  test "should get only users orders when asked" do
+    sign_in users(:seller)
+    user=users(:buyer)
+    get :index, user_id: user.id
+    assert_response :success
+    assert_equal user.orders.size, assigns(:orders).size
+  end
 end

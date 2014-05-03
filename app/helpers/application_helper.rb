@@ -8,7 +8,8 @@ module ApplicationHelper
 
     def initialize(options={})
       @options=options
-      @link_class=(options[:dropdown] ? "" : "btn btn-default")
+      @item_options={class: (options[:dropdown] ? "" : "btn btn-default")}
+      @item_options=@item_options.merge(options[:item]) if options[:item]
     end
     def header
       html=%Q{<div class="#{@options[:class]}#{@options[:dropdown] ? ' dropdown' : '' }">}
@@ -23,7 +24,7 @@ module ApplicationHelper
     def item(text, url, options={})
       html=""
       html<<"<li>" if @options[:dropdown]
-      html<< link_to(text, url, {class: @link_class}.merge(options))
+      html<< link_to(text, url, @item_options.merge(options))
       html<<"</li>" if @options[:dropdown]
       html<<"\n"
       html.html_safe
@@ -44,14 +45,12 @@ module ApplicationHelper
     options, item=item.merge(only: nil), nil if item.is_a?(Hash)
     default_actions=[:edit, :delete]
     default_options={class: "action_bar", title: "Actions", vertical: true, dropdown: false}
+    default_options[:item]={data: {modal_target: '#modal'}} if options[:remote] or params[:modal]
     default_options.merge!(options)
     edit_options={data: {}}.merge(default_options[:edit].to_h)
     delete_options={method: :delete, data: {confirm: "Are you sure you wish to delete this #{item.class.name.titleize}?"}}.merge(default_options[:delete].to_h)
     #use shortcut remote: true to specify default actions should be ajax
-    if options[:remote]
-      edit_options[:data].merge!(modal_target: '#modal')
-      delete_options.merge!(remote: true)
-    end
+    delete_options[:remote]=true if options[:remote]
     action_buttons=ActionBarBuilder.new(default_options)
     actions=default_actions - options[:except].to_a
     actions=*options[:only] if options.has_key?(:only)

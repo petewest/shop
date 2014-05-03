@@ -200,3 +200,17 @@
 .image_input {
 	@extend .row;
 }
+
+.user {
+	@extend .row;
+}
+
+.user_name {
+	@extendt .col-md-3;
+}
+.user_email {
+	@extend .col-md-3;
+}
+.user_actions {
+	@extend .col-md-6;
+}

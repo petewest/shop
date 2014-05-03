@@ -1,0 +1,15 @@
+<div class="user" id="<%= css_id(user) %>">
+	<div class="user_name">
+		<%= user.name %>
+	</div>
+	<div class="user_email">
+		<%= mail_to user.email, user.email %>
+	</div>
+	<div class="user_actions">
+		<%= action_bar(user, only: nil, vertical: false, title: nil) do |action| %>
+			<% modal_opts={data: {modal_target: '#modal'}} %>
+			<%= action.item("Orders", seller_user_orders_path(user), modal_opts) %>
+			<%= action.item("Allocations", seller_user_allocations_path(user), modal_opts) %>
+		<% end %>
+	</div>
+</div>

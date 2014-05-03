@@ -71,3 +71,9 @@ cancelled:
   dispatched_at: 
   cart_token: cart_token_for_cancelled
 
+paid_for_other_user:
+  user: :seller2
+  status: <%= Order.statuses[:paid] %>
+  paid_at: <%= 1.day.ago %>
+  cart_token: token_for_paid_for_other_user
+
