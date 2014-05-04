@@ -197,6 +197,11 @@
 	}	
 }
 
+.main_image_caption {
+	@extend .col-md-12;
+	font-weight: bold;
+}
+
 .image_input {
 	@extend .row;
 }
