@@ -1,6 +1,9 @@
 <div class="item<%= product_image.main? ? ' active' : '' %>">
   <%= image_tag product_image.image.url(:medium), alt: @product.name if product_image %>
   <div class="carousel-caption">
+  	<% if product_image.caption.present? %>
+  		<%= product_image.caption %><br />
+  	<% end %>
   	<%= link_to "Zoom", image_path(product_image), data: { modal_target: '#modal' } %>
   </div>
 </div>

@@ -10,7 +10,11 @@
 		  <% end %>
 		</div>
 	</div>
-	<div class="col-md-3">
+	<div class="col-md-6">
+		<div class="form-group">
+			<%= f.label :caption, class: "control-label" %>
+			<%= f.text_field :caption, class: "form-control" %>
+		</div>
 		<div class="checkbox">
 		<label><%= f.check_box :main %> Main image</label>
 		</div>
