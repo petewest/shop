@@ -67,6 +67,8 @@ Rails.application.routes.draw do
   resources :addresses
   resources :postage_costs, except: :show
 
+  # Seller namespace for controllers that will behave differently
+  # for sellers than for buyers
   namespace :seller do
     resources :orders, only: [:index, :show, :update]
     resources :products, only: [:index]
