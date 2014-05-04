@@ -20,5 +20,7 @@ class User < ActiveRecord::Base
   has_many :carts, inverse_of: :user
   has_many :addresses, inverse_of: :user, dependent: :destroy
   has_many :allocations, through: :orders
+  has_many :gift_cards_bought, class_name: "GiftCard", foreign_key: :buyer_id, inverse_of: :buyer
+  has_many :gift_cards_redeemed, class_name: "GiftCard", foreign_key: :redeemer_id, inverse_of: :redeemer
 
 end

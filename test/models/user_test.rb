@@ -143,6 +143,14 @@ class UserTest < ActiveSupport::TestCase
   #end
 
 
+  test "should respond to gift_cards_bought" do
+    assert_respond_to User.new, :gift_cards_bought
+  end
+
+  test "should respond to gift_cards_redeemed" do
+    assert_respond_to User.new, :gift_cards_redeemed
+  end
+
 
 
   private

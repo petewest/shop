@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  buyer_id: 
+  redeemer_id: 
+  token: MyString
+  start_value: 1
+  current_value: 1
+  expires_at: 2014-05-04 22:24:43
+
+two:
+  buyer_id: 
+  redeemer_id: 
+  token: MyString
+  start_value: 1
+  current_value: 1
+  expires_at: 2014-05-04 22:24:43

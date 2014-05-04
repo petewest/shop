@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140504090357) do
+ActiveRecord::Schema.define(version: 20140504212443) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -52,6 +52,21 @@ ActiveRecord::Schema.define(version: 20140504090357) do
   end
 
   add_index "currencies", ["iso_code"], name: "index_currencies_on_iso_code", unique: true, using: :btree
+
+  create_table "gift_cards", force: true do |t|
+    t.integer  "buyer_id"
+    t.integer  "redeemer_id"
+    t.string   "token"
+    t.integer  "start_value"
+    t.integer  "current_value"
+    t.datetime "expires_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "gift_cards", ["buyer_id"], name: "index_gift_cards_on_buyer_id", using: :btree
+  add_index "gift_cards", ["redeemer_id"], name: "index_gift_cards_on_redeemer_id", using: :btree
+  add_index "gift_cards", ["token"], name: "index_gift_cards_on_token", using: :btree
 
   create_table "images", force: true do |t|
     t.integer  "product_id"
