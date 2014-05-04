@@ -18,7 +18,17 @@ class GiftCard < ActiveRecord::Base
   after_initialize -> { self.token||=SecureRandom.urlsafe_base64 }
   before_save -> { self.current_value||=start_value }
 
-  ## Class methods for encoding and decoding the token
+  # Give the encoded version of the token
+  def encoded_token
+    Rails.application.message_verifier(:gift_card).generate(token)
+  end
+
+  ## Class method for decoding the token and finding the corresponding gift card
+  # raises ActiveSupport::MessageVerifier::InvalidSignature if the token isn't valid
+  def self.find_by_encoded_token(encoded_token)
+    search_token=Rails.application.message_verifier(:gift_card).verify(encoded_token)
+    find_by_token(search_token)
+  end
 
 
   private

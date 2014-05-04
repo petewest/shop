@@ -70,6 +70,14 @@ class GiftCardTest < ActiveSupport::TestCase
     assert_not @gift_card_new.valid?
   end
 
+  test "should have an encoded_token method" do
+    assert_respond_to @gift_card_new, :encoded_token
+  end
+
+  test "should have a class method to find by encoded_token" do
+    assert_respond_to GiftCard, :find_by_encoded_token
+  end
+
   private
     def valid
       {buyer: users(:buyer), start_value: 2000}
