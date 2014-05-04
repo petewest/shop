@@ -78,6 +78,13 @@ class GiftCardTest < ActiveSupport::TestCase
     assert_respond_to GiftCard, :find_by_encoded_token
   end
 
+  test "should raise an error when given an incorrect token" do
+    @gift_card_new.save
+    assert_raises ActiveSupport::MessageVerifier::InvalidSignature do
+      GiftCard.find_by_encoded_token(@gift_card_new.token)
+    end
+  end
+
   private
     def valid
       {buyer: users(:buyer), start_value: 2000}
