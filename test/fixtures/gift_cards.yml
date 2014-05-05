@@ -26,3 +26,12 @@ fifty_pounds:
   start_value: 5000
   current_value: 5000
   expires_at: <%= 1.year.from_now %>
+
+used:
+  buyer: :seller
+  redeemer: :buyer
+  token: MyString
+  currency: :gbp
+  start_value: 5000
+  current_value: 0
+  expires_at: <%= 1.year.from_now %>

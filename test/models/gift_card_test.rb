@@ -90,6 +90,16 @@ class GiftCardTest < ActiveSupport::TestCase
     assert_not @gift_card_new.valid?
   end
 
+  test "should have 'in_credit' scope" do
+    assert_respond_to GiftCard, :in_credit
+  end
+
+  test "should only return items with balance remaining" do
+    cards=GiftCard.in_credit
+    assert cards.include?(gift_cards(:ten_pounds))
+    assert_not cards.include?(gift_cards(:used))
+  end
+
   private
     def valid
       {buyer: users(:buyer), start_value: 2000, currency: currencies(:gbp)}

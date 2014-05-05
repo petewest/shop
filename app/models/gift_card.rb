@@ -3,6 +3,8 @@ class GiftCard < ActiveRecord::Base
   belongs_to :buyer, class_name: "User", inverse_of: :gift_cards_bought
   belongs_to :redeemer, class_name: "User", inverse_of: :gift_cards_redeemed
   belongs_to :currency
+  has_many :redemptions, inverse_of: :gift_cards
+  has_many :orders, through: :redemptions
   
   ## Validations
   validates :buyer, presence: true
@@ -14,7 +16,9 @@ class GiftCard < ActiveRecord::Base
   validates :current_value, presence: true, if: -> { persisted? }
   validate :current_less_than_start
   validates :token, presence: true
-  
+
+  ## Scopes
+  scope :in_credit, -> { where(arel_table[:current_value].gt(0)) }
 
   ## Callbacks
   after_initialize -> { self.token||=SecureRandom.urlsafe_base64 }
