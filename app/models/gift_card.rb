@@ -24,6 +24,17 @@ class GiftCard < ActiveRecord::Base
   after_initialize -> { self.token||=SecureRandom.urlsafe_base64 }
   before_save -> { self.current_value||=start_value }
 
+  ## Methods
+
+  # Decimal value methods to for the user to populate
+  def decimal_value
+    start_value / (10.0**currency.decimal_places) if currency
+  end
+
+  def decimal_value=(new_value)
+    self.start_value=(new_value*(10.0**currency.decimal_places)).floor if currency
+  end
+
   # Give the encoded version of the token
   def encoded_token
     Rails.application.message_verifier(:gift_card).generate(token)
