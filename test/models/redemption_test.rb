@@ -40,6 +40,20 @@ class RedemptionTest < ActiveSupport::TestCase
     assert_not @redemption.valid?
   end
 
+  test "should not allow changes once saved" do
+    @redemption.save
+    @redemption.order=orders(:dispatched)
+    assert_not @redemption.save
+  end
+
+  test "should add balance back to gift_card on destroy" do
+    value=@redemption.gift_card.current_value
+    @redemption.save
+    @redemption.destroy
+    @redemption.gift_card.reload
+    assert_equal value, @redemption.gift_card.current_value
+  end
+
 
   private
     def valid

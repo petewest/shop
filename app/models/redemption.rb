@@ -11,6 +11,10 @@ class Redemption < ActiveRecord::Base
 
   ## Callbacks
   before_save :decrement_gift_card_balance
+  # We won't allow any updates.  Once it's set, it's set.
+  before_update -> { raise ActiveRecord::Rollback }
+  # Destroying this object credits the gift card
+  before_destroy :credit_gift_card_balance
 
 
 
@@ -21,7 +25,14 @@ class Redemption < ActiveRecord::Base
         self.currency=gift_card.currency
         self.value=[gift_card.current_value, order.cost].min
         gift_card.current_value-=value
-        gift_card.save!
+        raise ActiveRecord::Rollback unless gift_card.save
+      end
+    end
+
+    def credit_gift_card_balance
+      gift_card.with_lock do
+        gift_card.current_value+=value
+        raise ActiveRecord::Rollback unless gift_card.save
       end
     end
 
