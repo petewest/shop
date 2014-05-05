@@ -15,7 +15,7 @@ class LineItemsController < ApplicationController
     elsif @line_item.save
       # We've added a new line item, but the current_cart is still cached with the old value
       current_cart.reload
-      flash.now[:success]="#{@line_item.product.name} added to cart"
+      flash.now[:success]="#{@line_item.buyable.name} added to cart"
       respond_to do |format|
         format.html { redirect_to products_path }
         format.js
@@ -52,6 +52,6 @@ class LineItemsController < ApplicationController
 
   private
     def line_item_params
-      params.require(:line_item).permit(:buyable_id, :buyable_type :quantity)
+      params.require(:line_item).permit(:buyable_id, :buyable_type, :quantity)
     end
 end

@@ -12,6 +12,7 @@
 				<%= render 'shared/form_error', object: f.object %>
 			<% end %>
 			<%= f.hidden_field :buyable_id %>
+			<%= f.hidden_field :buyable_type %>
 			<%= render 'line_items/line_item_fields', f: f %>
 			<div class="row">
 				<div class="cart_save_button pull-right">
