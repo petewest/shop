@@ -78,6 +78,6 @@ class RedemptionTest < ActiveSupport::TestCase
 
   private
     def valid
-      {order: orders(:paid), gift_card: gift_cards(:ten_pounds)}
+      {order: orders(:cart), gift_card: gift_cards(:ten_pounds)}
     end
 end

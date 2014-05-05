@@ -84,7 +84,7 @@ class Order < ActiveRecord::Base
 
   #Total order costs, with postage cost included
   def cost(recalculate=false)
-    (!recalculate && super()) || (line_items.map(&:cost).sum + postage_cost.try(:cost).to_i)
+    (!recalculate && super()) || ((line_items.map(&:cost).sum + postage_cost.try(:cost).to_i)-gift_card_value)
   end
 
   #Find the postage_cost item for this total_weight

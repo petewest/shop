@@ -5,7 +5,7 @@ one:
   order: :cart
   quantity: 1
   currency: :gbp
-  unit_cost: 20
+  unit_cost: 2000
 
 two:
   product: :product_0

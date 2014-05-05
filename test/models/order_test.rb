@@ -400,6 +400,16 @@ class OrderTest < ActiveSupport::TestCase
     end
   end
 
+  test "should reduce total cost by gift card amount" do
+    order=orders(:cart)
+    order_cost=order.cost
+    gift_card=gift_cards(:ten_pounds)
+    order.gift_cards<<gift_card
+    assert_not_equal 0, order.gift_card_value
+    assert_equal order_cost-order.gift_card_value, order.cost
+  end
+
+
   private
     def valid
       @order||={user: users(:buyer), billing_attributes: { source_address: users(:buyer).addresses.billing.first}, delivery_attributes: {source_address: users(:buyer).addresses.delivery.first}, line_items_attributes: [{product_id: products(:mug).id, quantity: 1}]}
