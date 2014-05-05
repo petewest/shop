@@ -54,6 +54,13 @@ class RedemptionTest < ActiveSupport::TestCase
     assert_equal value, @redemption.gift_card.current_value
   end
 
+  test "should not allow where order user and gift card redeemer differ" do
+    @redemption.order=orders(:paid_for_other_user)
+    assert_not @redemption.valid?
+    assert_equal 1, @redemption.errors.count
+    assert_equal ["redeem gift card before using it"], @redemption.errors.messages[:base]
+  end
+
 
   private
     def valid

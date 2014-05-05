@@ -7,7 +7,10 @@ class Redemption < ActiveRecord::Base
   ## Validations
   validates :order, presence: true
   validates :gift_card, presence: true
-  validate :order_and_gift_card_currencies
+  with_options if: -> {order and gift_card} do |present|
+    present.validate :order_and_gift_card_currencies
+    present.validate :order_and_gift_card_users
+  end
 
   ## Callbacks
   before_save :decrement_gift_card_balance
@@ -37,6 +40,10 @@ class Redemption < ActiveRecord::Base
     end
 
     def order_and_gift_card_currencies
-      errors[:base]<<"order currency and gift card currency must match" if order and gift_card and order.currency!=gift_card.currency
+      errors[:base]<<"order currency and gift card currency must match" if order.currency!=gift_card.currency
+    end
+
+    def order_and_gift_card_users
+      errors[:base]<<"redeem gift card before using it" if order.user!=gift_card.redeemer 
     end
 end
