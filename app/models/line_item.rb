@@ -11,6 +11,8 @@ class LineItem < ActiveRecord::Base
 
   validates :buyable_id, uniqueness: {scope: [:buyable_type, :order_id], message: "already in order, update quantity and try again"}
 
+  validates :buyable_type, inclusion: {in: %w(GiftCard Product)}
+
   before_save :set_up_on_save
 
 
