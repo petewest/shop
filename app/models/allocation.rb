@@ -23,7 +23,7 @@ class Allocation < ActiveRecord::Base
 
   private
     def set_product
-      self.product_id=line_item.product_id
+      self.product=line_item.buyable if line_item.buyable.is_a?(Product)
     end
 
     def take_stock

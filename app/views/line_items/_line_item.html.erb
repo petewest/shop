@@ -3,7 +3,7 @@
 		<div class="cart_header">
 			Product
 		</div>
-		<%= line_item.product.name %>
+		<%= line_item.buyable.name %>
 	</div>
 	<div class="cart_actions">
 		<div class="cart_header">
@@ -15,7 +15,7 @@
 		<div class="cart_header">
 			Item cost
 		</div>
-		<%= cost_to_currency(line_item.product) %>
+		<%= cost_to_currency(line_item.buyable) %>
 	</div>
 	<div class="cart_line_cost text-right">
 		<div class="cart_header">

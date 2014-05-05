@@ -1,49 +1,49 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  product: :tshirt
+  buyable: tshirt (Product)
   order: :cart
   quantity: 1
   currency: :gbp
   unit_cost: 2000
 
 two:
-  product: :product_0
+  buyable: product_0 (Product)
   order: :placed
   quantity: 1
   currency: gbp
   unit_cost: 90
 
 three:
-  product: :product_1
+  buyable: product_1 (Product)
   order: :paid
   quantity: 1
   currency: gbp
   unit_cost: 60
 
 with_allocation:
-  product: :product_2
+  buyable: product_2 (Product)
   order: :dispatched
   quantity: 1
   currency: gbp
   unit_cost: 20
 
 without_user:
-  product: :mug
+  buyable: mug  (Product)
   order: :cart_without_user
   quantity: 1
   currency: gbp
   unit_cost: 15
 
 for_other_user:
-  product: :with_weight
+  buyable: with_weight (Product)
   order: :paid_for_other_user
   quantity: 2
   currency: gbp
   unit_cost: 1500
 
 product_2:
-  product: :product_2
+  buyable: product_2 (Product)
   order: :paid
   quantity: 1
   currency: :gbp

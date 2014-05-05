@@ -126,6 +126,10 @@ class GiftCardTest < ActiveSupport::TestCase
     assert @gift_card_new.valid?
   end
 
+  test "should give start_value when asked for unit_cost" do
+    assert_equal @gift_card_new.start_value, @gift_card_new.unit_cost
+  end
+
   private
     def valid
       {buyer: users(:buyer), start_value: 2000, currency: currencies(:gbp)}
