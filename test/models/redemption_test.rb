@@ -61,6 +61,20 @@ class RedemptionTest < ActiveSupport::TestCase
     assert_equal ["redeem gift card before using it"], @redemption.errors.messages[:base]
   end
 
+  test "should add to gift_card_value when adding gift cards" do
+    value_before=@redemption.order.gift_card_value
+    @redemption.save
+    assert_not_equal value_before, @redemption.order.gift_card_value
+    assert_equal @redemption.gift_card.start_value, @redemption.order.gift_card_value
+  end
+
+  test "should take away from gift_card_value on destroy" do
+    @redemption.save
+    @redemption.destroy
+    assert_equal 0, @redemption.order.gift_card_value
+  end
+
+
 
   private
     def valid
