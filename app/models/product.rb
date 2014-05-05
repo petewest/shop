@@ -22,4 +22,32 @@ class Product < ActiveRecord::Base
 
 
   accepts_nested_attributes_for :images, allow_destroy: true, reject_if: -> (item) {item[:image].blank? and item[:id].nil?}
+
+  ## Methods
+  def allocate_stock_to(line_item)
+    quantity=line_item.quantity
+    result=current_stock.all? do |stock|
+      #How many from this item?
+      from_this=[quantity,stock.current_quantity].min
+      # if we're not taking anything from here try the next one
+      next true if from_this==0
+      #decrement quantity
+      quantity-=from_this
+      #create allocation
+      allocation=allocations.find_or_initialize_by(line_item: line_item, stock_level: stock)
+      allocation.quantity=from_this
+      allocation.save
+    end
+    return true if result and quantity==0
+    errors[:quantity]="Insufficient stock"
+    raise ActiveRecord::Rollback
+  end
+
+  def stock_check(quantity)
+    if quantity>current_stock.available
+      false
+    else
+      true
+    end
+  end
 end

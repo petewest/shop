@@ -38,31 +38,16 @@ class LineItem < ActiveRecord::Base
   end
 
   def stock_check
-    if quantity>product.stock_levels.available
+    if product.stock_check(quantity)
+      true
+    else
       errors[:quantity]="is greater than current stock!"
       false
-    else
-      true
     end
   end
 
   def take_stock
-    counter=quantity
-    result=product.current_stock.all? do |stock|
-      #How many from this item?
-      from_this=[counter,stock.current_quantity].min
-      # if we're not taking anything from here try the next one
-      next true if from_this==0
-      #decrement counter
-      counter-=from_this
-      #create allocation
-      allocation=allocations.find_or_initialize_by(stock_level: stock)
-      allocation.quantity=from_this
-      allocation.save
-    end
-    return true if result and counter==0
-    errors[:quantity]="Insufficient stock"
-    raise ActiveRecord::Rollback
+    product.allocate_stock_to(self)
   end
 
   def release_stock

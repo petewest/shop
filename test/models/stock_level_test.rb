@@ -105,7 +105,7 @@ class StockLevelTest < ActiveSupport::TestCase
       calculated+=sl.current_quantity
     end
     assert_not_equal 0, calculated
-    assert_equal calculated, StockLevel.available
+    assert_equal calculated, StockLevel.current.available
   end
 
   test "should not allow deletion of stock allocated to orders" do

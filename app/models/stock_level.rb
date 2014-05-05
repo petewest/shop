@@ -24,7 +24,7 @@ class StockLevel < ActiveRecord::Base
   end
 
   def self.available
-    current.sum(:current_quantity)
+    sum(:current_quantity)
   end
 
 
