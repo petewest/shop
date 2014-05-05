@@ -100,6 +100,16 @@ class GiftCardTest < ActiveSupport::TestCase
     assert_not cards.include?(gift_cards(:used))
   end
 
+  test "should not allow non-integer start_value" do
+    @gift_card_new.start_value=100.5
+    assert_not @gift_card_new.valid?
+  end
+
+  test "should not allow non-integer current_value" do
+    @gift_card_new.current_value=100.5
+    assert_not @gift_card_new.valid?
+  end
+
   private
     def valid
       {buyer: users(:buyer), start_value: 2000, currency: currencies(:gbp)}

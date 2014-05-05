@@ -9,9 +9,9 @@ class GiftCard < ActiveRecord::Base
   ## Validations
   validates :buyer, presence: true
   validates :currency, presence: true
-  validates :start_value, presence: true, numericality: {greater_than: 0}
+  validates :start_value, presence: true, numericality: {only_integer: true, greater_than: 0}
   # Allow nil's here because it won't get set until the first save
-  validates :current_value, allow_nil: true, numericality: {greater_than_or_equal_to: 0}
+  validates :current_value, allow_nil: true, numericality: {only_integer: true, greater_than_or_equal_to: 0}
   # But disallow if the record has already been saved to the DB
   validates :current_value, presence: true, if: -> { persisted? }
   validate :current_less_than_start
