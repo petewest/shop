@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140504212443) do
+ActiveRecord::Schema.define(version: 20140505081910) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -170,6 +170,19 @@ ActiveRecord::Schema.define(version: 20140504212443) do
   add_index "products", ["master_product_id"], name: "index_products_on_master_product_id", using: :btree
   add_index "products", ["seller_id"], name: "index_products_on_seller_id", using: :btree
   add_index "products", ["type"], name: "index_products_on_type", using: :btree
+
+  create_table "redemptions", force: true do |t|
+    t.integer  "order_id"
+    t.integer  "gift_card_id"
+    t.integer  "currency_id"
+    t.integer  "value"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "redemptions", ["currency_id"], name: "index_redemptions_on_currency_id", using: :btree
+  add_index "redemptions", ["gift_card_id"], name: "index_redemptions_on_gift_card_id", using: :btree
+  add_index "redemptions", ["order_id"], name: "index_redemptions_on_order_id", using: :btree
 
   create_table "sessions", force: true do |t|
     t.integer  "user_id"
