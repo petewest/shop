@@ -30,9 +30,15 @@ class RedemptionTest < ActiveSupport::TestCase
     assert_equal redemption_value, @redemption.value
   end
 
-  # test "should not allow order and gift_card currencies to mismatch" do
-  #   @redemption.
-  # end
+  test "should copy currency from gift_card to self on save" do
+    @redemption.save
+    assert_equal @redemption.gift_card.currency, @redemption.currency
+  end
+
+  test "should not allow order and gift_card currencies to mismatch" do
+    @redemption.gift_card=gift_cards(:ten_dollars)
+    assert_not @redemption.valid?
+  end
 
 
   private

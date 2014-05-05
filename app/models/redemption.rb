@@ -18,9 +18,14 @@ class Redemption < ActiveRecord::Base
     def decrement_gift_card_balance
       # Grab a lock on the card so that someone can't try and use a gift_card twice while we're still processing the last one
       gift_card.with_lock do
+        self.currency=gift_card.currency
         self.value=[gift_card.current_value, order.cost].min
         gift_card.current_value-=value
         gift_card.save!
       end
+    end
+
+    def order_and_gift_card_currencies
+      errors[:base]<<"order currency and gift card currency must match" if order and gift_card and order.currency!=gift_card.currency
     end
 end
