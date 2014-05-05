@@ -4,7 +4,7 @@
     	Product
     </div>
 	<div class="form-group">
-		<label class="label-control"><%= f.object.product.name %></label>
+		<label class="label-control"><%= f.object.buyable.name %></label>
 		<% if @stock_level.try(:due_at) and @stock_level.due_at>DateTime.now %>
 			<p class="help-block">This item is available for pre-order with stock due on <%= l(@stock_level.due_at.in_time_zone(t('time.zone')).to_date) %></p>
 		<% end %>
@@ -20,7 +20,7 @@
 	<div class="cart_header">
 		Item cost
 	</div>
-	<%= cost_to_currency(f.object.product) %>
+	<%= cost_to_currency(f.object.buyable) %>
 </div>
 <div class="cart_line_cost text-right">
 	<div class="cart_header">

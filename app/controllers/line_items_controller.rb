@@ -1,8 +1,9 @@
 class LineItemsController < ApplicationController
   def new
-    @product=Product.find(params[:product_id]) if params[:product_id]
-    @line_item=current_cart.line_items.new(product: @product).copy_cost_from_product
-    @stock_level=@product.stock_levels.current.first
+    @buyable=Product.find(params[:product_id]) if params[:product_id]
+    # @buyable=Product.find(params[:gift_card_id]) if params[:gift_card_id]
+    @line_item=current_cart.line_items.new(buyable: @buyable)
+    @stock_level=@buyable.stock_levels.current.first
   end
 
   def create
@@ -21,7 +22,7 @@ class LineItemsController < ApplicationController
       end
     else
       if current_cart.line_items.any? and @line_item_duplicate=current_cart.line_items.find_by(line_item_params.except(:quantity))
-        @line_item_duplicate.errors[:product_id]=@line_item.errors[:product_id]
+        @line_item_duplicate.errors[:buyable_id]=@line_item.errors[:buyable_id]
       else
         flash.now[:danger]="Error adding item to cart"
       end
@@ -51,6 +52,6 @@ class LineItemsController < ApplicationController
 
   private
     def line_item_params
-      params.require(:line_item).permit(:product_id, :quantity)
+      params.require(:line_item).permit(:buyable_id, :buyable_type :quantity)
     end
 end

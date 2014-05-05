@@ -40,6 +40,38 @@ class GiftCard < ActiveRecord::Base
     Rails.application.message_verifier(:gift_card).generate(token)
   end
 
+
+  ## Methods that help this model behave like a buyable item
+
+  # Unit cost is the start value
+  def unit_cost
+    start_value
+  end
+
+  # There's no concept of stock for gift cards, so we'll just return true
+  def stock_check
+    true
+  end
+
+  def allocate_stock_to(line_item)
+    true
+  end
+
+  # There's also no weight
+  def weight
+    0
+  end
+
+  # Dummy name
+  def name
+    "Gift card"
+  end
+
+  # Will have to respond to stock_levels
+  def stock_levels
+    
+  end
+
   ## Class method for decoding the token and finding the corresponding gift card
   # raises ActiveSupport::MessageVerifier::InvalidSignature if the token isn't valid
   def self.find_by_encoded_token(encoded_token)

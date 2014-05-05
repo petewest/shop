@@ -90,8 +90,7 @@ class AllocationTest < ActiveSupport::TestCase
     assert_nil allocation.product
     assert_nil allocation.product_id
     allocation.save
-    assert_equal valid[:line_item].product, allocation.product
-    assert_equal valid[:line_item].product_id, allocation.product_id
+    assert_equal valid[:line_item].buyable, allocation.product
   end
 
   private
