@@ -9,6 +9,8 @@ class Order < ActiveRecord::Base
   belongs_to :billing, class_name: "OrderAddress", dependent: :destroy
   belongs_to :postage_cost
   belongs_to :postage_service
+  has_many :redemptions, inverse_of: :order, dependent: :nullify
+  has_many :gift_cards, through: :redemptions
 
 
   ## Validations

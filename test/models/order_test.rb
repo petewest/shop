@@ -387,6 +387,19 @@ class OrderTest < ActiveSupport::TestCase
     assert_equal 1, order[:line_items_count]
   end
 
+  test "should have a list of gift cards and redemptions" do
+    order=Order.new
+    assert_respond_to order, :redemptions
+    assert_respond_to order, :gift_cards
+  end
+
+  test "should create redemptions when adding gift cards" do
+    order=orders(:cart)
+    assert_difference "Redemption.count" do
+      order.gift_cards<<gift_cards(:ten_pounds)
+    end
+  end
+
   private
     def valid
       @order||={user: users(:buyer), billing_attributes: { source_address: users(:buyer).addresses.billing.first}, delivery_attributes: {source_address: users(:buyer).addresses.delivery.first}, line_items_attributes: [{product_id: products(:mug).id, quantity: 1}]}
