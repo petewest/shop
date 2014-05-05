@@ -2,9 +2,11 @@ class GiftCard < ActiveRecord::Base
   ## Relationships
   belongs_to :buyer, class_name: "User", inverse_of: :gift_cards_bought
   belongs_to :redeemer, class_name: "User", inverse_of: :gift_cards_redeemed
+  belongs_to :currency
   
   ## Validations
   validates :buyer, presence: true
+  validates :currency, presence: true
   validates :start_value, presence: true, numericality: {greater_than: 0}
   # Allow nil's here because it won't get set until the first save
   validates :current_value, allow_nil: true, numericality: {greater_than_or_equal_to: 0}

@@ -85,8 +85,13 @@ class GiftCardTest < ActiveSupport::TestCase
     end
   end
 
+  test "should not save without currency" do
+    @gift_card_new.currency=nil
+    assert_not @gift_card_new.valid?
+  end
+
   private
     def valid
-      {buyer: users(:buyer), start_value: 2000}
+      {buyer: users(:buyer), start_value: 2000, currency: currencies(:gbp)}
     end
 end

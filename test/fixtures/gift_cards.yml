@@ -4,6 +4,7 @@ ten_pounds:
   buyer: :seller
   redeemer: :buyer
   token: MyString
+  currency: :gbp
   start_value: 1000
   current_value: 1000
   expires_at: <%= 1.year.from_now %>
@@ -12,6 +13,7 @@ ten_dollars:
   buyer: :seller
   redeemer: :buyer
   token: MyString
+  currency: :usd
   start_value: 1000
   current_value: 1000
   expires_at: 2014-05-04 22:24:43
