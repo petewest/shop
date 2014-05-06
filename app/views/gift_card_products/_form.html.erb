@@ -1,3 +1,4 @@
 <%= form_for gift_card_product do |f| %>
-	<%= render 'products/product_fields', f: f %>
+	<%= render 'shared/cost_fields', f: f %>
+	<%= f.submit %>
 <% end %>

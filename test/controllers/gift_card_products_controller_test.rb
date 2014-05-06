@@ -15,4 +15,15 @@ class GiftCardProductsControllerTest < ActionController::TestCase
     get :new
     assert_redirected_to signin_path
   end
+  test "should have create action for seller" do
+    sign_in users(:seller)
+    assert_difference "GiftCardProduct.count" do
+      post :create, gift_card_product: valid
+    end
+  end
+
+  private
+    def valid
+      {currency_id: currencies(:gbp).id, unit_cost: 2000}
+    end
 end
