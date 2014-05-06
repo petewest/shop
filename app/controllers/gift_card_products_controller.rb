@@ -4,7 +4,7 @@ class GiftCardProductsController < ApplicationController
     @gift_card_product=GiftCardProduct.new
   end
   def create
-    @gift_card_product=GiftCardProduct.new(gift_card_product_params)
+    @gift_card_product=current_user.gift_card_products.new(gift_card_product_params)
     if @gift_card_product.save
       flash[:success]="Gift card denomination added"
     else
