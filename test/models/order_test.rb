@@ -148,7 +148,7 @@ class OrderTest < ActiveSupport::TestCase
   test "should not be able to place order if line items would reduce current stock less than 0" do
     order=Cart.create(valid)
     line_item=order.line_items.first
-    stock_level=line_item.buyable.stock_levels.current.first
+    stock_level=line_item.product.stock_levels.current.first
     line_item.quantity=stock_level.current_quantity+1
     assert line_item.save
     order.reload
@@ -163,7 +163,7 @@ class OrderTest < ActiveSupport::TestCase
   test "odd behaviour with dirty bits" do
     order=Cart.create(valid)
     line_item=order.line_items.first
-    stock_level=line_item.buyable.stock_levels.current.first
+    stock_level=line_item.product.stock_levels.current.first
     line_item.quantity=stock_level.current_quantity+1
     assert line_item.changed? #passes
     assert order.line_items.first.changed? #fails
@@ -183,9 +183,9 @@ class OrderTest < ActiveSupport::TestCase
   test "should decrement current stock when placing order" do
     product1=products(:mug)
     product2=products(:tshirt)
-    order=Cart.create(valid.merge(line_items_attributes:[{buyable_id: product1.id, buyable_type: "Product", quantity: 2}, {buyable_id: product2.id, buyable_type: "Product",  quantity: 1}]))
+    order=Cart.create(valid.merge(line_items_attributes:[{product_id: product1.id, quantity: 2}, {product_id: product2.id, quantity: 1}]))
     line_item=order.line_items.first
-    stock_level=line_item.buyable.stock_levels.current.first
+    stock_level=line_item.product.stock_levels.current.first
     old_quantity=stock_level.current_quantity
     order.reload
     order.status=:placed
@@ -277,7 +277,7 @@ class OrderTest < ActiveSupport::TestCase
     product=products(:with_weight)
     quantity=5
     postage_cost=PostageCost.for_weight(product.weight*quantity)
-    order=Order.create(valid.merge(line_items_attributes: [{buyable_id: product.id, buyable_type: "Product", quantity: quantity}]))
+    order=Order.create(valid.merge(line_items_attributes: [{product_id: product.id, quantity: quantity}]))
     assert_equal postage_cost, order.postage_cost
     assert_equal (product.cost*quantity)+postage_cost.cost, order.cost, "product_cost: #{product.unit_cost*quantity}, postage_cost: #{postage_cost.unit_cost}."
   end
@@ -338,7 +338,7 @@ class OrderTest < ActiveSupport::TestCase
     product=products(:with_weight)
     quantity=5
     postage_cost=PostageCost.for_weight(product.weight*quantity)
-    order=Order.create(valid.merge(line_items_attributes: [{buyable_id: product.id, buyable_type: "Product", quantity: quantity}]))
+    order=Order.create(valid.merge(line_items_attributes: [{product_id: product.id, quantity: quantity}]))
     order.fix_costs
     assert_equal postage_cost.id, order.postage_cost_id
   end
@@ -347,7 +347,7 @@ class OrderTest < ActiveSupport::TestCase
     product=products(:with_weight)
     quantity=5
     postage_cost=PostageCost.for_weight(product.weight*quantity)
-    order=Order.create(valid.merge(line_items_attributes: [{buyable_id: product.id, buyable_type: "Product", quantity: quantity}]))
+    order=Order.create(valid.merge(line_items_attributes: [{product_id: product.id, quantity: quantity}]))
     order.reload
     assert_nil order.postage_cost_id
     assert_nil order.unit_cost
@@ -365,7 +365,7 @@ class OrderTest < ActiveSupport::TestCase
     postage_cost=PostageCost.for_weight(product.weight*quantity)
     postage_cost_other=PostageCost.where.not(id: postage_cost.id).first
     currency_other=Currency.where.not(id: product.currency.id).first
-    order=Order.create(valid.merge(line_items_attributes: [{buyable_id: product.id, buyable_type: "Product", quantity: quantity}]))
+    order=Order.create(valid.merge(line_items_attributes: [{product_id: product.id, quantity: quantity}]))
     order.placed!
     order.postage_cost_id=postage_cost_other.id
     order.currency_id=currency_other.id
@@ -412,6 +412,6 @@ class OrderTest < ActiveSupport::TestCase
 
   private
     def valid
-      @order||={user: users(:buyer), billing_attributes: { source_address: users(:buyer).addresses.billing.first}, delivery_attributes: {source_address: users(:buyer).addresses.delivery.first}, line_items_attributes: [{buyable_id: products(:mug).id, buyable_type: "Product", quantity: 1}]}
+      @order||={user: users(:buyer), billing_attributes: { source_address: users(:buyer).addresses.billing.first}, delivery_attributes: {source_address: users(:buyer).addresses.delivery.first}, line_items_attributes: [{product_id: products(:mug).id, quantity: 1}]}
     end
 end

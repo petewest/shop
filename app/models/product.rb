@@ -9,7 +9,7 @@ class Product < ActiveRecord::Base
   validates :currency, presence: true
   validates :weight, numericality: true, allow_blank: true
 
-  has_many :line_items, as: :buyable
+  has_many :line_items, inverse_of: :product
   has_many :orders, through: :line_items, inverse_of: :products
   has_many :dispatched_orders, -> {dispatched}, through: :line_items, source: :order
   has_many :purchased_by, through: :dispatched_orders, source: :user

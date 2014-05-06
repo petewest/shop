@@ -4,7 +4,7 @@ class Order < ActiveRecord::Base
   belongs_to :user, inverse_of: :orders
   has_many :line_items, inverse_of: :order, dependent: :destroy
   has_many :allocations, through: :line_items
-  has_many :products, through: :line_items, inverse_of: :orders, source: :buyable, source_type: "Product"
+  has_many :products, through: :line_items, inverse_of: :orders
   belongs_to :delivery, class_name: "OrderAddress", dependent: :destroy
   belongs_to :billing, class_name: "OrderAddress", dependent: :destroy
   belongs_to :postage_cost

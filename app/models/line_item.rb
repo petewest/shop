@@ -1,15 +1,15 @@
 class LineItem < ActiveRecord::Base
   include Costable
-  belongs_to :buyable, polymorphic: true
+  belongs_to :product, inverse_of: :line_items
   belongs_to :order, inverse_of: :line_items, counter_cache: true
 
   has_many :allocations, inverse_of: :line_item, dependent: :destroy
 
   validates :quantity, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 1}
-  validates :buyable, presence: true
+  validates :product, presence: true
   validates :order, presence: true
 
-  validates :buyable_id, uniqueness: {scope: [:buyable_type, :order_id], message: "already in order, update quantity and try again"}
+  validates :product_id, uniqueness: {scope: :order_id, message: "already in order, update quantity and try again"}
 
   before_save :set_up_on_save
 
@@ -17,20 +17,20 @@ class LineItem < ActiveRecord::Base
   def copy_cost_from_product
     #this will only run on cart/checkout so shouldn't change
     #after an order has been placed
-    self.unit_cost=buyable.unit_cost
-    self.currency=buyable.currency
+    self.unit_cost=product.unit_cost
+    self.currency=product.currency
     #return self for method chaining
     self
   end
 
   # find currency from product if none specified
   def currency
-    super || buyable.try(:currency)
+    super || product.try(:currency)
   end
 
   # find unit cost from product if none specified
   def unit_cost
-    super || buyable.try(:unit_cost)
+    super || product.try(:unit_cost)
   end
 
   def cost
@@ -38,7 +38,7 @@ class LineItem < ActiveRecord::Base
   end
 
   def stock_check
-    if buyable.stock_check(quantity)
+    if product.stock_check(quantity)
       true
     else
       errors[:quantity]="is greater than current stock!"
@@ -47,7 +47,7 @@ class LineItem < ActiveRecord::Base
   end
 
   def take_stock
-    buyable.allocate_stock_to(self)
+    product.allocate_stock_to(self)
   end
 
   def release_stock
@@ -55,7 +55,7 @@ class LineItem < ActiveRecord::Base
   end
 
   def weight
-    buyable.weight.to_f*quantity.to_i if buyable
+    product.weight.to_f*quantity.to_i if product
   end
 
   private
