@@ -1,9 +1,9 @@
 <%
-options={}
+options={url: product_stock_levels_path(product)}
 #If we've started in remote:true, we'll stay that way
 options[:remote]=true if request.xhr?
 %>
-<%= form_for [product, stock_level], options do |f| %>
+<%= form_for stock_level, options do |f| %>
   <%= render 'shared/form_error', object: f.object %>
   <div class="col-md-6 col-sm-6 col-xs-12">
 	  <div class="form-group">

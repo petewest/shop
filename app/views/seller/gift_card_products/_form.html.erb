@@ -1,4 +1,5 @@
 <%= form_for [:seller, gift_card_product] do |f| %>
+	<%= render 'shared/form_error', object: f.object %>
 	<%= render 'shared/cost_fields', f: f %>
-	<%= f.submit %>
+	<%= f.submit class: "btn btn-default" %>
 <% end %>

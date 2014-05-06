@@ -23,10 +23,73 @@ class Seller::GiftCardProductsControllerTest < ActionController::TestCase
     assert_difference "GiftCardProduct.count" do
       post :create, gift_card_product: valid
     end
+    assert_redirected_to seller_gift_card_products_path
   end
 
   test "should have index action" do
     sign_in users(:seller)
+    get :index
+    assert_response :success
+    assert_select "a[href=#{new_seller_gift_card_product_path}]"
+    assert_select "div.panel", GiftCardProduct.count
+  end
+
+  test "should not have index action for buyer" do
+    sign_in users(:buyer)
+    get :index
+    assert_redirected_to signin_path
+  end
+
+  test "should not have index action for anonymous" do
+    get :index
+    assert_redirected_to signin_path
+  end
+
+  test "should have edit action" do
+    sign_in users(:seller)
+    gift_card_product=products(:gift_card_product)
+    get :edit, id: gift_card_product.id
+    assert_response :success
+  end
+
+  test "should have update action" do
+    sign_in users(:seller)
+    gift_card_product=products(:gift_card_product)
+    cost=gift_card_product.unit_cost
+    patch :update, id: gift_card_product.id, gift_card_product: valid
+    gift_card_product.reload
+    assert_not_equal cost, gift_card_product.unit_cost, assigns(:gift_card_product).errors.inspect
+    assert_equal "Gift card product updated", flash[:success], flash.inspect
+    assert_equal valid[:unit_cost], gift_card_product.unit_cost
+    assert_redirected_to seller_gift_card_products_path
+  end
+
+  test "should not have update action for buyer" do
+    sign_in users(:buyer)
+    gift_card_product=products(:gift_card_product)
+    cost=gift_card_product.unit_cost
+    patch :update, id: gift_card_product.id, gift_card_product: valid
+    gift_card_product.reload
+    assert_equal cost, gift_card_product.unit_cost
+    assert_redirected_to signin_path
+  end
+
+  test "should have destroy action" do
+    sign_in users(:seller)
+    gift_card_product=products(:gift_card_product)
+    assert_difference "GiftCardProduct.count", -1 do
+      delete :destroy, id: gift_card_product.id
+    end
+    assert_redirected_to seller_gift_card_products_path
+  end
+
+  test "should not have destroy action for buyer" do
+    sign_in users(:buyer)
+    gift_card_product=products(:gift_card_product)
+    assert_no_difference "GiftCardProduct.count" do
+      delete :destroy, id: gift_card_product.id
+    end
+    assert_redirected_to signin_path
   end
 
   private

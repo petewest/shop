@@ -1,0 +1,8 @@
+<%
+provide(:title, "Gift cards")
+provide(:heading, "Gift cards")
+%>
+
+<%= link_to "New", new_seller_gift_card_product_path, class: "btn btn-default", data: { modal_target: '#modal' } %>
+
+<%= render @gift_card_products %>

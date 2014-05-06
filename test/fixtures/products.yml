@@ -60,3 +60,9 @@ sub_product:
   weight: 2
   type: SubProduct
   master_product: :master_product
+
+gift_card_product:
+  unit_cost: 1000
+  currency: :gbp
+  type: GiftCardProduct
+  seller: :seller
