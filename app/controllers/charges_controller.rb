@@ -29,7 +29,7 @@ class ChargesController < ApplicationController
     end
     flash[:warning]="No charges found" and return if @charges.nil? or @charges.empty?
     # find the orders that were paid during this date range
-    @orders=Order.includes(:currency, line_items: :buyable).where(paid_at: @from_date..@to_date)
+    @orders=Order.includes(:currency, line_items: [product: [:master_product]]).where(paid_at: @from_date..@to_date)
     # match charges to orders
     @charges_and_orders=@charges.map do |ch|
       order=@orders.find{ |o| o.stripe_charge_reference==ch.id }

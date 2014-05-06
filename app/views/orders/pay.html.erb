@@ -13,7 +13,7 @@
 	data: {
 		key: Rails.application.secrets.stripe_publishable_key,
 		name: "Shop",
-		description: @order.line_items.map(&:buyable).map(&:name).join(", "),
+		description: @order.line_items.map(&:product).map(&:name).join(", "),
 		currency: @order.currency.iso_code.downcase,
 		amount: @order.cost,
 		label: "Pay"
