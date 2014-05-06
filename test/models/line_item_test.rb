@@ -164,12 +164,6 @@ class LineItemTest < ActiveSupport::TestCase
     assert_equal gift_card, line_item.buyable
   end
 
-  test "should not allow any old type as buyable" do
-    user=User.first
-    line_item=LineItem.new(valid.merge(buyable: user))
-    assert_not line_item.valid?
-  end
-
   private
     def valid
       @line_item||={buyable: products(:product_20), order: orders(:cart), quantity: 1}
