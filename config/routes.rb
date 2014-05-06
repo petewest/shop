@@ -38,8 +38,6 @@ Rails.application.routes.draw do
     resources :allocations, only: [:index]
   end
 
-  resources :gift_card_products
-
   resources :stock_levels, only: [:destroy] do
     resources :orders, only: [:index], module: :seller
     resources :allocations, only: [:index]
@@ -74,6 +72,7 @@ Rails.application.routes.draw do
   namespace :seller do
     resources :orders, only: [:index, :show, :update]
     resources :products, only: [:index]
+    resources :gift_card_products
     resources :users, only: [:index] do
       resources :orders, only: :index
       get '/allocations' => '/allocations#index'
