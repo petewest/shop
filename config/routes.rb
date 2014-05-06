@@ -38,7 +38,7 @@ Rails.application.routes.draw do
     resources :allocations, only: [:index]
   end
 
-  resources :gift_card_products, only: :new
+  resources :gift_card_products
 
   resources :stock_levels, only: [:destroy] do
     resources :orders, only: [:index], module: :seller
