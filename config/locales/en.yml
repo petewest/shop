@@ -30,3 +30,10 @@ en:
     zone: London
     formats:
       default: '%a, %d %b %Y %H:%M'
+  activerecord:
+    models:
+      gift_card_product: Gift Card
+    attributes:
+      currency:
+        iso_code: ISO code
+
