@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140505200456) do
+ActiveRecord::Schema.define(version: 20140505165143) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -85,19 +85,17 @@ ActiveRecord::Schema.define(version: 20140505200456) do
   add_index "images", ["product_id"], name: "index_images_on_product_id", using: :btree
 
   create_table "line_items", force: true do |t|
-    t.integer  "buyable_id"
+    t.integer  "product_id"
     t.integer  "order_id"
-    t.integer  "quantity",     default: 1
+    t.integer  "quantity",    default: 1
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "currency_id"
     t.integer  "unit_cost"
-    t.string   "buyable_type", default: "Product", null: false
   end
 
-  add_index "line_items", ["buyable_id"], name: "index_line_items_on_buyable_id", using: :btree
-  add_index "line_items", ["buyable_type", "buyable_id"], name: "index_line_items_on_buyable_type_and_buyable_id", using: :btree
   add_index "line_items", ["order_id"], name: "index_line_items_on_order_id", using: :btree
+  add_index "line_items", ["product_id"], name: "index_line_items_on_product_id", using: :btree
 
   create_table "order_addresses", force: true do |t|
     t.integer  "source_address_id"
