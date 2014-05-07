@@ -409,6 +409,26 @@ class OrderTest < ActiveSupport::TestCase
     assert_equal order_cost-order.gift_card_value, order.cost
   end
 
+  test "should not be able to place order if weight is missing a postage cost" do
+    order=Order.new(valid.except(:line_items_attributes))
+    order.products=[products(:weight_no_postage)]
+    assert order.save, order.errors.inspect
+    order.status=:placed
+    assert_not order.valid?
+    assert_equal 1, order.errors.count
+    assert_equal "missing, please contact the seller", order.errors.messages[:postage_cost].join, order.errors.inspect
+  end
+
+  test "should be able to place without postage cost if weight is 0" do
+    order=Order.new(valid.except(:line_items_attributes))
+    product=products(:nil_weight)
+    order.products=[product]
+    assert order.save
+    order.status=:placed
+    assert_equal 0, order.total_weight
+    assert order.valid?, order.errors.inspect
+  end
+
 
   private
     def valid

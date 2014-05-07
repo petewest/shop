@@ -66,3 +66,17 @@ gift_card_product:
   currency: :gbp
   type: GiftCardProduct
   seller: :seller
+
+weight_no_postage:
+  name: Product with weight but no postage
+  seller: :seller
+  currency: :gbp
+  unit_cost: 1500
+  weight: 100
+
+nil_weight:
+  name: Product with weight but no postage
+  seller: :seller
+  currency: :gbp
+  unit_cost: 1500
+

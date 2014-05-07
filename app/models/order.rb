@@ -28,9 +28,9 @@ class Order < ActiveRecord::Base
   #process to check stock for validation, then allocate stock after successful save
   with_options if: -> { status_changed? and status=="placed" } do |placed|
     placed.validate :stock_check
-    placed.validates :postage_cost, presence: {message: "missing, please contact the seller"}
     placed.after_save :decrement_stock
   end
+  validates :postage_cost, presence: {message: "missing, please contact the seller"}, if: -> { status_changed? and status=="placed" and total_weight>0 }
 
   validate :check_flow, if: -> {status_changed? and persisted?}
 
