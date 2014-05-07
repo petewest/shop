@@ -1,0 +1,5 @@
+<div class="gift_card">
+  <div class="gift_card_name"><%= gift_card_product.name %></div>
+  <div class="gift_card_value"><%= cost_to_currency(gift_card_product) %></div>
+  <div class="gift_card_buy"><%= render 'products/add_to_cart', object: gift_card_product %></div>
+</div>

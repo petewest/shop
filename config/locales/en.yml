@@ -36,4 +36,7 @@ en:
     attributes:
       currency:
         iso_code: ISO code
+  gift_card_products:
+    index:
+      title: Gift cards available
 
