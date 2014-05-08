@@ -22,4 +22,41 @@ class Seller::GiftCardsControllerTest < ActionController::TestCase
     get :new
     assert_redirected_to signin_path
   end
+
+  test "should have create action for seller" do
+    sign_in users(:seller)
+    assert_difference "current_user.gift_cards_bought.count" do
+      assert_difference "users(:buyer).gift_cards_redeemed.count" do
+        assert_difference "GiftCard.count" do
+          put :create, gift_card: valid
+        end
+      end
+    end
+    assert_redirected_to seller_gift_cards_path
+  end
+
+  test "should not have create action for buyer" do
+    sign_in users(:buyer)
+    assert_no_difference "current_user.gift_cards_bought.count" do
+      assert_no_difference "users(:buyer).gift_cards_redeemed.count" do
+        assert_no_difference "GiftCard.count" do
+          put :create, gift_card: valid
+        end
+      end
+    end
+    assert_redirected_to signin_path
+  end
+
+  test "should not have create action for anonymous" do
+    assert_no_difference "users(:buyer).gift_cards_redeemed.count" do
+      assert_no_difference "GiftCard.count" do
+        put :create, gift_card: valid
+      end
+    end
+    assert_redirected_to signin_path
+  end
+  private
+    def valid
+      {redeemer_id: users(:buyer).id, currency_id: currencies(:gbp).id, unit_cost: 1000}
+    end
 end
