@@ -11,7 +11,15 @@
 	</div>
 </div>
 <div class="col-md-12">
-<p class="help-block">Unit cost is the item cost in the smallest subdivision of the currency (eg.: 1000 pence for an item costing £10) <br/>
-This is the cost the user will be charged.  Ensure the decimal places setting in the currency definition is correct so that it displays properly for the purchaser
+<p class="help-block">
+<%= #t(:cost_description_html, scope: [controller, params[:action]])
+%>
+<%=
+begin
+  t(:cost_description_html, scope: [params[:controller].gsub(/\//,'.'), params[:action]], raise: true)
+rescue
+  t('.cost_description_html')
+end
+%>
 </p>
 </div>

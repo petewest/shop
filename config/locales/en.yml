@@ -36,7 +36,18 @@ en:
     attributes:
       currency:
         iso_code: ISO code
+      gift_card:
+        unit_cost: Value
   gift_card_products:
     index:
       title: Gift cards available
+  seller:
+    gift_cards:
+      new:
+        cost_description_html: "Value is the value of the gift card in the smallest subdivision of the currency (eg.: 1000 pence for an item costing £10) <br/> This is the value that will be credited to an order."
+        title: Issue new gift card
+  shared:
+    cost_fields:
+# Default cost description. Overridable per controller acttion
+      cost_description_html: "Unit cost is the item cost in the smallest subdivision of the currency (eg.: 1000 pence for an item costing £10) <br/> This is the cost the user will be charged.  Ensure the decimal places setting in the currency definition is correct so that it displays properly for the purchaser"
 

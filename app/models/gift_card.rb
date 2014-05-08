@@ -26,14 +26,8 @@ class GiftCard < ActiveRecord::Base
 
   ## Methods
 
-  # Decimal value methods to for the user to populate
-  def decimal_value
-    start_value / (10.0**currency.decimal_places) if currency
-  end
-
-  def decimal_value=(new_value)
-    self.start_value=(new_value*(10.0**currency.decimal_places)).floor if currency
-  end
+  # unit_cost virtual methods for for accessing start_value from costable
+  alias_attribute :unit_cost, :start_value
 
   # Give the encoded version of the token
   def encoded_token

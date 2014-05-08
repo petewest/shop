@@ -110,20 +110,14 @@ class GiftCardTest < ActiveSupport::TestCase
     assert_not @gift_card_new.valid?
   end
 
-  test "should have decimal_value virtual methods for setting start_value field" do
-    @gift_card_new.decimal_value=20.50
+  test "should have unit_cost virtual methods for setting start_value field" do
+    @gift_card_new.unit_cost=2050
     assert_equal 2050, @gift_card_new.start_value
     assert @gift_card_new.valid?, "Errors: #{@gift_card_new.errors.inspect}"
   end
 
-  test "should have decimal_value virtual methods for reading start_value field" do
-    assert_equal 20.00, @gift_card_new.decimal_value
-  end
-
-  test "should floor value if setting too many decimals" do
-    @gift_card_new.decimal_value=20.509
-    assert_equal 2050, @gift_card_new.start_value
-    assert @gift_card_new.valid?
+  test "should have unit_cost virtual methods for reading start_value field" do
+    assert_equal 2000, @gift_card_new.unit_cost
   end
 
   private
