@@ -61,6 +61,7 @@ class GiftCardsControllerTest < ActionController::TestCase
     assert_template 'redeem'
     assert_equal "Gift card not found, or redemption code incorrect", flash[:warning]
     assert_nil gift_card.reload.redeemer
+    assert_select "input[value='#{gift_card.token}']"
   end
 
   test "should fail gracefully if the token is already allocated" do
@@ -71,7 +72,6 @@ class GiftCardsControllerTest < ActionController::TestCase
     assert_template 'redeem'
     assert_equal "Gift card code has already been redeemed", flash[:warning]
     assert_not_equal users(:buyer), gift_card.reload.redeemer
-    assert_select "input[value='#{gift_card.encoded_token}']", 0
   end
 
   test "should not have an allocate action for anonymous" do

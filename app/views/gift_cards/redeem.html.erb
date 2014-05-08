@@ -3,4 +3,4 @@ provide(:title, t('.title'))
 provide(:heading, t('.title'))
 %>
 
-<%= render 'form', id: @gift_card.try(:encoded_token) %>
+<%= render 'form', id: (@gift_card.try(:encoded_token) || params[:id]) %>
