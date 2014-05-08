@@ -61,7 +61,7 @@ class GiftCardTest < ActiveSupport::TestCase
 
   test "shouldn't allow a current_value bigger than start_value" do
     @gift_card_new.current_value=@gift_card_new.start_value+1
-    assert_not @gift_card_new.valid?
+    assert_not @gift_card_new.save
   end
 
   test "should not allow current_value to be nil once saved" do
@@ -119,6 +119,45 @@ class GiftCardTest < ActiveSupport::TestCase
   test "should have unit_cost virtual methods for reading start_value field" do
     assert_equal 2000, @gift_card_new.unit_cost
   end
+
+  test "should decrement current_value when start_value is reduced (starting same)" do
+    @gift_card_new.save
+    current=@gift_card_new.current_value
+    @gift_card_new.start_value-=50
+    assert @gift_card_new.valid?, @gift_card_new.errors.inspect
+    assert @gift_card_new.save
+    @gift_card_new.reload
+    assert_equal current-50, @gift_card_new.current_value
+  end
+
+  test "should decrement current_value when start_value is reduced after some has been redeemed" do
+    @gift_card_new.save
+    @gift_card_new.current_value-=200
+    @gift_card_new.save
+    current=@gift_card_new.current_value
+    @gift_card_new.start_value-=50
+    assert @gift_card_new.valid?, @gift_card_new.errors.inspect
+    assert @gift_card_new.save
+    assert_equal current-50, @gift_card_new.reload.current_value
+  end
+
+  test "should not allow a start_value reduction to take current_value below zero" do
+    @gift_card_new.save
+    @gift_card_new.current_value-=200
+    @gift_card_new.save
+    current=@gift_card_new.current_value
+    @gift_card_new.start_value-=(current+10) 
+    assert_not @gift_card_new.save
+  end
+
+  test "should increment current_value by start_value increment" do
+    @gift_card_new.save
+    current_value=@gift_card_new.current_value
+    @gift_card_new.start_value+=50
+    @gift_card_new.save
+    assert_equal current_value+50, @gift_card_new.reload.current_value
+  end
+
 
   private
     def valid

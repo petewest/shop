@@ -1,5 +1,11 @@
 class GiftCard < ActiveRecord::Base
   include Costable
+
+  ## Callbacks
+  after_initialize -> { self.token||=SecureRandom.urlsafe_base64; self.current_value||=0; self.start_value||=0; }
+  # Prepare the item to save
+  before_save :prep_for_save
+
   ## Relationships
   belongs_to :buyer, class_name: "User", inverse_of: :gift_cards_bought
   belongs_to :redeemer, class_name: "User", inverse_of: :gift_cards_redeemed
@@ -10,19 +16,11 @@ class GiftCard < ActiveRecord::Base
   validates :buyer, presence: true
   validates :currency, presence: true
   validates :start_value, presence: true, numericality: {only_integer: true, greater_than: 0}
-  # Allow nil's here because it won't get set until the first save
-  validates :current_value, allow_nil: true, numericality: {only_integer: true, greater_than_or_equal_to: 0}
-  # But disallow if the record has already been saved to the DB
-  validates :current_value, presence: true, if: -> { persisted? }
-  validate :current_less_than_start
+  validates :current_value, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 0}
   validates :token, presence: true
 
   ## Scopes
   scope :in_credit, -> { where(arel_table[:current_value].gt(0)) }
-
-  ## Callbacks
-  after_initialize -> { self.token||=SecureRandom.urlsafe_base64 }
-  before_save -> { self.current_value||=start_value }
 
   ## Methods
 
@@ -43,7 +41,15 @@ class GiftCard < ActiveRecord::Base
 
 
   private
-    def current_less_than_start
-      errors[:current_value]="can't be greater than start value" if current_value and current_value>start_value
+    def prep_for_save 
+      # Set current value to be the difference in the start value
+      self.current_value-=start_value_was.to_i-start_value
+      # as we've made changes to current_value, we'll re-run our validations on it
+      validate_current_value
+    end
+
+    def validate_current_value
+      errors[:current_value]="can't be greater than start value" and return false if current_value>start_value
+      errors[:current_value]="must be greater than or equal to zero" and return false if current_value<0
     end
 end
