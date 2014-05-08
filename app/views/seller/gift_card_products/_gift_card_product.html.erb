@@ -1,10 +1,8 @@
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<%= gift_card_product.name %> <%= cost_to_currency(gift_card_product) %>
-		<%= action_bar(gift_card_product, dropdown: true, remote: true, only: nil) do |action| %>
+		<%= action_bar(gift_card_product, dropdown: true, remote: true, namespace: :seller) do |action| %>
 			<%= action.item "Add stock", new_product_stock_level_path(gift_card_product) %>
-			<%= action.item "Edit", edit_seller_gift_card_product_path(gift_card_product) %>
-			<%= action.item "Delete", seller_gift_card_product_path(gift_card_product), method: :delete, remote: true, data: { confirm: "Really delete this gift card product?"} %>
 		<% end %>
 	</div>
 	<%= render 'stock_levels/product_stock_level', product: gift_card_product %>
