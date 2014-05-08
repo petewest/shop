@@ -46,6 +46,16 @@ en:
     index:
       title: Gift cards
       redeem: Redeem
+    find:
+      title: Redeem gift card
+    form:
+      label: Gift card code
+      submit: Redeem
+    allocate:
+      success: Gift card redeemed
+      failure: Gift card could not be allocated
+    missing: "Gift card not found, or redemption code incorrect"
+    already_redeemed: Gift card code has already been redeemed
   seller:
     gift_cards:
       new:

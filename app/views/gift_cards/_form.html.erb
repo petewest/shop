@@ -1,0 +1,7 @@
+<%= form_tag(allocate_gift_cards_path) do %>
+	<div class="form-group">
+		<%= label_tag :id, t('.label'), class: "control-label" %>
+		<%= text_field_tag :id, id, class: "form-control" %>
+	</div>
+	<%= submit_tag t('.submit'), class: "btn btn-default" %>
+<% end %>
