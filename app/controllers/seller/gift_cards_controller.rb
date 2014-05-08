@@ -3,7 +3,9 @@ class Seller::GiftCardsController < ApplicationController
   def new
     @gift_card=GiftCard.new
   end
+
   def create
+    # This will act as if the seller bought the gift card
     @gift_card=current_user.gift_cards_bought.new(gift_card_params)
     if @gift_card.save
       flash[:success]="Gift card issued"
@@ -12,6 +14,10 @@ class Seller::GiftCardsController < ApplicationController
       flash.now[:danger]="Could not create gift card"
       render 'new'
     end
+  end
+
+  def index
+    @gift_cards=GiftCard.page(params[:page])
   end
 
   private

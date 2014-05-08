@@ -46,6 +46,8 @@ en:
       new:
         cost_description_html: "Value is the value of the gift card in the smallest subdivision of the currency (eg.: 1000 pence for an item costing £10) <br/> This is the value that will be credited to an order."
         title: Issue new gift card
+      index:
+        title: Gift cards issued
   shared:
     cost_fields:
 # Default cost description. Overridable per controller acttion

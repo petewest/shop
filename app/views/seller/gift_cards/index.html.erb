@@ -1,0 +1,11 @@
+<%
+  provide(:title, t('.title'))
+  provide(:heading, t('.title'))
+%>
+
+<%= link_to "Issue gift card", new_seller_gift_card_path, class: "btn btn-default" %>
+
+<div class="gift_card_list">
+	<%= render @gift_cards %>
+</div>
+<%= will_paginate %>

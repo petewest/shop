@@ -1,0 +1,14 @@
+<div class="gift_card">
+	<div class="gift_card_buyer">
+		Buyer:
+		<%= gift_card.buyer.name %>
+	</div>
+	<div class="gift_card_redeemer">
+		Redeemer:
+		<%= gift_card.redeemer.name if gift_card.redeemer %>
+	</div>
+	<div class="gift_card_value">
+		Value:
+		<%= cost_to_currency(gift_card) %>
+	</div>
+</div>

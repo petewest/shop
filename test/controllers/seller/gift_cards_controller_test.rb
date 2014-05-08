@@ -55,6 +55,13 @@ class Seller::GiftCardsControllerTest < ActionController::TestCase
     end
     assert_redirected_to signin_path
   end
+
+  test "should have index action for seller" do
+    sign_in users(:seller)
+    get :index
+    assert_response :success
+  end
+
   private
     def valid
       {redeemer_id: users(:buyer).id, currency_id: currencies(:gbp).id, unit_cost: 1000}
