@@ -3,7 +3,7 @@
   provide(:heading, t('.title'))
 %>
 
-<%= link_to "Issue gift card", new_seller_gift_card_path, class: "btn btn-default" %>
+<%= link_to t('.actions.new'), new_seller_gift_card_path, class: "btn btn-default" %>
 
 <div class="gift_card_list">
 	<%= render @gift_cards %>
