@@ -28,11 +28,11 @@ class GiftCardsController < ApplicationController
       @gift_card=GiftCard.redeemable.find_by_encoded_token!(params[:id]) if params[:id]
     rescue ActiveSupport::MessageVerifier::InvalidSignature => e
       @gift_card=nil
-      flash[:warning]=I18n.t('gift_cards.missing')
+      flash.now[:warning]=I18n.t('gift_cards.missing')
       render 'redeem'
     rescue ActiveRecord::RecordNotFound => e
       @gift_card=nil
-      flash[:warning]=I18n.t('gift_cards.already_redeemed')
+      flash.now[:warning]=I18n.t('gift_cards.already_redeemed')
       render 'redeem'
     end
 end
