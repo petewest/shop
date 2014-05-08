@@ -57,8 +57,10 @@ module ApplicationHelper
     actions=*options[:only] if options.has_key?(:only)
     html=action_buttons.header
     html<<capture(action_buttons, &block) if block_given?
+    # if we've given a namespace in options, use it
+    item=[options[:namespace], item] if options[:namespace]
     if item and actions.include?(:edit)
-      html<<action_buttons.item("Edit", url_for([:edit, item]), edit_options)
+      html<<action_buttons.item("Edit", url_for([:edit, item].flatten), edit_options)
     end
     if item and actions.include?(:delete)
       html<<action_buttons.item("Delete", url_for(item), delete_options)
