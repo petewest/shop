@@ -158,6 +158,20 @@ class GiftCardTest < ActiveSupport::TestCase
     assert_equal current_value+50, @gift_card_new.reload.current_value
   end
 
+  test "should have a redeemable scope" do
+    assert_respond_to GiftCard, :redeemable
+  end
+
+  test "should only return items without a redeemer" do
+    redeemable=GiftCard.redeemable
+    [:no_user, :bought_by_buyer].each do |item|
+      assert redeemable.include?(gift_cards(item)), "#{item} not present"
+    end
+    [:ten_pounds, :other_user, :used].each do |item|
+      assert_not redeemable.include?(gift_cards(item)), "#{item} present"
+    end
+  end
+
 
   private
     def valid

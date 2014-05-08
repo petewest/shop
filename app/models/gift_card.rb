@@ -21,6 +21,7 @@ class GiftCard < ActiveRecord::Base
 
   ## Scopes
   scope :in_credit, -> { where(arel_table[:current_value].gt(0)) }
+  scope :redeemable, -> { where(redeemer: nil) }
 
   ## Methods
 
