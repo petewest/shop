@@ -42,6 +42,10 @@ Rails.application.routes.draw do
     concerns :buyable
   end
 
+  resources :gift_cards, only: [:index, :update] do
+    get :redeem, on: :collection
+  end
+
   resources :stock_levels, only: [:destroy] do
     resources :orders, only: [:index], module: :seller
     resources :allocations, only: [:index]

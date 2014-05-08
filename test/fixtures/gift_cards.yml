@@ -35,3 +35,29 @@ used:
   start_value: 5000
   current_value: 0
   expires_at: <%= 1.year.from_now %>
+
+other_user:
+  buyer: :seller
+  redeemer: :user_0
+  token: MyString
+  currency: :gbp
+  start_value: 5000
+  current_value: 5000
+  expires_at: <%= 1.year.from_now %>
+
+no_user:
+  buyer: :seller
+  token: MyString
+  currency: :gbp
+  start_value: 5000
+  current_value: 5000
+  expires_at: <%= 1.year.from_now %>
+
+bought_by_buyer:
+  buyer: :buyer
+  token: MyString
+  currency: :gbp
+  start_value: 5000
+  current_value: 5000
+  expires_at: <%= 1.year.from_now %>
+

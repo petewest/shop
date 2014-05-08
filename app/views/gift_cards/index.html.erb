@@ -1,0 +1,10 @@
+<%
+provide(:title, t('.title'))
+provide(:heading, t('.title'))
+%>
+
+<%= link_to t('.redeem'), redeem_gift_cards_path, class: "btn btn-default" %>
+
+<div class="gift_card_list">
+	<%= render @gift_cards %>
+</div>

@@ -42,6 +42,10 @@ en:
   gift_card_products:
     index:
       title: Gift cards available
+  gift_cards:
+    index:
+      title: Gift cards
+      redeem: Redeem
   seller:
     gift_cards:
       new:
