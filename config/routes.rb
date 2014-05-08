@@ -43,9 +43,8 @@ Rails.application.routes.draw do
   end
 
   resources :gift_cards, only: [:index] do
-    get :redeem, on: :member
     collection do
-      get :find
+      get :redeem
       post :allocate
       patch :allocate
     end

@@ -6,7 +6,7 @@ class GiftCardsController < ApplicationController
     @gift_cards=current_user.gift_cards_redeemed
   end
 
-  def find
+  def redeem
     
   end
 
@@ -18,7 +18,7 @@ class GiftCardsController < ApplicationController
         redirect_to gift_cards_path
       else
         flash.now[:danger]=I18n.t('gift_cards.allocate.failure')
-        render 'find'
+        render 'redeem'
       end
     end
   end
@@ -29,10 +29,10 @@ class GiftCardsController < ApplicationController
     rescue ActiveSupport::MessageVerifier::InvalidSignature => e
       @gift_card=nil
       flash[:warning]=I18n.t('gift_cards.missing')
-      render 'find'
+      render 'redeem'
     rescue ActiveRecord::RecordNotFound => e
       @gift_card=nil
       flash[:warning]=I18n.t('gift_cards.already_redeemed')
-      render 'find'
+      render 'redeem'
     end
 end

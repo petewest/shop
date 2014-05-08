@@ -46,7 +46,7 @@ en:
     index:
       title: Gift cards
       redeem: Redeem
-    find:
+    redeem:
       title: Redeem gift card
     form:
       label: Gift card code

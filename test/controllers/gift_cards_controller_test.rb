@@ -13,7 +13,7 @@ class GiftCardsControllerTest < ActionController::TestCase
       assert_not assigns(:gift_cards).include?(gift_cards(item)), "Contains: #{item}"
     end
     assert_select ".gift_card", assigns(:gift_cards).count
-    assert_select "a[href=#{find_gift_cards_path}]", "Redeem"
+    assert_select "a[href=#{redeem_gift_cards_path}]", "Redeem"
   end
 
   test "should not have index action for anonymous" do
@@ -21,17 +21,28 @@ class GiftCardsControllerTest < ActionController::TestCase
     assert_redirected_to signin_path
   end
 
-  test "should have find action on collection for buyer" do
+  test "should have redeem action on collection for buyer" do
     sign_in users(:buyer)
-    get :find
+    get :redeem
     assert_response :success
     assert_select "form"
   end
 
-  test "should not have find action for anonymous" do
-    get :find
+  test "should not have redeem action for anonymous" do
+    get :redeem
     assert_redirected_to signin_path
   end
+
+  test "should have redeem action with id param for buyer" do
+    sign_in users(:buyer)
+    gift_card=gift_cards(:no_user)
+    get :redeem, id: gift_card.encoded_token
+    assert_response :success
+    assert_not_nil assigns(:gift_card)
+    assert_equal gift_card, assigns(:gift_card)
+    assert_select "input[value='#{gift_card.encoded_token}']"
+  end
+
 
   test "should have an allocate action for buyer" do
     sign_in users(:buyer)
@@ -47,7 +58,7 @@ class GiftCardsControllerTest < ActionController::TestCase
     gift_card=gift_cards(:no_user)
     patch :allocate, id: gift_card.token
     assert_response :success
-    assert_template 'find'
+    assert_template 'redeem'
     assert_equal "Gift card not found, or redemption code incorrect", flash[:warning]
     assert_nil gift_card.reload.redeemer
   end
@@ -57,28 +68,16 @@ class GiftCardsControllerTest < ActionController::TestCase
     gift_card=gift_cards(:other_user)
     patch :allocate, id: gift_card.encoded_token
     assert_response :success, gift_card.reload.redeemer.inspect
-    assert_template 'find'
+    assert_template 'redeem'
     assert_equal "Gift card code has already been redeemed", flash[:warning]
     assert_not_equal users(:buyer), gift_card.reload.redeemer
+    assert_select "input[value='#{gift_card.encoded_token}']", 0
   end
-
-
 
   test "should not have an allocate action for anonymous" do
     gift_card=gift_cards(:no_user)
     patch :allocate, id: gift_card.encoded_token
     assert_redirected_to signin_path
   end
-
-  # test "should have redeem action on member for buyer" do
-  #   sign_in users(:buyer)
-  #   gift_card=gift_cards(:no_user)
-  #   get :redeem, id: gift_card.encoded_token
-  #   assert_response :success
-  #   assert_not_nil assigns(:gift_card)
-  #   assert_equal gift_card, assigns(:gift_card)
-  #   assert_select "a[href=#{gift_card_path(gift_card.encoded_token)}]", "Confirm"
-  #   assert_select ""
-  # end
 
 end
