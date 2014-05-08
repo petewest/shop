@@ -38,6 +38,7 @@ en:
         iso_code: ISO code
       gift_card:
         unit_cost: Value
+# Partial localisations
   gift_card_products:
     index:
       title: Gift cards available
@@ -56,6 +57,32 @@ en:
         title: Edit gift card
   shared:
     cost_fields:
-# Default cost description. Overridable per controller acttion
+# Default cost description. Overridable per controller action
       cost_description_html: "Unit cost is the item cost in the smallest subdivision of the currency (eg.: 1000 pence for an item costing £10) <br/> This is the cost the user will be charged.  Ensure the decimal places setting in the currency definition is correct so that it displays properly for the purchaser"
+  layouts:
+    header:
+      sign_in: Sign in
+      sign_out: Sign out
+      sign_up: Sign up
+      buyer:
+        title: My account
+        my_account: My account
+        change_password: Change password
+        order_history: Order history
+        address_book: Address book
+        gift_card_products: Buy gift cards
+      seller:
+        title: Seller
+        new_product: New product
+        static_data_header: Static data
+        products: Products
+        gift_card_products: Gift cards available
+        currencies: Currencies
+        users: Users
+        postage_services: Postage services
+        customer_data_header: Customer data
+        orders: Orders
+        charges: Charges
+        allocations: Allocations
+        gift_cards: Gift cards purchased
 
