@@ -35,9 +35,9 @@ class GiftCard < ActiveRecord::Base
 
   ## Class method for decoding the token and finding the corresponding gift card
   # raises ActiveSupport::MessageVerifier::InvalidSignature if the token isn't valid
-  def self.find_by_encoded_token(encoded_token)
+  def self.find_by_encoded_token!(encoded_token)
     search_token=Rails.application.message_verifier(:gift_card).verify(encoded_token)
-    find_by_token(search_token)
+    find_by!(token: search_token)
   end
 
 

@@ -3,7 +3,7 @@
 ten_pounds:
   buyer: :seller
   redeemer: :buyer
-  token: MyString
+  token: <%= SecureRandom.urlsafe_base64 %>
   currency: :gbp
   start_value: 1000
   current_value: 1000
@@ -12,7 +12,7 @@ ten_pounds:
 ten_dollars:
   buyer: :seller
   redeemer: :buyer
-  token: MyString
+  token: <%= SecureRandom.urlsafe_base64 %>
   currency: :usd
   start_value: 1000
   current_value: 1000
@@ -21,7 +21,7 @@ ten_dollars:
 fifty_pounds:
   buyer: :seller
   redeemer: :buyer
-  token: MyString
+  token: <%= SecureRandom.urlsafe_base64 %>
   currency: :gbp
   start_value: 5000
   current_value: 5000
@@ -30,7 +30,7 @@ fifty_pounds:
 used:
   buyer: :seller
   redeemer: :buyer
-  token: MyString
+  token: <%= SecureRandom.urlsafe_base64 %>
   currency: :gbp
   start_value: 5000
   current_value: 0
@@ -39,7 +39,7 @@ used:
 other_user:
   buyer: :seller
   redeemer: :user_0
-  token: MyString
+  token: <%= SecureRandom.urlsafe_base64 %>
   currency: :gbp
   start_value: 5000
   current_value: 5000
@@ -47,7 +47,7 @@ other_user:
 
 no_user:
   buyer: :seller
-  token: MyString
+  token: <%= SecureRandom.urlsafe_base64 %>
   currency: :gbp
   start_value: 5000
   current_value: 5000
@@ -55,7 +55,7 @@ no_user:
 
 bought_by_buyer:
   buyer: :buyer
-  token: MyString
+  token: <%= SecureRandom.urlsafe_base64 %>
   currency: :gbp
   start_value: 5000
   current_value: 5000

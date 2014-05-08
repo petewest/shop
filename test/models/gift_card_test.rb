@@ -74,14 +74,15 @@ class GiftCardTest < ActiveSupport::TestCase
     assert_respond_to @gift_card_new, :encoded_token
   end
 
-  test "should have a class method to find by encoded_token" do
-    assert_respond_to GiftCard, :find_by_encoded_token
+  test "should have a class method to find by encoded_token and raise" do
+    assert_respond_to GiftCard, :find_by_encoded_token!
   end
+
 
   test "should raise an error when given an incorrect token" do
     @gift_card_new.save
     assert_raises ActiveSupport::MessageVerifier::InvalidSignature do
-      GiftCard.find_by_encoded_token(@gift_card_new.token)
+      GiftCard.find_by_encoded_token!(@gift_card_new.token)
     end
   end
 
