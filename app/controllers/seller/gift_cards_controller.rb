@@ -25,6 +25,16 @@ class Seller::GiftCardsController < ApplicationController
   def edit
   end
 
+  def update
+    if @gift_card.update_attributes(gift_card_params)
+      flash[:success]="Gift card updated"
+      redirect_to seller_gift_cards_path
+    else
+      flash.now[:danger]="Gift card update failed"
+      render 'edit'
+    end
+  end
+
   private
     def gift_card_params
       params.require(:gift_card).permit(:redeemer_id, :currency_id, :unit_cost)

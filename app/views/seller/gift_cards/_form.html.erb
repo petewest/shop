@@ -1,4 +1,5 @@
 <%= form_for [:seller, gift_card] do |f| %>
+	<%= render 'shared/form_error', object: f.object %>
 	<div class="form-group">
 		<%= f.label :redeemer_id, class: "control-label" %>
 		<%= f.collection_select :redeemer_id, User.all, :id, :name, {}, class: "form-control" %>

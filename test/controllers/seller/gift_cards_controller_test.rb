@@ -69,8 +69,18 @@ class Seller::GiftCardsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should have update action for seller" do
+    sign_in users(:seller)
+    gift_card=GiftCard.first
+    assert_not_equal valid[:unit_cost], gift_card.start_value
+    patch :update, id: gift_card.id, gift_card: valid
+    gift_card.reload
+    assert_equal valid[:unit_cost], gift_card.start_value, assigns(:gift_card).errors.inspect
+    assert_redirected_to seller_gift_cards_path
+  end
+
   private
     def valid
-      {redeemer_id: users(:buyer).id, currency_id: currencies(:gbp).id, unit_cost: 1000}
+      {redeemer_id: users(:buyer).id, currency_id: currencies(:gbp).id, unit_cost: 10000}
     end
 end
