@@ -48,6 +48,8 @@ en:
         title: Issue new gift card
       index:
         title: Gift cards issued
+      edit:
+        title: Edit gift card
   shared:
     cost_fields:
 # Default cost description. Overridable per controller acttion

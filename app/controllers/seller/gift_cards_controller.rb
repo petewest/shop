@@ -1,5 +1,7 @@
 class Seller::GiftCardsController < ApplicationController
   before_action :signed_in_seller
+  before_action :find_gift_card
+
   def new
     @gift_card=GiftCard.new
   end
@@ -20,8 +22,14 @@ class Seller::GiftCardsController < ApplicationController
     @gift_cards=GiftCard.page(params[:page])
   end
 
+  def edit
+  end
+
   private
     def gift_card_params
       params.require(:gift_card).permit(:redeemer_id, :currency_id, :unit_cost)
+    end
+    def find_gift_card
+      @gift_card=GiftCard.find(params[:id]) if params[:id]
     end
 end

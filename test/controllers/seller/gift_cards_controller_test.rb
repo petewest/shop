@@ -62,6 +62,13 @@ class Seller::GiftCardsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test "should have edit action for seller" do
+    sign_in users(:seller)
+    gift_card=GiftCard.first
+    get :edit, id: gift_card.id
+    assert_response :success
+  end
+
   private
     def valid
       {redeemer_id: users(:buyer).id, currency_id: currencies(:gbp).id, unit_cost: 1000}
