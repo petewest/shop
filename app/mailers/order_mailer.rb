@@ -1,9 +1,11 @@
 class OrderMailer < ActionMailer::Base
   default from: Rails.application.secrets.from_email, bcc: Seller.where(bcc_on_email: true).pluck(:email)
+  add_template_helper(ApplicationHelper)
 
   def confirmation_email(order)
     @order=order
     @user=@order.user
+    @gift_cards=@order.gift_cards_bought
     mail(to: @user.email, subject: "Order confirmation ##{@order.id}")
   end
 

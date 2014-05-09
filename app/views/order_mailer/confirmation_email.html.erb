@@ -16,4 +16,9 @@
 	</tbody>
 </table>
 
+<% if @gift_cards.any?	%>
+<p>Gift cards purchased in this order:</p>
+<%= render partial: 'gift_card', collection: @gift_cards %>
+<% end %>
+
 <p>For more information visit: <%= link_to order_url(@order), order_url(@order) %></p>

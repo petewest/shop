@@ -1,6 +1,13 @@
 require 'test_helper'
 
 class OrderMailerTest < ActionMailer::TestCase
+  # Allow use of url helpers in this test
+  include Rails.application.routes.url_helpers
+
+  def default_url_options
+    Rails.application.config.action_mailer.default_url_options
+  end
+
   test "should create order confirmation" do
     buyer=users(:buyer)
     seller=users(:seller)
@@ -43,5 +50,13 @@ class OrderMailerTest < ActionMailer::TestCase
     assert_not email.to.include?(buyer.email)
     assert_equal ["test@example.com"], email.from
     assert_equal "Order ##{order.id} cancelled", email.subject
+  end
+
+  test "should have gift card codes for any gift cards in order" do
+    order=orders(:gift_card_paid)
+    gift_card=gift_cards(:gift_card_paid)
+    email=OrderMailer.confirmation_email(order).deliver
+    assert_match redeem_gift_cards_url(id: gift_card.encoded_token), email.html_part.decoded
+    assert_match redeem_gift_cards_url(id: gift_card.encoded_token), email.text_part.decoded
   end
 end

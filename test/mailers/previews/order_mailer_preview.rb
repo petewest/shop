@@ -12,4 +12,7 @@ class OrderMailerPreview < ActionMailer::Preview
   def cancel_seller
     OrderMailer.cancel_email_seller(Order.paid.first)
   end
+  def gift_card_confirmatio
+    OrderMailer.confirmation_email(orders(:gift_card_paid))
+  end
 end
