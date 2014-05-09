@@ -173,6 +173,14 @@ class GiftCardTest < ActiveSupport::TestCase
     end
   end
 
+  test "should respond to name" do
+    assert_respond_to GiftCard.new, :name
+  end
+
+  test "should have correct name" do
+    assert_equal "Gift Card £10.00", gift_cards(:ten_pounds).name
+  end
+
 
   private
     def valid

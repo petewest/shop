@@ -33,6 +33,7 @@ en:
   activerecord:
     models:
       gift_card_product: Gift Card
+      gift_card: Gift Card
     attributes:
       currency:
         iso_code: ISO code

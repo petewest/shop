@@ -33,6 +33,11 @@ class GiftCard < ActiveRecord::Base
     Rails.application.message_verifier(:gift_card).generate(token)
   end
 
+  # Our display name
+  def name
+    self.class.model_name.human + " #{ActiveSupport::NumberHelper::NumberToCurrencyConverter.convert(current_value/(10.0**currency.decimal_places), unit: currency.symbol)}"
+  end
+
   ## Class method for decoding the token and finding the corresponding gift card
   # raises ActiveSupport::MessageVerifier::InvalidSignature if the token isn't valid
   def self.find_by_encoded_token!(encoded_token)
