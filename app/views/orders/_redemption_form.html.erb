@@ -1,5 +1,5 @@
 <div id="redemption_<%= css_id(order) %>">
-<% if current_user.gift_cards_redeemed.in_credit.any? %>
+<% if order.cost>0 and current_user.gift_cards_redeemed.in_credit.any? %>
 	<%= form_for [order.becomes(Order), Redemption.new] do |f| %>
 		<%= render 'shared/form_error', object: f.object %>
 		<div class="form-group">

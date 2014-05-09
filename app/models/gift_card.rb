@@ -27,6 +27,7 @@ class GiftCard < ActiveRecord::Base
   ## Methods
 
   # unit_cost virtual methods for for accessing start_value from costable
+  # this is start_value as that's what the costable partial sets
   alias_attribute :unit_cost, :start_value
 
   # Give the encoded version of the token

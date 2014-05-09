@@ -53,4 +53,14 @@ class Seller::OrdersControllerTest < ActionController::TestCase
     assert_response :success
     assert_equal user.orders.size, assigns(:orders).size
   end
+
+  test "should get only orders where gift_card has been redeemed when asked" do
+    sign_in users(:seller)
+    gift_card=gift_cards(:spent_on_order)
+    get :index, gift_card_id: gift_card.id
+    assert_response :success
+    assert_not_nil assigns(:orders)
+    assert assigns(:orders).include?(orders(:bought_with_gift_card))
+    assert_not assigns(:orders).include?(orders(:paid))
+  end
 end

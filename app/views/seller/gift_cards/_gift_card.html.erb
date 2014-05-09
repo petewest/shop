@@ -1,5 +1,7 @@
 <div class="gift_card">
-	<%= action_bar(gift_card, dropdown: true, namespace: :seller) %>
+	<%= action_bar(gift_card, dropdown: true, namespace: :seller) do |action| %>
+		<%= action.item(t('.action.orders'), seller_gift_card_orders_path(gift_card)) %>
+	<% end %>
 	<div class="gift_card_buyer">
 		Buyer:
 		<%= gift_card.buyer.name %>

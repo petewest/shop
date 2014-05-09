@@ -68,3 +68,10 @@ gift_card_paid:
   start_value: 1000
   current_value: 1000
   allocation: gift_card_paid
+
+spent_on_order:
+  buyer: buyer
+  token: sfalsfgasdggsdfd
+  currency: gbp
+  start_value: 1000
+  current_value: 800

@@ -24,6 +24,10 @@ class Seller::OrdersController < ApplicationController
       a_table=Allocation.arel_table
       @orders=@orders.joins(:allocations).where(a_table[:stock_level_id].eq(params[:stock_level_id]))
     end
+    if params[:gift_card_id]
+      gc_table=GiftCard.arel_table
+      @orders=@orders.joins(:gift_cards).where(gc_table[:id].eq(params[:gift_card_id]))
+    end
     @orders=@orders.page(params[:page])
   end
 

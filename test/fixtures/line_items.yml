@@ -62,3 +62,10 @@ gift_card_paid:
   quantity: 1
   currency: gbp
   unit_cost: 1000
+
+bought_with_gift_card:
+  product: sub_product
+  order: bought_with_gift_card
+  quantity: 1
+  currency: gbp
+  unit_cost: 200
