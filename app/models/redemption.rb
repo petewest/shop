@@ -1,8 +1,8 @@
 class Redemption < ActiveRecord::Base
+  include Costable
   ## Relationships
   belongs_to :order
   belongs_to :gift_card
-  belongs_to :currency
 
   ## Validations
   validates :order, presence: true
@@ -19,6 +19,10 @@ class Redemption < ActiveRecord::Base
   # Destroying this object credits the gift card
   before_destroy :credit_balance_to_gift_card
 
+  # method for Costable to know which field to use
+  def cost
+    value
+  end
 
 
   private
