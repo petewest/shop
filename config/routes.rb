@@ -65,6 +65,7 @@ Rails.application.routes.draw do
       get 'pay'
       patch 'cancel'
     end
+    resources :redemptions, only: [:create, :destroy], shallow: true
   end
   resource :cart, only: [:show, :destroy, :update] do
     patch 'confirm'

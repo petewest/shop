@@ -56,6 +56,10 @@ en:
       failure: Gift card could not be allocated
     missing: "Gift card not found, or redemption code incorrect"
     already_redeemed: Gift card code has already been redeemed
+  redemptions:
+    create:
+      success: Gift card added to order
+      failure: Gift card could not be added to order
   seller:
     gift_cards:
       new:
