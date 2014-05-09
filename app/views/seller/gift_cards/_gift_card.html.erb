@@ -8,6 +8,9 @@
 		Redeemer:
 		<%= gift_card.redeemer.name if gift_card.redeemer %>
 	</div>
+	<div class="gift_card_link">
+		<%= link_to "Redeem", redeem_gift_cards_url(id: gift_card.encoded_token) %>
+	</div>
 	<div class="gift_card_value">
 		Value:
 		<%= cost_to_currency(gift_card) %>

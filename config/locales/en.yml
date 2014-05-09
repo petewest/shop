@@ -84,6 +84,9 @@ en:
     cost_fields:
 # Default cost description. Overridable per controller action
       cost_description_html: "Unit cost is the item cost in the smallest subdivision of the currency (eg.: 1000 pence for an item costing £10) <br/> This is the cost the user will be charged.  Ensure the decimal places setting in the currency definition is correct so that it displays properly for the purchaser"
+  order_mailer:
+    gift_card:
+      card_title: Gift card
   layouts:
     header:
       sign_in: Sign in

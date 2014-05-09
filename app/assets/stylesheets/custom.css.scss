@@ -219,3 +219,37 @@
 .user_actions {
 	@extend .col-md-6;
 }
+
+.gift_card {
+	height: 130px;
+	width: 220px;
+	border: 1px solid grey;
+	border-radius: 10px;
+	padding: 10px;
+	margin: 5px;
+	position: relative;
+	display: inline-block;
+}
+
+.gift_card_value {
+	position: absolute;
+	bottom: 10px;
+	right: 10px;
+}
+
+.gift_card_link, .gift_card_buy {
+	position: absolute;
+	bottom: 10px;
+	left: 10px;
+}
+
+.gift_card_buyer, .gift_card_redeemer {
+	position: relative;
+	display: inline-block;
+}
+
+.gift_card_name {
+	font-size: 1.4em;
+	font-weight: bold;
+	text-transform: uppercase;
+}

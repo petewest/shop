@@ -1,8 +1,24 @@
-<div style="">
-	<div style="">
+<div style="height: 130px;
+	width: 220px;
+	border: 1px solid grey;
+	border-radius: 10px;
+	padding: 10px;
+	margin: 5px;
+	position: relative;
+	display: inline-block;">
+	<div style="font-size: 1.4em;
+	font-weight: bold;
+	text-transform: uppercase;">
+		<%= t('.card_title') %>
+	</div>
+	<div style="position: absolute;
+	bottom: 10px;
+	left: 10px;">
 		<%= link_to "Redeem", redeem_gift_cards_url(id: gift_card.encoded_token) %>
 	</div>
-	<div style="">
+	<div style="position: absolute;
+	bottom: 10px;
+	right: 10px;">
 		<%= cost_to_currency(gift_card) %>
 	</div>
 </div>
