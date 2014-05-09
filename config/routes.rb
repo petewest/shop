@@ -85,6 +85,7 @@ Rails.application.routes.draw do
   # Seller namespace for controllers that will behave differently
   # for sellers than for buyers
   namespace :seller do
+    get '/allocations/:allocation_id/gift_cards' => 'gift_cards#index', as: :allocation_gift_cards
     resources :orders, only: [:index, :show, :update]
     resources :products, only: [:index]
     resources :gift_card_products, except: :show

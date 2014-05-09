@@ -1,0 +1,21 @@
+<tr>
+	<td>
+		<% if gift_card_allocation.id.present? %>
+			<%= link_to "Order ##{gift_card_allocation.order.id}", seller_order_path(gift_card_allocation.order) %>
+		<% else %>
+			<%= link_to "Details", product_allocations_path(gift_card_allocation.product, params.except(:by_product))
+			%>
+		<% end %>
+	</td>
+	<td>
+		<%= gift_card_allocation.product.name %>
+	</td>
+	<td>
+		<%= gift_card_allocation.quantity %>
+	</td>
+	<td>
+		<%= action_bar(dropdown: true) do |action| %>
+			<%= action.item "View cards", seller_allocation_gift_cards_path(gift_card_allocation) %>
+		<% end %>
+	</td>
+</tr>

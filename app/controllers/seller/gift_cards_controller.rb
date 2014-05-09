@@ -19,7 +19,9 @@ class Seller::GiftCardsController < ApplicationController
   end
 
   def index
-    @gift_cards=GiftCard.page(params[:page])
+    @gift_cards=GiftCard
+    @gift_cards=@gift_cards.where(allocation_id: params[:allocation_id]) if params[:allocation_id]
+    @gift_cards=@gift_cards.page(params[:page])
   end
 
   def edit

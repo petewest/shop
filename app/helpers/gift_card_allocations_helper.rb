@@ -1,0 +1,2 @@
+module GiftCardAllocationsHelper
+end

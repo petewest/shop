@@ -79,6 +79,16 @@ class Seller::GiftCardsControllerTest < ActionController::TestCase
     assert_redirected_to seller_gift_cards_path
   end
 
+  test "should filter index action by allocation when asked" do
+    sign_in users(:seller)
+    gift_card_allocation=allocations(:gift_card_paid)
+    get :index, allocation_id: gift_card_allocation.id
+    assert_response :success
+    assert_not_nil assigns(:gift_cards)
+    assert_equal gift_card_allocation.gift_cards, assigns(:gift_cards)
+  end
+
+
   private
     def valid
       {redeemer_id: users(:buyer).id, currency_id: currencies(:gbp).id, unit_cost: 10000}
