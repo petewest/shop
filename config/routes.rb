@@ -42,6 +42,8 @@ Rails.application.routes.draw do
     concerns :buyable
   end
 
+  resources :gift_card_products, only: :show, controller: :products
+
   resources :gift_cards, only: [:index] do
     collection do
       get :redeem
