@@ -2,7 +2,7 @@
 	<%= render 'shared/form_error', object: f.object %>
 	<div class="form-group">
 		<%= f.label :redeemer_id, class: "control-label" %>
-		<%= f.collection_select :redeemer_id, User.all, :id, :name, {}, class: "form-control" %>
+		<%= f.collection_select :redeemer_id, User.all, :id, :name, {include_blank: true}, class: "form-control" %>
 	</div>
 	<%= render 'shared/cost_fields', f: f %>
 	<%= f.submit class: "btn btn-default" %>
