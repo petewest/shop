@@ -61,3 +61,10 @@ bought_by_buyer:
   current_value: 5000
   expires_at: <%= 1.year.from_now %>
 
+gift_card_paid:
+  buyer: buyer
+  token: <%= SecureRandom.urlsafe_base64 %>
+  currency: gbp
+  start_value: 1000
+  current_value: 1000
+  allocation: gift_card_paid

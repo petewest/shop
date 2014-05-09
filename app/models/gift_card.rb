@@ -9,6 +9,7 @@ class GiftCard < ActiveRecord::Base
   ## Relationships
   belongs_to :buyer, class_name: "User", inverse_of: :gift_cards_bought
   belongs_to :redeemer, class_name: "User", inverse_of: :gift_cards_redeemed
+  belongs_to :allocation, class_name: "GiftCardAllocation"
   has_many :redemptions, inverse_of: :gift_cards
   has_many :orders, through: :redemptions
   

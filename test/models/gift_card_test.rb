@@ -181,6 +181,10 @@ class GiftCardTest < ActiveSupport::TestCase
     assert_equal "Gift Card £10.00", gift_cards(:ten_pounds).name
   end
 
+  test "should know how this was allocated" do
+    assert_respond_to GiftCard.new, :allocation
+  end
+
 
   private
     def valid
