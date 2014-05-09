@@ -77,3 +77,10 @@ paid_for_other_user:
   paid_at: <%= 1.day.ago %>
   cart_token: token_for_paid_for_other_user
 
+gift_card_order:
+  user: :buyer
+  status: <%= Order.statuses[:placed] %>
+  paid_at: <%= DateTime.now %>
+  cart_token: token_for_gift_card_order
+
+

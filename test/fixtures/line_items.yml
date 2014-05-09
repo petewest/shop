@@ -48,3 +48,11 @@ product_2:
   quantity: 1
   currency: :gbp
   unit_cost: 2000
+
+gift_card_tenner:
+  product: gift_card_product
+  order: gift_card_order
+  quantity: 1
+  currency: gbp
+  unit_cost: 1000
+

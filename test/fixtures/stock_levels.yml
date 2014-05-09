@@ -68,3 +68,10 @@ nil_weight:
   due_at: 2014-05-01
   start_quantity: 10
   current_quantity: 10
+
+gift_card_tenner:
+  product: gift_card_product
+  due_at: 2014-05-01
+  start_quantity: 1000
+  current_quantity: 1000
+

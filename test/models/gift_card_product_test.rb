@@ -27,6 +27,31 @@ class GiftCardProductTest < ActiveSupport::TestCase
     assert_not @gift_card_product.valid?
   end
 
+  test "should create a new gift_card when told to allocate_stock" do
+    order=orders(:gift_card_order)
+    line_item=line_items(:gift_card_tenner)
+    gift_card_product=products(:gift_card_product)
+    assert_difference "GiftCard.count" do
+      assert_difference "Allocation.count" do
+        gift_card_product.allocate_stock_to(line_item)
+      end
+    end
+  end
+
+  test "should create multiple new gift_cards based on quantity when told to allocate_stock" do
+    order=orders(:gift_card_order)
+    line_item=line_items(:gift_card_tenner)
+    quantity=2
+    line_item.quantity=quantity
+    line_item.save
+    gift_card_product=products(:gift_card_product)
+    assert_difference "GiftCard.count", quantity do
+      assert_difference "Allocation.count" do
+        gift_card_product.allocate_stock_to(line_item)
+      end
+    end
+  end
+
   private
     def valid
       {seller: users(:seller), currency: currencies(:gbp), unit_cost: 2000}
