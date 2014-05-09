@@ -56,3 +56,9 @@ gift_card_tenner:
   currency: gbp
   unit_cost: 1000
 
+gift_card_paid:
+  product: gift_card_product
+  order: gift_card_paid
+  quantity: 1
+  currency: gbp
+  unit_cost: 1000
