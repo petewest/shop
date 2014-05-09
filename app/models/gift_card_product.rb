@@ -1,10 +1,9 @@
 class GiftCardProduct < Product
+  # override association class
+  has_many :allocations, class_name: "GiftCardAllocation", foreign_key: "product_id"
+
   def name
     self.class.model_name.human
   end
 
-  # calling 'allocate_stock_to' will also create a gift_card item
-  def allocate_stock_to(line_item)
-    super and line_item.quantity.times { GiftCard.create(buyer: line_item.order.user, start_value: unit_cost, currency: currency) }
-  end
 end

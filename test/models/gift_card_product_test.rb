@@ -32,8 +32,10 @@ class GiftCardProductTest < ActiveSupport::TestCase
     line_item=line_items(:gift_card_tenner)
     gift_card_product=products(:gift_card_product)
     assert_difference "GiftCard.count" do
-      assert_difference "Allocation.count" do
-        gift_card_product.allocate_stock_to(line_item)
+      assert_difference "GiftCardAllocation.count" do
+        assert_difference "gift_card_product.current_stock.available", -1 do
+          gift_card_product.allocate_stock_to(line_item)
+        end
       end
     end
   end
@@ -46,8 +48,10 @@ class GiftCardProductTest < ActiveSupport::TestCase
     line_item.save
     gift_card_product=products(:gift_card_product)
     assert_difference "GiftCard.count", quantity do
-      assert_difference "Allocation.count" do
-        gift_card_product.allocate_stock_to(line_item)
+      assert_difference "GiftCardAllocation.count" do
+        assert_difference "gift_card_product.current_stock.available", -1*quantity do
+          gift_card_product.allocate_stock_to(line_item)
+        end
       end
     end
   end

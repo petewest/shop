@@ -11,10 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140505165143) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+ActiveRecord::Schema.define(version: 20140509144504) do
 
   create_table "addresses", force: true do |t|
     t.string   "label"
@@ -36,12 +33,14 @@ ActiveRecord::Schema.define(version: 20140505165143) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "product_id"
+    t.string   "type"
   end
 
   add_index "allocations", ["line_item_id", "stock_level_id"], name: "index_allocations_on_line_item_id_and_stock_level_id", unique: true, using: :btree
   add_index "allocations", ["line_item_id"], name: "index_allocations_on_line_item_id", using: :btree
   add_index "allocations", ["product_id"], name: "index_allocations_on_product_id", using: :btree
   add_index "allocations", ["stock_level_id"], name: "index_allocations_on_stock_level_id", using: :btree
+  add_index "allocations", ["type"], name: "index_allocations_on_type", using: :btree
 
   create_table "currencies", force: true do |t|
     t.string   "iso_code"
@@ -63,8 +62,10 @@ ActiveRecord::Schema.define(version: 20140505165143) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "currency_id"
+    t.integer  "allocation_id"
   end
 
+  add_index "gift_cards", ["allocation_id"], name: "index_gift_cards_on_allocation_id", using: :btree
   add_index "gift_cards", ["buyer_id"], name: "index_gift_cards_on_buyer_id", using: :btree
   add_index "gift_cards", ["currency_id"], name: "index_gift_cards_on_currency_id", using: :btree
   add_index "gift_cards", ["redeemer_id"], name: "index_gift_cards_on_redeemer_id", using: :btree
