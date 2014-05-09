@@ -3,7 +3,9 @@ class Seller::GiftCardsController < ApplicationController
   before_action :find_gift_card
 
   def new
-    @gift_card=GiftCard.new
+    @redeemer=User.find(params[:user_id]) if params[:user_id]
+    @gift_card=@redeemer.gift_cards_redeemed.new if @redeemer.present?
+    @gift_card||=GiftCard.new
   end
 
   def create

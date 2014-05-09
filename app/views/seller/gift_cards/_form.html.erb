@@ -1,9 +1,13 @@
 <%= form_for [:seller, gift_card] do |f| %>
 	<%= render 'shared/form_error', object: f.object %>
-	<div class="form-group">
-		<%= f.label :redeemer_id, class: "control-label" %>
-		<%= f.collection_select :redeemer_id, User.all, :id, :name, {include_blank: true}, class: "form-control" %>
-	</div>
+	<% if @redeemer.nil? %>
+		<div class="form-group">
+			<%= f.label :redeemer_id, class: "control-label" %>
+			<%= f.collection_select :redeemer_id, User.all, :id, :name, {include_blank: true}, class: "form-control" %>
+		</div>
+	<% else %>
+		<%= f.hidden_field :redeemer_id %>
+	<% end %>
 	<%= render 'shared/cost_fields', f: f %>
 	<%= f.submit class: "btn btn-default" %>
 <% end %>

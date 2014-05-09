@@ -80,6 +80,11 @@ en:
           new: Issue gift card
       edit:
         title: Edit gift card
+    users:
+      user:
+        issue_gift_card: Issue gift card
+        orders: Orders
+        allocations: Allocations
   shared:
     cost_fields:
 # Default cost description. Overridable per controller action

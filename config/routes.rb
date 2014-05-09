@@ -91,6 +91,7 @@ Rails.application.routes.draw do
     resources :gift_card_products, except: :show
     resources :gift_cards, except: :show
     resources :users, only: [:index] do
+      resources :gift_cards, only: :new
       resources :orders, only: :index
       get '/allocations' => '/allocations#index'
     end

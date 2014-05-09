@@ -6,9 +6,10 @@
 		<%= mail_to user.email, user.email %>
 	</div>
 	<div class="user_actions">
-		<%= action_bar(user, only: nil, vertical: false, title: nil, remote: true) do |action| %>
-			<%= action.item("Orders", seller_user_orders_path(user)) %>
-			<%= action.item("Allocations", seller_user_allocations_path(user)) %>
+		<%= action_bar(vertical: false, title: nil, remote: true) do |action| %>
+			<%= action.item(t('.issue_gift_card'), new_seller_user_gift_card_path(user)) %>
+			<%= action.item(t('.orders'), seller_user_orders_path(user)) %>
+			<%= action.item(t('.allocations'), seller_user_allocations_path(user)) %>
 		<% end %>
 	</div>
 </div>

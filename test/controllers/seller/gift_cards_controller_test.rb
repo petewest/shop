@@ -88,6 +88,15 @@ class Seller::GiftCardsControllerTest < ActionController::TestCase
     assert_equal gift_card_allocation.gift_cards, assigns(:gift_cards)
   end
 
+  test "should set user_id when embedded resource" do
+    sign_in users(:seller)
+    user=users(:buyer)
+    get :new, user_id: user.id
+    assert_response :success
+    assert_select "select[name='gift_card[redeemer_id]']", 0
+    assert_select "input[type=hidden][name='gift_card[redeemer_id]'][value=#{user.id}]"
+  end
+
 
   private
     def valid
