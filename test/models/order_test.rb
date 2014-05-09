@@ -188,7 +188,10 @@ class OrderTest < ActiveSupport::TestCase
     stock_level=line_item.product.stock_levels.current.first
     old_quantity=stock_level.current_quantity
     order.reload
+    # Simulate going through order flow from placed to paid
     order.status=:placed
+    order.save
+    order.status=:paid
     assert_difference "Allocation.count",2 do
       assert order.save, "order: #{order.errors.inspect}: line_items: #{order.line_items.map{|l| l.changed.map{|c| "#{c}: #{l.send(c)} was: #{l.send(c+"_was")}"}}.join(" ")}"
     end

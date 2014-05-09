@@ -25,12 +25,14 @@ class Order < ActiveRecord::Base
     non_cart.validates :cost, numericality: {greater_than_or_equal_to: 0}
   end
 
-  #When switching to "placed" status we want to run some extra
+  #When switching to "paid" status we want to run some extra
   #process to check stock for validation, then allocate stock after successful save
-  with_options if: -> { status_changed? and status=="placed" } do |placed|
-    placed.validate :stock_check
-    placed.after_save :decrement_stock
+  with_options if: -> { status_changed? and status=="paid" } do |paid|
+    paid.validate :stock_check
+    paid.after_save :decrement_stock
   end
+  validate :stock_check, if: -> { status_changed? and status=="placed" }
+
   validates :postage_cost, presence: {message: "missing, please contact the seller"}, if: -> { status_changed? and status=="placed" and total_weight>0 }
 
   validate :check_flow, if: -> {status_changed? and persisted?}
