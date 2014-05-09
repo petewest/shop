@@ -90,13 +90,14 @@ class OrdersControllerTest < ActionController::TestCase
     end
   end
 
-  test "should get pay page" do
+  test "should get pay page (with stripe js source)" do
     sign_in users(:buyer)
     order=orders(:placed)
     get :pay, id: order.id
     assert_response :success
     assert_select "h1", "Payment"
     assert_select "form"
+    assert_select "script[src='https://checkout.stripe.com/checkout.js']"
   end
 
   test "should not get pay page when not placed" do
@@ -199,6 +200,32 @@ class OrdersControllerTest < ActionController::TestCase
     assert_not order.cancelled?
   end
 
+  test "should show redemption info if gift cards present" do
+    sign_in users(:buyer)
+    order=orders(:placed)
+    gift_card=gift_cards(:ten_pounds)
+    order.gift_cards<<gift_card
+    get :pay, id: order.id
+    assert_response :success
+    assert_select "h1", "Payment"
+    assert_equal 1, order.gift_cards.count
+    assert_select ".redemption", order.gift_cards.count
+    assert_select ".redemption_value"
+    assert_select "select[name='redemption[gift_card_id]']" do
+      assert_select "option"
+    end
+  end
+
+  test "should just have normal submit button instead of stripe if gift card covers full cost of order" do
+    sign_in users(:buyer)
+    order=orders(:placed)
+    gift_card=gift_cards(:ten_pounds)
+    order.gift_cards<<gift_card
+    get :pay, id: order.id
+    assert_equal 1, order.gift_cards.count
+    assert_select "input[type=submit].btn.btn-default"
+    assert_select "script[src='https://checkout.stripe.com/checkout.js']",0
+  end
 
 
 

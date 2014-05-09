@@ -8,7 +8,11 @@
 
 <%= render 'order_detail', order: @order %>
 
+<%= render @order.redemptions %>
+<%= render 'redemption_form', order: @order %>
+
 <%= form_for @order do |f| %>
+	<% if @order.cost>0 %>
 	<%= javascript_include_tag "https://checkout.stripe.com/checkout.js", class: "stripe-button", 
 	data: {
 		key: Rails.application.secrets.stripe_publishable_key,
@@ -16,7 +20,10 @@
 		description: @order.line_items.map(&:product).map(&:name).join(", "),
 		currency: @order.currency.iso_code.downcase,
 		amount: @order.cost,
-		label: "Pay"
+		label: t('.pay')
 	}
 	%>
+	<% else %>
+		<%= f.submit t('.pay'), class: "btn btn-default" %>
+	<% end %>
 <% end %>

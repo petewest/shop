@@ -1,0 +1,12 @@
+<div id="redemption_<%= css_id(order) %>">
+<% if current_user.gift_cards_redeemed.in_credit.any? %>
+	<%= form_for [order.becomes(Order), Redemption.new] do |f| %>
+		<%= render 'shared/form_error', object: f.object %>
+		<div class="form-group">
+		<%= f.label :gift_card_id, class: "control-label" %>
+		<%= f.collection_select :gift_card_id, current_user.gift_cards_redeemed.in_credit, :id, :name, {allow_blank: true}, class: "form-control" %>
+		</div>
+		<%= f.submit t('.add'), class: "btn btn-default" %>
+	<% end %>
+<% end %>
+</div>

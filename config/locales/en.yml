@@ -61,6 +61,11 @@ en:
     create:
       success: Gift card added to order
       failure: Gift card could not be added to order
+  orders:
+    redemption_form:
+      add: Add card
+    pay:
+      pay: Pay
   seller:
     gift_cards:
       new:
