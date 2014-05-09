@@ -43,12 +43,15 @@ module ApplicationHelper
   def action_bar(item=nil, options={}, &block)
     #If item is a hash then it's really the options, so re-jigg
     options, item=item.merge(only: nil), nil if item.is_a?(Hash)
+    #find the default translations for actions:
+    #have to use array lookup instead of hash as hash lookup ignores variable interpolation
+    edit_label, delete_label, delete_confirm=t([:edit, :delete, :delete_confirm], scope: 'actions', item: item.class.name.titleize)
     default_actions=[:edit, :delete]
     default_options={class: "action_bar", title: "Actions", vertical: true, dropdown: false}
     default_options[:item]={data: {modal_target: '#modal'}} if options[:remote] or params[:modal]
     default_options.merge!(options)
     edit_options=default_options[:edit].to_h
-    delete_options={method: :delete, data: {confirm: "Are you sure you wish to delete this #{item.class.name.titleize}?"}}.merge(default_options[:delete].to_h)
+    delete_options={method: :delete, data: {confirm: delete_confirm}}.merge(default_options[:delete].to_h)
     #use shortcut remote: true to specify default actions should be ajax
     delete_options[:remote]=true if options[:remote]
     action_buttons=ActionBarBuilder.new(default_options)
@@ -60,10 +63,10 @@ module ApplicationHelper
     # if we've given a namespace in options, use it
     item=[options[:namespace], item] if options[:namespace]
     if item and actions.include?(:edit)
-      html<<action_buttons.item(t('.actions.edit'), url_for([:edit, item].flatten), edit_options)
+      html<<action_buttons.item(t('.actions.edit', default: edit_label), url_for([:edit, item].flatten), edit_options)
     end
     if item and actions.include?(:delete)
-      html<<action_buttons.item(t('.actions.delete'), url_for(item), delete_options)
+      html<<action_buttons.item(t('.actions.delete', default: delete_label), url_for(item), delete_options)
     end
     html<<action_buttons.footer
     html.html_safe
