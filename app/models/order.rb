@@ -22,6 +22,7 @@ class Order < ActiveRecord::Base
     non_cart.validates :line_items, presence: {message: "can't process blank order"}
     non_cart.validates :delivery, presence: true
     non_cart.validates :billing, presence: true
+    non_cart.validates :cost, numericality: {greater_than_or_equal_to: 0}
   end
 
   #When switching to "placed" status we want to run some extra
@@ -37,6 +38,7 @@ class Order < ActiveRecord::Base
   accepts_nested_attributes_for :line_items, allow_destroy: true
   accepts_nested_attributes_for :delivery, allow_destroy: true
   accepts_nested_attributes_for :billing, allow_destroy: true
+  accepts_nested_attributes_for :redemptions, allow_destroy: true
 
   enum status: {cart: 0, checkout: 10, placed: 20, paid: 30, dispatched: 40, cancelled: 100}
 
@@ -84,7 +86,7 @@ class Order < ActiveRecord::Base
 
   #Total order costs, with postage cost included
   def cost(recalculate=false)
-    (!recalculate && super()) || ((line_items.map(&:cost).sum + postage_cost.try(:cost).to_i)-gift_card_value)
+    ((!recalculate && super()) || (line_items.map(&:cost).sum + postage_cost.try(:cost).to_i))-gift_card_value
   end
 
   #Find the postage_cost item for this total_weight

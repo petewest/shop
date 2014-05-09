@@ -429,6 +429,20 @@ class OrderTest < ActiveSupport::TestCase
     assert order.valid?, order.errors.inspect
   end
 
+  test "should be able to add redemptions as a nested attribute" do
+    order=orders(:placed)
+    gift_card=gift_cards(:ten_pounds)
+    assert_not order.reload.gift_cards.include?(gift_card)
+    assert order.update_attributes(redemptions_attributes: {0=>{gift_card_id: gift_card.id}})
+    assert order.gift_cards.include?(gift_card)
+  end
+
+  test "when a gift card reduces the balance it should not allow the total cost to go negative" do
+    order=orders(:placed)
+    order.gift_card_value=order.cost+10
+    assert_equal -10, order.cost
+    assert_not order.valid?
+  end
 
   private
     def valid
