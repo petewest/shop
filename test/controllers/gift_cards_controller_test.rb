@@ -53,6 +53,15 @@ class GiftCardsControllerTest < ActionController::TestCase
     assert_equal users(:buyer), gift_card.reload.redeemer
   end
 
+  test "should warn when attempting to redeem a card purchased by self" do
+    sign_in users(:buyer)
+    gift_card=gift_cards(:bought_by_buyer)
+    get :redeem, id: gift_card.encoded_token
+    assert_response :success
+    assert_equal "Gift card purchased by you, are you sure you wish to redeem it?", flash[:warning]
+  end
+
+
   test "should fail gracefully if the token is not found" do
     sign_in users(:buyer)
     gift_card=gift_cards(:no_user)

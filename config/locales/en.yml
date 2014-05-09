@@ -57,6 +57,7 @@ en:
       failure: Gift card could not be allocated
     missing: "Gift card not found, or redemption code incorrect"
     already_redeemed: Gift card code has already been redeemed
+    bought_by_self: "Gift card purchased by you, are you sure you wish to redeem it?"
   redemptions:
     create:
       success: Gift card added to order
