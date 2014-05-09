@@ -38,7 +38,6 @@ class Order < ActiveRecord::Base
   accepts_nested_attributes_for :line_items, allow_destroy: true
   accepts_nested_attributes_for :delivery, allow_destroy: true
   accepts_nested_attributes_for :billing, allow_destroy: true
-  accepts_nested_attributes_for :redemptions, allow_destroy: true
 
   enum status: {cart: 0, checkout: 10, placed: 20, paid: 30, dispatched: 40, cancelled: 100}
 
