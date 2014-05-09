@@ -15,6 +15,6 @@
 	</div>
 	<div class="gift_card_value">
 		Value:
-		<%= cost_to_currency(gift_card) %>
+		<%= to_currency(gift_card.current_value, gift_card.currency) %>
 	</div>
 </div>

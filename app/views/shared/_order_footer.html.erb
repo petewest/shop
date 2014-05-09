@@ -1,5 +1,20 @@
 </div>
 <%= render 'shared/postage_cost', postage_cost: order.postage_cost if order %>
+<% if order and order.gift_card_value>0 %>
+	<div class="row">
+		<div class="cart_product">
+		</div>
+		<div class="cart_actions">
+		</div>
+		<div class="cart_line_item text-right">
+			<%= t('gift_card_redeemed', balance: nil) %>
+		</div>
+		<div class="cart_line_cost text-right">
+			<%= to_currency(order.gift_card_value, order.currency) %>
+		</div>
+		<div class="clearfix"></div>
+	</div>
+<% end %>
 <div class="row">
 	<div class="cart_product">
 	</div>

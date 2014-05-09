@@ -105,8 +105,11 @@ module ApplicationHelper
 
   def cost_to_currency(item)
     return if item.nil? or item.currency.nil?
-    currency=item.currency
-    cost=item.cost / (10.0**currency.decimal_places)
+    to_currency(item.cost, item.currency)
+  end
+
+  def to_currency(value, currency)
+    cost=value / (10.0**currency.decimal_places)
     number_to_currency(cost, unit: currency.symbol, precision: currency.decimal_places)
   end
 

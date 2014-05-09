@@ -12,6 +12,10 @@
 			<%= render partial: 'orders/line_item_summary', collection: order.line_items %>
 		</div>
 		<div class="order_total">
+			<% if order.gift_card_value>0 %>
+				<%= t('gift_card_redeemed', balance: to_currency(order.gift_card_value, order.currency)) %>
+				<br />
+			<% end %>
 			Total cost: <%= cost_to_currency(order) %>
 		</div>
 		<div class="order_actions">

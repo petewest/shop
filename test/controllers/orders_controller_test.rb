@@ -211,6 +211,16 @@ class OrdersControllerTest < ActionController::TestCase
     assert_not order.cancelled?
   end
 
+  test "should show gift_card select if user has any" do
+    sign_in users(:buyer)
+    order=orders(:placed)
+    get :pay, id: order.id
+    assert_response :success
+    assert_select "select[name='redemption[gift_card_id]']" do
+      assert_select "option"
+    end
+  end
+
   test "should show redemption info if gift cards present" do
     sign_in users(:buyer)
     order=orders(:placed)
@@ -222,9 +232,7 @@ class OrdersControllerTest < ActionController::TestCase
     assert_equal 1, order.gift_cards.count
     assert_select ".redemption", order.gift_cards.count
     assert_select ".redemption_value"
-    assert_select "select[name='redemption[gift_card_id]']" do
-      assert_select "option"
-    end
+    assert_select "select[name='redemption[gift_card_id]']", 0
   end
 
   test "should just have normal submit button instead of stripe if gift card covers full cost of order" do
