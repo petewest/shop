@@ -439,6 +439,14 @@ class OrderTest < ActiveSupport::TestCase
     assert_not order.valid?
   end
 
+  test "should have an association to find gift_cards_bought" do
+    order=orders(:gift_card_paid)
+    gift_card=gift_cards(:gift_card_paid)
+    gift_card_allocation=allocations(:gift_card_paid)
+    assert_equal [gift_card_allocation], order.gift_card_allocations
+    assert_equal [gift_card], order.gift_cards_bought
+  end
+
   private
     def valid
       @order||={user: users(:buyer), billing_attributes: { source_address: users(:buyer).addresses.billing.first}, delivery_attributes: {source_address: users(:buyer).addresses.delivery.first}, line_items_attributes: [{product_id: products(:mug).id, quantity: 1}]}

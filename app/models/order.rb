@@ -4,6 +4,8 @@ class Order < ActiveRecord::Base
   belongs_to :user, inverse_of: :orders
   has_many :line_items, inverse_of: :order, dependent: :destroy
   has_many :allocations, through: :line_items
+  has_many :gift_card_allocations, through: :line_items, source: :allocations, class_name: "GiftCardAllocation"
+  has_many :gift_cards_bought, through: :gift_card_allocations, source: :gift_cards
   has_many :products, through: :line_items, inverse_of: :orders
   belongs_to :delivery, class_name: "OrderAddress", dependent: :destroy
   belongs_to :billing, class_name: "OrderAddress", dependent: :destroy
