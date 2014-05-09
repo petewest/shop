@@ -130,6 +130,17 @@ class OrdersControllerTest < ActionController::TestCase
     assert_equal "Missing payment data, please try again", flash[:warning]
   end
 
+  test "should allow processing without stripeToken if cost is zero" do
+    sign_in users(:buyer)
+    order=orders(:placed)
+    order.gift_card_value=order.cost
+    order.save
+    patch :update, id: order.id
+    assert_equal 0, order.cost
+    assert_redirected_to order
+    assert_equal "Thank you for your order!", flash[:success]
+  end
+
   test "should not be able to pay for an order not in placed status" do
     sign_in users(:buyer)
     order=orders(:cart)

@@ -34,7 +34,7 @@ class OrdersController < ApplicationController
     # Get the credit card details submitted by the form
     token = params[:stripeToken]
 
-    if token.blank?
+    if @order.cost>0 and token.blank?
       flash[:warning]="Missing payment data, please try again"
       redirect_to pay_order_path(@order)
       return
@@ -62,7 +62,7 @@ class OrdersController < ApplicationController
         currency: @order.currency.iso_code.downcase,
         card: token,
         description: "Order: ##{@order.id}: #{@order.user.email}"
-      )
+      ) if @order.cost>0
     rescue Stripe::CardError => e
       # Since it's a decline, Stripe::CardError will be caught
       body = e.json_body
@@ -84,8 +84,8 @@ class OrdersController < ApplicationController
       # Display a very generic error to the user
       flash[:warning]="Unknown error, please contact seller"
     end
-    redirect_to pay_order_path(@order) and return if charge.nil? or flash[:warning].present?
-    @order.stripe_charge_reference=charge.id
+    redirect_to pay_order_path(@order) and return if flash[:warning].present?
+    @order.stripe_charge_reference=charge.id if charge.present?
     if @order.save
       flash[:success]="Thank you for your order!"
       OrderMailer.confirmation_email(@order).deliver
