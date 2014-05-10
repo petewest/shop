@@ -80,3 +80,11 @@ nil_weight:
   currency: :gbp
   unit_cost: 1500
 
+gift_card_product_no_allocations:
+  name: Gift card that hasn't been bought by anyone
+  seller: seller
+  currency: gbp
+  unit_cost: 10_000_000
+  type: GiftCardProduct
+
+

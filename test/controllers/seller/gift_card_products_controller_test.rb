@@ -74,14 +74,27 @@ class Seller::GiftCardProductsControllerTest < ActionController::TestCase
     assert_redirected_to signin_path
   end
 
-  test "should have destroy action" do
+  test "should destroy item with no allocations" do
+    sign_in users(:seller)
+    gift_card_product=products(:gift_card_product_no_allocations)
+    assert_difference "GiftCardProduct.count", -1 do
+      assert_difference "StockLevel.count", -1 do
+        delete :destroy, id: gift_card_product.id
+      end
+    end
+    assert_redirected_to seller_gift_card_products_path
+  end
+
+  test "should not destroy item with allocations" do
     sign_in users(:seller)
     gift_card_product=products(:gift_card_product)
-    assert_difference "GiftCardProduct.count", -1 do
+    assert_no_difference "GiftCardProduct.count" do
       delete :destroy, id: gift_card_product.id
     end
     assert_redirected_to seller_gift_card_products_path
   end
+
+  
 
   test "should not have destroy action for buyer" do
     sign_in users(:buyer)

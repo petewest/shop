@@ -81,3 +81,9 @@ gift_card_tenner:
   start_quantity: 1000
   current_quantity: 999
 
+gift_card_product_no_allocations:
+  product: gift_card_product_no_allocations
+  due_at: 2014-05-01
+  start_quantity: 50
+  current_quantity: 50
+
