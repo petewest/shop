@@ -7,7 +7,7 @@ class GiftCardsController < ApplicationController
   end
 
   def redeem
-    flash[:warning]=I18n.t('gift_cards.bought_by_self') if @gift_card and current_user?(@gift_card.buyer)
+    flash.now[:warning]=I18n.t('gift_cards.bought_by_self') if @gift_card and current_user?(@gift_card.buyer)
   end
 
   def allocate
