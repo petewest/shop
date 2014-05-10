@@ -5,7 +5,7 @@ class GiftCardAllocation < Allocation
       super
       if quantity_changed?
         quantity_difference=quantity-quantity_was.to_i
-        quantity.times do
+        quantity_difference.times do
           gift_cards<<GiftCard.create(
             buyer: line_item.order.user,
             start_value: product.unit_cost,
