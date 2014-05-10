@@ -32,16 +32,16 @@ class Redemption < ActiveRecord::Base
       gift_card.lock!
       self.currency=gift_card.currency
       self.value=[gift_card.current_value, order.cost].min
-      gift_card.current_value-=value
-      order.gift_card_value+=value
+      gift_card.decrement(:current_value, value)
+      order.increment(:gift_card_value,value)
       raise ActiveRecord::Rollback unless gift_card.save and order.save
     end
 
     def credit_balance_to_gift_card
       order.lock!
       gift_card.lock!
-      gift_card.current_value+=value
-      order.gift_card_value-=value
+      gift_card.increment(:current_value, value)
+      order.decrement(:gift_card_value, value)
       raise ActiveRecord::Rollback unless gift_card.save and order.save
     end
 

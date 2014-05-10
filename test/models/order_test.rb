@@ -452,6 +452,7 @@ class OrderTest < ActiveSupport::TestCase
     assert_difference "GiftCard.count", -1 do
       assert_difference "GiftCardAllocation.count", -1 do
         assert order.cancelled!
+        assert_equal "cancelled",order.status
       end
     end
   end
@@ -462,6 +463,7 @@ class OrderTest < ActiveSupport::TestCase
     assert_difference "Redemption.count", -1 do
       assert_difference "gift_card.current_value", order.gift_card_value do
         assert order.cancelled!
+        assert_equal "cancelled",order.status
       end
     end
   end
