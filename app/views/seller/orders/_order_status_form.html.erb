@@ -1,9 +1,9 @@
 <%= form_for order, url: seller_order_path(order), remote: true do |f| %>
     <%= render 'shared/form_error', object: f.object %>
     <% order.allowed_status_flows.each do |status| %>
-      <label class="radio-inline">
+      <label class="radio">
         <%= f.radio_button :status, status, data: {submit_on_change: true} %>
-        <%= status %>
+        <%= f.object.class.human_attribute_name(status) %>
       </label>
     <% end %>
 <% end %>

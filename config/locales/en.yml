@@ -39,6 +39,13 @@ en:
         iso_code: ISO code
       gift_card:
         unit_cost: Value
+      order:
+        cart: Cart
+        checkout: Checkout
+        placed: Placed
+        paid: Paid
+        dispatched: Dispatched
+        cancelled: Cancelled
 # Partial localisations
   gift_card_products:
     index:

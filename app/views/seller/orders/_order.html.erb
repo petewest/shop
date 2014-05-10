@@ -3,7 +3,7 @@
 		<%= link_to "Order ID: #{order.id}", seller_order_path(order) %>
 		<%= mail_to order.user.email, "Buyer: #{order.user.email}" if order.user %> 
 		<span class="order_status">
-			Status: <%= order.status %>
+			Status: <%= order.class.human_attribute_name(order.status) %>
 			<%= " on #{l(order.send(order.status + '_at').in_time_zone(t('time.zone')))}" if order.try(order.status+'_at') %>
 		</span>
 	</div>
@@ -19,7 +19,10 @@
 			Total cost: <%= cost_to_currency(order) %>
 		</div>
 		<div class="order_actions">
-			<%= render 'seller/orders/order_status_form', order: order %>
+			<%= action_bar(dropdown: true) do |action| %>
+				<%= render 'seller/orders/order_status_form', order: order %>
+				<%= action.item "Charge", charge_path(order.stripe_charge_reference) if order.stripe_charge_reference.present? %>
+			<% end %>
 		</div>
 	</div>
 </div>
