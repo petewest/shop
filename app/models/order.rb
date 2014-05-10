@@ -11,7 +11,7 @@ class Order < ActiveRecord::Base
   belongs_to :billing, class_name: "OrderAddress", dependent: :destroy
   belongs_to :postage_cost
   belongs_to :postage_service
-  has_many :redemptions, inverse_of: :order, dependent: :nullify
+  has_many :redemptions, inverse_of: :order, dependent: :destroy
   has_many :gift_cards, through: :redemptions
 
 
@@ -144,7 +144,10 @@ class Order < ActiveRecord::Base
         #Record timestamps if order changes status
         self.send(status+"_at=", DateTime.now) if self.respond_to?(status+"_at=")
         #Release stock if an order has been cancelled
-        line_items.all?(&:release_stock) if status=="cancelled"
+        if status=="cancelled"
+          line_items.all?(&:release_stock)
+          redemptions.destroy_all
+        end
         #fix a copy of the costs when the order gets placed
         fix_costs if status=="placed"
       end

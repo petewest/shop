@@ -15,3 +15,19 @@ billing_for_paid:
 delivery_for_paid:
   source_address: :work
   address: MyText
+
+billing_for_gift_card_paid:
+  source_address: :home
+  address: MyText
+
+delivery_for_gift_card_paid:
+  source_address: :work
+  address: MyText
+
+billing_for_bought_with_gift_card:
+  source_address: :home
+  address: MyText
+
+delivery_for_bought_with_gift_card:
+  source_address: :work
+  address: MyText

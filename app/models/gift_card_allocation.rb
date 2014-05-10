@@ -1,5 +1,5 @@
 class GiftCardAllocation < Allocation
-  has_many :gift_cards, foreign_key: "allocation_id"
+  has_many :gift_cards, foreign_key: "allocation_id", dependent: :destroy
   private
     def take_stock
       super

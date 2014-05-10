@@ -447,6 +447,25 @@ class OrderTest < ActiveSupport::TestCase
     assert_equal [gift_card], order.gift_cards_bought
   end
 
+  test "should delete gift_cards when cancelling the order that bought them" do
+    order=orders(:gift_card_paid)
+    assert_difference "GiftCard.count", -1 do
+      assert_difference "GiftCardAllocation.count", -1 do
+        assert order.cancelled!
+      end
+    end
+  end
+
+  test "should credit gift_card when cancelling an order that redeemed them" do
+    order=orders(:bought_with_gift_card)
+    gift_card=gift_cards(:spent_on_order)
+    assert_difference "Redemption.count", -1 do
+      assert_difference "gift_card.current_value", order.gift_card_value do
+        assert order.cancelled!
+      end
+    end
+  end
+
   private
     def valid
       @order||={user: users(:buyer), billing_attributes: { source_address: users(:buyer).addresses.billing.first}, delivery_attributes: {source_address: users(:buyer).addresses.delivery.first}, line_items_attributes: [{product_id: products(:mug).id, quantity: 1}]}

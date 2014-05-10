@@ -88,9 +88,13 @@ gift_card_paid:
   status: <%= Order.statuses[:paid] %>
   paid_at: <%= DateTime.now %>
   cart_token: token_for_paid_gift_card_order
+  delivery: delivery_for_gift_card_paid
+  billing: billing_for_gift_card_paid
 
 bought_with_gift_card:
   user: buyer
   status: <%= Order.statuses[:paid] %>
   paid_at: <%= DateTime.now %>
   cart_token: token_for_bought_with_gift_card
+  delivery: delivery_for_bought_with_gift_card
+  billing: billing_for_bought_with_gift_card

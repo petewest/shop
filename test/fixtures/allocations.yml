@@ -26,13 +26,13 @@ product_2:
 
 gift_card_paid:
   line_item: gift_card_paid
-  stock_level: gift_card_paid
+  stock_level: gift_card_tenner
   product: gift_card_product
   quantity: 1
   type: GiftCardAllocation
 
 bought_with_gift_card:
   line_item: bought_with_gift_card
-  stock_level: bought_with_gift_card
+  stock_level: sub_product
   product: sub_product
   quantity: 1
