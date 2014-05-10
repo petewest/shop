@@ -28,25 +28,21 @@ class Redemption < ActiveRecord::Base
   private
     def take_balance_from_gift_card
       # Grab a lock on the card so that someone can't try and use a gift_card twice while we're still processing the last one
-      order.with_lock do
-        gift_card.with_lock do
-          self.currency=gift_card.currency
-          self.value=[gift_card.current_value, order.cost].min
-          gift_card.current_value-=value
-          order.gift_card_value+=value
-          raise ActiveRecord::Rollback unless gift_card.save and order.save
-        end
-      end
+      order.lock!
+      gift_card.lock!
+      self.currency=gift_card.currency
+      self.value=[gift_card.current_value, order.cost].min
+      gift_card.current_value-=value
+      order.gift_card_value+=value
+      raise ActiveRecord::Rollback unless gift_card.save and order.save
     end
 
     def credit_balance_to_gift_card
-      order.with_lock do
-        gift_card.with_lock do
-          gift_card.current_value+=value
-          order.gift_card_value-=value
-          raise ActiveRecord::Rollback unless gift_card.save and order.save
-        end
-      end
+      order.lock!
+      gift_card.lock!
+      gift_card.current_value+=value
+      order.gift_card_value-=value
+      raise ActiveRecord::Rollback unless gift_card.save and order.save
     end
 
     def order_and_gift_card_currencies
