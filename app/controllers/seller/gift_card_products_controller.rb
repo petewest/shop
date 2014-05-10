@@ -41,6 +41,9 @@ class Seller::GiftCardProductsController < ApplicationController
     else
       flash[:danger]="Couldn't delete gift card product"
     end
+  rescue ActiveRecord::RecordNotDestroyed => e
+    flash[:danger]=@gift_card_product.errors_on_associations.map{|k,v| "#{k.to_s.humanize}: #{v.join}"}.join(', ')
+  ensure
     redirect_to seller_gift_card_products_path
   end
 

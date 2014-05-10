@@ -1,5 +1,6 @@
 class Product < ActiveRecord::Base
   include Costable
+  include DeepErrors
   belongs_to :seller, inverse_of: :products
   belongs_to :master_product, class_name: "Product", inverse_of: :sub_products
   validates :seller, presence: true
