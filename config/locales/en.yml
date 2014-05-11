@@ -20,7 +20,13 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  order_statuses: &order_statuses
+    cart: Cart
+    checkout: Checkout
+    placed: Placed
+    paid: Paid
+    dispatched: Dispatched
+    cancelled: Cancelled
   number:
     parse: '[^.\d]'
   date:
@@ -37,15 +43,8 @@ en:
     attributes:
       currency:
         iso_code: ISO code
-      gift_card:
-        unit_cost: Value
       order:
-        cart: Cart
-        checkout: Checkout
-        placed: Placed
-        paid: Paid
-        dispatched: Dispatched
-        cancelled: Cancelled
+        <<: *order_statuses
 # Partial localisations
   gift_card_products:
     index:
@@ -77,16 +76,19 @@ en:
   seller:
     gift_cards:
       new:
-        cost_description_html: "Value is the value of the gift card in the smallest subdivision of the currency (eg.: 1000 pence for an item costing £10) <br/> This is the value that will be credited to an order."
+        cost_description_html: &gc_cost "Start value is the value of the gift card in the smallest subdivision of the currency (eg.: 1000 pence for an item costing £10) <br/> This is the value that will be credited to an order."
         title: Issue new gift card
       create:
-        cost_description_html: "Value is the value of the gift card in the smallest subdivision of the currency (eg.: 1000 pence for an item costing £10) <br/> This is the value that will be credited to an order."
+        cost_description_html: *gc_cost
       index:
         title: Gift cards issued
         actions:
           new: Issue gift card
       edit:
         title: Edit gift card
+        cost_description_html: *gc_cost
+      update:
+        cost_description_html: *gc_cost
     users:
       user:
         issue_gift_card: Issue gift card
@@ -135,5 +137,11 @@ en:
     edit: Edit
     delete: Delete
     delete_confirm: "Are you sure you wish to delete this %{item}?"
+  # Localized versions of filter names
+  filters:
+    seller:
+      orders:
+        status_pending: Status pending
+        order_status: Order status
+        <<: *order_statuses
   gift_card_redeemed: "Redeemed from gift card: %{balance}"
-

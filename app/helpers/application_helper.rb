@@ -45,7 +45,7 @@ module ApplicationHelper
     options, item=item.merge(only: nil), nil if item.is_a?(Hash)
     #find the default translations for actions:
     #have to use array lookup instead of hash as hash lookup ignores variable interpolation
-    edit_label, delete_label, delete_confirm=t([:edit, :delete, :delete_confirm], scope: 'actions', item: item.class.name.titleize)
+    edit_label, delete_label, delete_confirm=t([:edit, :delete, :delete_confirm], scope: 'actions', item: item.class.model_name.human)
     default_actions=[:edit, :delete]
     default_options={class: "action_bar", title: "Actions", vertical: true, dropdown: false}
     default_options[:item]={data: {modal_target: '#modal'}} if options[:remote] or params[:modal]
@@ -58,7 +58,7 @@ module ApplicationHelper
     except=*options[:except]
     actions=default_actions - except
     actions=*options[:only] if options.has_key?(:only)
-    html=action_buttons.header
+    html=[action_buttons.header]
     html<<capture(action_buttons, &block) if block_given?
     # if we've given a namespace in options, use it
     item=[options[:namespace], item] if options[:namespace]
@@ -69,7 +69,8 @@ module ApplicationHelper
       html<<action_buttons.item(t('.actions.delete', default: delete_label), url_for(item), delete_options)
     end
     html<<action_buttons.footer
-    html.html_safe
+    #Only return this action bar if there's any content (not just header & footer)
+    html.join.html_safe if html.count>2
   end
 
   def filter_bar(filters)
@@ -82,7 +83,7 @@ module ApplicationHelper
 
   def construct_filter(builder, filter, value, use_value_as_title=false)
     text=(use_value_as_title ? value : filter)
-    text=text.to_s.titleize
+    text=t(text, scope: "filters.#{params[:controller].gsub(/\//,'.')}", default: text.to_s.humanize)
     #if it's an array of options
     if value.is_a?(Array)
       #Allow the user to activate each one
