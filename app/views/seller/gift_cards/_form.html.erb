@@ -8,6 +8,6 @@
 	<% else %>
 		<%= f.hidden_field :redeemer_id %>
 	<% end %>
-	<%= render 'shared/cost_fields', f: f %>
+	<%= render 'shared/cost_fields', f: f, cost_field: :start_value %>
 	<%= f.submit class: "btn btn-default" %>
 <% end %>

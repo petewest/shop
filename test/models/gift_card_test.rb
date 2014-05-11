@@ -111,16 +111,6 @@ class GiftCardTest < ActiveSupport::TestCase
     assert_not @gift_card_new.valid?
   end
 
-  test "should have unit_cost virtual methods for setting start_value field" do
-    @gift_card_new.unit_cost=2050
-    assert_equal 2050, @gift_card_new.start_value
-    assert @gift_card_new.valid?, "Errors: #{@gift_card_new.errors.inspect}"
-  end
-
-  test "should have unit_cost virtual methods for reading start_value field" do
-    assert_equal 2000, @gift_card_new.unit_cost
-  end
-
   test "should decrement current_value when start_value is reduced (starting same)" do
     @gift_card_new.save
     current=@gift_card_new.current_value

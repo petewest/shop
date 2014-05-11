@@ -41,7 +41,7 @@ class Seller::GiftCardsController < ApplicationController
 
   private
     def gift_card_params
-      params.require(:gift_card).permit(:redeemer_id, :currency_id, :unit_cost)
+      params.require(:gift_card).permit(:redeemer_id, :currency_id, :start_value)
     end
     def find_gift_card
       @gift_card=GiftCard.find(params[:id]) if params[:id]

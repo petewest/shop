@@ -1,3 +1,4 @@
+<% cost_field||=:unit_cost %>
 <div class="col-md-3 col-sm-4 col-xs-6">
 	<div class="form-group">
 	  <%= f.label :currency, class: "control-label" %>
@@ -6,14 +7,12 @@
 </div>
 <div class="col-md-9 col-sm-8 col-xs-6">
 	<div class="form-group">
-	  <%= f.label :unit_cost, class: "control-label" %>
-	  <%= f.text_field :unit_cost, class: "form-control" %>
+	  <%= f.label cost_field, class: "control-label" %>
+	  <%= f.text_field cost_field, class: "form-control" %>
 	</div>
 </div>
 <div class="col-md-12">
 <p class="help-block">
-<%= #t(:cost_description_html, scope: [controller, params[:action]])
-%>
 <%=
 begin
   t(:cost_description_html, scope: [params[:controller].gsub(/\//,'.'), params[:action]], raise: true)
