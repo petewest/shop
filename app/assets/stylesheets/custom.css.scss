@@ -254,6 +254,9 @@
 	text-transform: uppercase;
 }
 
+.dropdown-menu input[type=radio] {
+	display: none;
+}
 .dropdown-menu label {
     display: block;
     padding: 3px 20px;

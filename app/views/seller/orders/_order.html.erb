@@ -20,8 +20,14 @@
 		</div>
 		<div class="order_actions">
 			<%= action_bar(dropdown: true) do |action| %>
-				<%= render 'seller/orders/order_status_form', order: order %>
-				<%= action.item t(".actions.charge"), charge_path(order.stripe_charge_reference) if order.stripe_charge_reference.present? %>
+				<% if order.stripe_charge_reference.present? %>
+					<%= action.item t(".actions.charge"), charge_path(order.stripe_charge_reference) %>
+					<li class="divider"></li>
+				<% end %>
+				<% if order.allowed_status_flows.any? %>
+					<li class="dropdown-header"><%= t('.actions.change_status') %></li>
+					<%= render 'seller/orders/order_status_form', order: order %>
+				<% end %>
 			<% end %>
 		</div>
 	</div>

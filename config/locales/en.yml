@@ -95,6 +95,7 @@ en:
     orders:
       order:
         actions:
+          change_status: Change status
           charge: View charge
   shared:
     cost_fields:
