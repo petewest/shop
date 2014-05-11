@@ -21,7 +21,7 @@
 		<div class="order_actions">
 			<%= action_bar(dropdown: true) do |action| %>
 				<%= render 'seller/orders/order_status_form', order: order %>
-				<%= action.item "Charge", charge_path(order.stripe_charge_reference) if order.stripe_charge_reference.present? %>
+				<%= action.item t(".actions.charge"), charge_path(order.stripe_charge_reference) if order.stripe_charge_reference.present? %>
 			<% end %>
 		</div>
 	</div>

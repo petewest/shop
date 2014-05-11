@@ -92,6 +92,10 @@ en:
         issue_gift_card: Issue gift card
         orders: Orders
         allocations: Allocations
+    orders:
+      order:
+        actions:
+          charge: View charge
   shared:
     cost_fields:
 # Default cost description. Overridable per controller action
