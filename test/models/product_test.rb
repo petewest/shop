@@ -94,6 +94,21 @@ class ProductTest < ActiveSupport::TestCase
     assert_respond_to product, :sub_products
   end
 
+  test "should respond to for_sale and for_sale?" do
+    product=Product.new
+    assert_respond_to product, :for_sale
+    assert_respond_to product, :for_sale?
+  end
+
+  test "should have a for_sale scope" do
+    assert_respond_to Product, :for_sale
+  end
+
+  test "should only return items for sale" do
+    product_list=Product.for_sale
+    assert_not product_list.include?(products(:not_for_sale))
+  end
+
 
   private
     def valid

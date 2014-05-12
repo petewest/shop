@@ -87,4 +87,10 @@ gift_card_product_no_allocations:
   unit_cost: 10_000_000
   type: GiftCardProduct
 
+not_for_sale:
+  name: Product no longer for sale
+  seller: seller
+  currency: gbp
+  unit_cost: 1000
+  for_sale: false
 
