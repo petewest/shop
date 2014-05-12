@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class LineItemsControllerTest < ActionController::TestCase
+  test "update these tests now I've learnt a (little) bit more about testing" do
+    skip
+  end
+
   test "should create new item when valid" do
     assert_difference "LineItem.count" do
       post :create, line_item: valid
@@ -39,6 +43,36 @@ class LineItemsControllerTest < ActionController::TestCase
     assert_nil assigns(:line_item)
     line_item.reload
     assert_not_equal 5, line_item.quantity
+  end
+
+  test "should allow purchase of product" do
+    product=products(:tshirt)
+    get :new, product_id: product.id
+    assert_response :success
+    assert_select "label", product.name
+    assert_select ".cart_save_button input[type=submit]"
+  end
+
+  test "should show select box for sub_items of master" do
+    product=products(:master_product)
+    get :new, product_id: product.id
+    assert product.sub_products.any?
+    assert_response :success
+    assert_select '#subproduct-select'
+    assert_select ".dropdown-menu" do
+      product.sub_products.each do |sub|
+        assert_select "a[href=#{product_buy_path(sub)}]"
+      end
+    end
+  end
+
+  test "should warn if product is on pre-order" do
+    product=products(:preorder)
+    stock_level=stock_levels(:pre_orderable)
+    get :new, product_id: product.id
+    assert_response :success
+    assert_select ".help-block", "This item is available for pre-order with stock due on #{I18n.l(stock_level.due_at.in_time_zone(I18n.t('time.zone')).to_date)}"
+    assert_select "input[name='line_item[quantity]']"
   end
 
   private
