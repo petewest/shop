@@ -45,7 +45,7 @@ module ApplicationHelper
     options, item=item.merge(only: nil), nil if item.is_a?(Hash)
     #find the default translations for actions:
     #have to use array lookup instead of hash as hash lookup ignores variable interpolation
-    edit_label, delete_label, delete_confirm=t([:edit, :delete, :delete_confirm], scope: 'actions', item: item.class.model_name.human)
+    edit_label, delete_label, delete_confirm=t([:edit, :delete, :delete_confirm], scope: 'actions', item: item.class.try(:model_name).try(:human))
     default_actions=[:edit, :delete]
     default_options={class: "action_bar", title: "Actions", vertical: true, dropdown: false}
     default_options[:item]={data: {modal_target: '#modal'}} if options[:remote] or params[:modal]
