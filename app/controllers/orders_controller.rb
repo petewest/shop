@@ -89,6 +89,11 @@ class OrdersController < ApplicationController
     if @order.save
       flash[:success]="Thank you for your order!"
       OrderMailer.confirmation_email(@order).deliver
+      # automatically progress order to dispatched if it's only gift cards
+      # and each card has been created
+      if @order.products.all?{ |p| p.is_a?(GiftCardProduct) } and @order.gift_cards_bought.size==@order.line_items.sum(:quantity)
+        @order.update_attributes(status: :dispatched)
+      end
     else
       flash[:warning]="Error processing order, please contact seller"
     end
