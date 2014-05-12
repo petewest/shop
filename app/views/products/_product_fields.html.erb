@@ -3,6 +3,9 @@
 	<%= f.label :name, class: "control-label" %>
 	<%= f.text_field :name, class: "form-control" %>
 </div>
+<%= f.label :for_sale, class: "control-label" do %>
+	<%= f.check_box :for_sale %> <%= f.object.class.human_attribute_name(:for_sale) %>
+<% end %>
 <div class="form-group">
 	<%= f.label :description, class: "control-label" %>
 	<%= f.text_area :description, class: "form-control", rows: 20 %>
@@ -15,8 +18,9 @@
 	</p>
 </div>
 <div class="cost">
-        <%= render 'shared/cost_fields', f: f %>
-    </div>
+    <%= render 'shared/cost_fields', f: f %>
+</div>
+<div class="clearfix"></div>
 <div class="image_list" id="images_list">
 	Images: <%= add_fields_for_button(f, :images) %>
 	<%= f.fields_for :images do |image| %>

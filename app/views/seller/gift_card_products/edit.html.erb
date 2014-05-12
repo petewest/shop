@@ -1,3 +1,3 @@
-<% provide(:title, "Edit #{@gift_card_product.name} #{cost_to_currency(@gift_card_product)}") if @gift_card_product.unit_cost %>
+<% provide(:title, "Edit #{@gift_card_product.name}") if @gift_card_product.unit_cost %>
 
 <%= render 'form', gift_card_product: @gift_card_product %>

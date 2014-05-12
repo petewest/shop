@@ -45,6 +45,8 @@ en:
         iso_code: ISO code
       order:
         <<: *order_statuses
+      product:
+        for_sale: For sale?
 # Partial localisations
   gift_card_products:
     index:

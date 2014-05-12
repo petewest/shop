@@ -1,4 +1,4 @@
-<div class="panel panel-info">
+<div class="panel product_<%=  product.for_sale? ? '' : 'not_' %>for_sale">
 	<div class="panel-heading">
 		<%= link_to product.name, product %>
 		<%= action_bar product, dropdown: true do |a| %>

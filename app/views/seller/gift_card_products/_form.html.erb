@@ -1,5 +1,9 @@
 <%= form_for [:seller, gift_card_product] do |f| %>
 	<%= render 'shared/form_error', object: f.object %>
+	<%= f.label :for_sale, class: "control-label" do %>
+		<%= f.check_box :for_sale %> <%= f.object.class.human_attribute_name(:for_sale) %>
+	<% end %>
+	<div class="clearfix"></div>
 	<%= render 'shared/cost_fields', f: f %>
 	<%= f.submit class: "btn btn-default" %>
 <% end %>

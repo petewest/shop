@@ -1,4 +1,4 @@
-<div class="panel panel-default">
+<div class="panel product_<%=  gift_card_product.for_sale? ? '' : 'not_' %>for_sale">
 	<div class="panel-heading">
 		<%= gift_card_product.name %>
 		<%= action_bar(gift_card_product, dropdown: true, edit: {data: {modal_target: '#modal'}}, namespace: :seller) do |action| %>

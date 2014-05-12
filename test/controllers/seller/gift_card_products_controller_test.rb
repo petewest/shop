@@ -94,8 +94,6 @@ class Seller::GiftCardProductsControllerTest < ActionController::TestCase
     assert_redirected_to seller_gift_card_products_path
   end
 
-  
-
   test "should not have destroy action for buyer" do
     sign_in users(:buyer)
     gift_card_product=products(:gift_card_product)
@@ -104,6 +102,24 @@ class Seller::GiftCardProductsControllerTest < ActionController::TestCase
     end
     assert_redirected_to signin_path
   end
+
+  test "should have a for_sale checkbox" do
+    sign_in users(:seller)
+    gift_card_product=products(:gift_card_not_for_sale)
+    get :edit, id: gift_card_product.id
+    assert_select "input[type=checkbox][name='gift_card_product[for_sale]']"
+  end
+
+  test "should be able update an item so it's for_sale" do
+    sign_in users(:seller)
+    gift_card_product=products(:gift_card_not_for_sale)
+    assert_difference "GiftCardProduct.for_sale.count" do
+      assert_no_difference "GiftCardProduct.count" do
+        patch :update, id: gift_card_product.id, gift_card_product: {for_sale: 'true'}
+      end
+    end
+  end
+
 
   private
     def valid

@@ -273,3 +273,17 @@
     color: #262626;
     background-color: whitesmoke;
 }
+
+.product_for_sale {
+	@extend .panel-success;
+	.panel-heading>a, .action_bar>a {
+		color: inherit;
+	}
+}
+
+.product_not_for_sale {
+	@extend .panel-danger;
+	.panel-heading>a, .action_bar>a {
+		color: inherit;
+	}
+}

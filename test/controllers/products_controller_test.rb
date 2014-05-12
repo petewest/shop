@@ -252,6 +252,23 @@ class ProductsControllerTest < ActionController::TestCase
     assert_select "a[href='#{product_buy_path(product)}']", 0
   end
 
+  test "should have a for_sale checkbox" do
+    sign_in users(:seller)
+    product=products(:not_for_sale)
+    get :edit, id: product.id
+    assert_select "input[type=checkbox][name='product[for_sale]']"
+  end
+
+  test "should be able update an item so it's for_sale" do
+    sign_in users(:seller)
+    product=products(:not_for_sale)
+    assert_difference "Product.for_sale.count" do
+      assert_no_difference "Product.count" do
+        patch :update, id: product.id, product: {for_sale: 'true'}
+      end
+    end
+  end
+
   private
     def valid
       @product||={name: "New product test", description: "Test description", currency_id: currencies(:gbp).id, unit_cost: 200}
