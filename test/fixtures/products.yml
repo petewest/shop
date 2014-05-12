@@ -94,3 +94,11 @@ not_for_sale:
   unit_cost: 1000
   for_sale: false
 
+gift_card_not_for_sale:
+  name: Gift card no longer for sale
+  seller: seller
+  currency: gbp
+  unit_cost: 1500
+  type: GiftCardProduct
+  for_sale: false
+
