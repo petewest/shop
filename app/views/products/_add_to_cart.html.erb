@@ -1,1 +1,1 @@
-<%= link_to "Buy", [object, :buy], class: "btn btn-default", data: {modal_target: "#modal"} %>
+<%= link_to "Buy", [object, :buy], class: "btn btn-default", data: {modal_target: "#modal"} if object.for_sale? %>

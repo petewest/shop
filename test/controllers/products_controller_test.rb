@@ -86,6 +86,8 @@ class ProductsControllerTest < ActionController::TestCase
     assert_not_nil assigns(:product)
     assert_select "h1", product.name
     assert_select "div.product_page_description", product.description
+    assert_nil flash[:warning]
+    assert_select "a[href='#{product_buy_path(product)}']"
   end
 
   test "should have seller actions for seller" do
@@ -241,6 +243,13 @@ class ProductsControllerTest < ActionController::TestCase
       get :index, page: page
       assert assigns(:products).all?(&:for_sale?)
     end while page=assigns(:products).next_page
+  end
+
+  test "should be able to get show page for product no longer for sale, but should warn" do
+    product=products(:not_for_sale)
+    get :show, id: product.id
+    assert_equal "Product not for sale", flash[:warning]
+    assert_select "a[href='#{product_buy_path(product)}']", 0
   end
 
   private

@@ -25,7 +25,8 @@ class ProductsController < ApplicationController
   end
 
   def show
-    @description=RedCloth.new(@product.description, [:sanitize_html])
+    @description=RedCloth.new(@product.description, [:sanitize_html]) if @product.description.present?
+    flash.now[:warning]=I18n.t('not_for_sale') unless @product.for_sale?
   end
 
   def destroy

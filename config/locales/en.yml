@@ -73,6 +73,8 @@ en:
       add: Add card
     pay:
       pay: Pay
+  products:
+    show:
   seller:
     gift_cards:
       new:
@@ -146,3 +148,5 @@ en:
         order_status: Order status
         <<: *order_statuses
   gift_card_redeemed: "Redeemed from gift card: %{balance}"
+  not_for_sale: Product not for sale
+
