@@ -22,6 +22,7 @@
 			<%= action_bar(dropdown: true) do |action| %>
 				<% if order.stripe_charge_reference.present? %>
 					<%= action.item t(".actions.charge"), charge_path(order.stripe_charge_reference) %>
+					<%= action.item t(".actions.gift_cards"), seller_order_gift_cards_path(order) if order.gift_cards_bought.any? %>
 					<li class="divider"></li>
 				<% end %>
 				<% if order.allowed_status_flows.any? %>

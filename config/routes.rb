@@ -86,7 +86,9 @@ Rails.application.routes.draw do
   # for sellers than for buyers
   namespace :seller do
     get '/allocations/:allocation_id/gift_cards' => 'gift_cards#index', as: :allocation_gift_cards
-    resources :orders, only: [:index, :show, :update]
+    resources :orders, only: [:index, :show, :update] do
+      resources :gift_cards, only: :index
+    end
     resources :products, only: [:index]
     resources :gift_card_products, except: :show
     resources :gift_cards, except: :show do

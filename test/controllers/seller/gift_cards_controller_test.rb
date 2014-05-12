@@ -96,6 +96,16 @@ class Seller::GiftCardsControllerTest < ActionController::TestCase
     assert_select "input[type=hidden][name='gift_card[redeemer_id]'][value=#{user.id}]"
   end
 
+  test "should filter gift_cards by order_id when asked" do
+    sign_in users(:seller)
+    order=orders(:gift_card_paid)
+    get :index, order_id: order.id
+    assert_response :success
+    assert_equal order.gift_cards_bought, assigns(:gift_cards)
+    assert assigns(:gift_cards).include?(gift_cards(:gift_card_paid))
+    assert_not assigns(:gift_cards).include?(gift_cards(:spent_on_order))
+  end
+
 
   private
     def valid

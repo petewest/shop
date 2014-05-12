@@ -23,6 +23,10 @@ class Seller::GiftCardsController < ApplicationController
   def index
     @gift_cards=GiftCard
     @gift_cards=@gift_cards.where(allocation_id: params[:allocation_id]) if params[:allocation_id]
+    if params[:order_id]
+      @order=Order.find(params[:order_id])
+      @gift_cards=@order.gift_cards_bought
+    end
     @gift_cards=@gift_cards.page(params[:page])
   end
 

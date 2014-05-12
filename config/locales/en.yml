@@ -99,6 +99,7 @@ en:
         actions:
           change_status: Change status
           charge: View charge
+          gift_cards: View gift cards
   shared:
     cost_fields:
 # Default cost description. Overridable per controller action
