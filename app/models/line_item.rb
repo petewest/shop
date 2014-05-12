@@ -8,6 +8,7 @@ class LineItem < ActiveRecord::Base
   validates :quantity, presence: true, numericality: {only_integer: true, greater_than_or_equal_to: 1}
   validates :product, presence: true
   validates :order, presence: true
+  validate :product_for_sale
 
   validates :product_id, uniqueness: {scope: :order_id, message: "already in order, update quantity and try again"}
 
@@ -66,5 +67,9 @@ class LineItem < ActiveRecord::Base
       copy_cost_from_product
       # Check currency of this product matches currency of the order
       errors[:base] << "Multi-currency orders currently unsupported" and return false unless self.currency==order.currency
+    end
+
+    def product_for_sale
+      errors[:product]=I18n.t('errors.attributes.product.not_for_sale') if product and !product.for_sale?
     end
 end

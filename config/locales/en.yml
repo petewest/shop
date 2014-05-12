@@ -149,4 +149,8 @@ en:
         <<: *order_statuses
   gift_card_redeemed: "Redeemed from gift card: %{balance}"
   not_for_sale: Product not for sale
+  errors:
+    attributes:
+      product:
+        not_for_sale: not for sale
 

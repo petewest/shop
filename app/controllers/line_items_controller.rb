@@ -4,6 +4,7 @@ class LineItemsController < ApplicationController
     @product=GiftCardProduct.find(params[:gift_card_product_id]) if params[:gift_card_product_id]
     @line_item=current_cart.line_items.new(product: @product).copy_cost_from_product
     @stock_level=@product.stock_levels.current.first
+    flash.now[:danger]=I18n.t('not_for_sale') unless @product.for_sale?
   end
 
   def create

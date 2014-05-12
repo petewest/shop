@@ -150,6 +150,13 @@ class LineItemTest < ActiveSupport::TestCase
     end
   end
 
+  test "should not create new item if product not for sale" do
+    line_item=LineItem.new(valid.merge(product: products(:not_for_sale)))
+    assert_not line_item.valid?
+    assert_equal 1, line_item.errors.count
+    assert_equal "not for sale", line_item.errors[:product].join
+  end
+
   private
     def valid
       @line_item||={product: products(:product_20), order: orders(:cart), quantity: 1}

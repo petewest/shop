@@ -75,8 +75,14 @@ class LineItemsControllerTest < ActionController::TestCase
     assert_select "input[name='line_item[quantity]']"
   end
 
+  test "should warn if product not for_sale" do
+    product=products(:not_for_sale)
+    get :new, product_id: product.id
+    assert_equal I18n.t('not_for_sale'), flash[:danger]
+  end
+
   private
     def valid
-      @line_item||={product_id: products(:tshirt).id, quantity: 1, currency: currencies(:gbp), cost: 20}
+      @line_item||={product_id: products(:tshirt).id, quantity: 1}
     end
 end
