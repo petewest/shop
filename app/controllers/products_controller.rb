@@ -3,7 +3,7 @@ class ProductsController < ApplicationController
   before_action :product_from_params, except: [:index, :new, :create]
 
   def index
-    @products=Product.includes(:main_image, :currency).where(type: nil).page(params[:page])
+    @products=Product.for_sale.includes(:main_image, :currency).where(type: nil).page(params[:page])
   end
 
   def new

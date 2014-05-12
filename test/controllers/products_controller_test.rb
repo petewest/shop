@@ -234,6 +234,15 @@ class ProductsControllerTest < ActionController::TestCase
     end
   end
 
+  test "should not contain items not for sale in index" do
+    # scroll through each page
+    page=nil
+    begin
+      get :index, page: page
+      assert assigns(:products).all?(&:for_sale?)
+    end while page=assigns(:products).next_page
+  end
+
   private
     def valid
       @product||={name: "New product test", description: "Test description", currency_id: currencies(:gbp).id, unit_cost: 200}
