@@ -71,6 +71,18 @@ Rails.application.configure do
   #Set default url for mails
   config.action_mailer.default_url_options = { host: ENV['BASE_URI'] }
 
+  # Heroku sendgrid settings
+  config.action_mailer.smtp_settings = {
+    address: 'smtp.sendgrid.net',
+    port: '587',
+    authentication: :plain,
+    user_name: ENV['SENDGRID_USERNAME'],
+    password: ENV['SENDGRID_PASSWORD'],
+    domain: 'heroku.com',
+    enable_starttls_auto: true
+  }
+
+
   # Disable automatic flushing of the log to improve performance.
   # config.autoflush_log = false
 
