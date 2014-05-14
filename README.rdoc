@@ -29,9 +29,9 @@ Basic shopping website with stock control.  Uses Amazon Web Services S3 for imag
 
 === Gift cards
 
-* Create +GiftCardProduct+s from the Seller menu to list available gift card denominations
-* A user buying any +GiftCardProduct+s will generate a +GiftCard+ and email them a link with a redemption code to pass on to the intended recipient
-* If the +Order+ only has +GiftCardProduct+s as +LineItem+s then the order will automatically progress to +dispatched+ status when the email has been sent
+* Create +GiftCardProduct+ s from the Seller menu to list available gift card denominations
+* A user buying any +GiftCardProduct+ s will generate a +GiftCard+ and email them a link with a redemption code to pass on to the intended recipient
+* If the +Order+ only has +GiftCardProduct+ s as +LineItem+ s then the order will automatically progress to +dispatched+ status when the email has been sent
 
 == Installation
 
