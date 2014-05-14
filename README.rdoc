@@ -2,6 +2,46 @@
 
 Basic shopping website with stock control.  Uses Amazon Web Services S3 for image uploads.
 
+== Features
+
+=== User
+
+* Seller and buyer accounts
+* Seller can list items, view orders, create stock, etc
+* Buyer can only buy things
+
+== Orders
+
+* Orders start in +cart+ status and have a set of allowed flows
+
+=== Products
+
+* Create Products to sell from the Seller menu
+* Nestable sub-products (for sizes, etc)
+* Multiple images per product
+* For sale? flag to say if the product should be listed
+
+=== Stock levels
+
+* Stock levels for each product (and sub product)
+* Stock levels have a "due date" and "expiry date", as well as a pre-orderable flag
+* When an +Order+ changes to status +paid+ it creates allocations from available stock and decrements stock level
+
+=== Gift cards
+
+* Create +GiftCardProduct+s from the Seller menu to list available gift card denominations
+* A user buying any +GiftCardProduct+s will generate a +GiftCard+ and email them a link with a redemption code to pass on to the intended recipient
+* If the +Order+ only has +GiftCardProduct+s as +LineItem+s then the order will automatically progress to +dispatched+ status when the email has been sent
+
+== Installation
+
+- Deploy code to Heroku (or your server of choice)
+- Run +rake db:seed+ to populate database with basic static data
+- Configure your Amazon S3 bucket and set up the environment variables required
+- Configure your Stripe account and set up the environment variables required
+- Add sendgrid to your Heroku deployment
+- Set any other remaining environment variables (below)
+
 == Environment variables to set
 
 * <tt>AWS_ACCESS_KEY_ID</tt> to be your Amazon Web Services access key
