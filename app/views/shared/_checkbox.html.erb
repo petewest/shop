@@ -1,0 +1,6 @@
+<div class="checkbox">
+	<%= f.label attribute, class: "control-label" do %>
+		<%= f.check_box attribute %> <%= f.object.class.human_attribute_name(attribute) %>
+	<% end %>
+</div>
+

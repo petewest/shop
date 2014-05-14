@@ -1,0 +1,2 @@
+<%= render 'shared/refresh_flash' %>
+jQuery("#<%= dom_id(@stock_level, :edit) %>").replaceWith("<%= escape_javascript(render 'edit_form', stock_level: @stock_level) %>");

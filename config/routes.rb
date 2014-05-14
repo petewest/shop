@@ -52,7 +52,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :stock_levels, only: [:destroy] do
+  resources :stock_levels, only: [:destroy, :edit, :update] do
     resources :orders, only: [:index], module: :seller
     resources :allocations, only: [:index]
   end

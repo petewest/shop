@@ -1,0 +1,7 @@
+<%= form_for stock_level, remote: true do |f| %>
+        <%= render 'shared/form_error', object: f.object %>
+        <%= render 'stock_level_date_fields', f: f %>
+	<div class="clearfix"></div>
+        <%= f.submit class: "btn btn-default" %>
+<% end %>
+

@@ -70,6 +70,15 @@ en:
     create:
       success: Gift card added to order
       failure: Gift card could not be added to order
+  stock_levels:
+    edit:
+      title: Edit stock level
+    update:
+      success: Stock level updated
+      failure: Stock level update failed
+    stock_level_date_fields:
+      help:
+        expires_at: If the items will only be available for a limited time put the end date here.  Optional.
   orders:
     redemption_form:
       add: Add card

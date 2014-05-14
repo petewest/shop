@@ -2,7 +2,7 @@
 	<div class="panel-heading">
 		<%= gift_card_product.name %>
 		<%= action_bar(gift_card_product, dropdown: true, edit: {data: {modal_target: '#modal'}}, namespace: :seller) do |action| %>
-			<%= action.item "Add stock", new_product_stock_level_path(gift_card_product) %>
+			<%= action.item "Add stock", new_product_stock_level_path(gift_card_product), data: {modal_target: '#modal'} %>
 		<% end %>
 	</div>
 	<%= render 'stock_levels/product_stock_level', product: gift_card_product %>

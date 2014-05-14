@@ -91,7 +91,82 @@ class StockLevelsControllerTest < ActionController::TestCase
     assert_template 'destroy'
   end
 
+  test "should not edit stock as anon" do
+    stock_level=@product.stock_levels.first
+    get :edit, id: stock_level.id
+    assert_redirected_to signin_path
+  end
 
+  test "should not edit stock as buyer" do
+    sign_in users(:buyer)
+    stock_level=@product.stock_levels.first
+    get :edit, id: stock_level.id
+    assert_redirected_to signin_path
+  end
+
+  test "should edit stock as seller" do
+    sign_in users(:seller)
+    stock_level=@product.stock_levels.first
+    get :edit, id: stock_level.id
+    assert_response :success
+    assert_select "form" do
+      assert_select "input[name='stock_level[start_quantity]']",0
+      assert_select "input[name='stock_level[current_quantity]']",0
+      assert_select "input[name='stock_level[expires_at]']"
+      assert_select "input[type=checkbox][name='stock_level[allow_preorder]']"
+    end
+  end
+
+  test "should not have update action as buyer" do
+    sign_in users(:buyer)
+    stock_level=@product.stock_levels.first
+    patch :update, id: stock_level.id, stock_level: {allow_preorder: 't'}
+    assert_redirected_to signin_path
+    assert_not stock_level.reload.allow_preorder
+  end
+
+  test "should have update action as seller (html)" do
+    sign_in users(:seller)
+    stock_level=@product.stock_levels.first
+    assert_not stock_level.allow_preorder
+    patch :update, id: stock_level.id, stock_level: {allow_preorder: 't'}
+    assert stock_level.reload.allow_preorder
+    assert_equal "Stock level updated", flash[:success]
+  end
+
+  test "should have update action as seller (js)" do
+    sign_in users(:seller)
+    stock_level=@product.stock_levels.first
+    assert_not stock_level.allow_preorder
+    xhr :patch, :update, id: stock_level.id, stock_level: {allow_preorder: 't'}
+    assert stock_level.reload.allow_preorder
+    assert_equal "Stock level updated", flash[:success]
+    assert_template 'update'
+  end
+
+  test "should not be able to change quantity" do
+    sign_in users(:seller)
+    stock_level=@product.stock_levels.first
+    quantity_before=stock_level.start_quantity
+    patch :update, id: stock_level.id, stock_level: {start_quantity: quantity_before+1}
+    assert_equal quantity_before, stock_level.reload.start_quantity
+  end
+
+  test "should show edit when failing update (html)" do
+    sign_in users(:seller)
+    stock_level=@product.stock_levels.first
+    patch :update, id: stock_level.id, stock_level: {due_at: ""}
+    assert_equal "Stock level update failed", flash[:danger]
+    assert_template 'edit'
+  end
+
+  test "should show edit when failing update (js)" do
+    sign_in users(:seller)
+    stock_level=@product.stock_levels.first
+    xhr :patch, :update, id: stock_level.id, stock_level: {due_at: ""}
+    assert_equal "Stock level update failed", flash[:danger]
+    assert_template 'edit'
+  end
   private
     def valid
       @stock_level||={due_at: 5.days.ago, expires_at: 10.days.from_now, start_quantity: 20, allow_preorder: 'f'}

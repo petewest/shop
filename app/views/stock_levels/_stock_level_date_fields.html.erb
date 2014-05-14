@@ -1,0 +1,17 @@
+<div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="form-group">
+            <%= f.label :due_at, class: "control-label" %>
+            <%= f.date_field :due_at, class: "form-control" %>
+          </div>
+  </div>
+  <div class="col-md-6 col-sm-6 col-xs-12">
+          <div class="form-group">
+            <%= f.label :expires_at, class: "control-label" %>
+            <%= f.date_field :expires_at, class: "form-control" %>
+            <p class="help-block"><%= t('.help.expires_at') %></p>
+          </div>
+  </div>
+  <div class="col-md-6 col-sm-6 col-xs-12">
+	<%= render 'shared/checkbox', f: f, attribute: :allow_preorder %>
+  </div>
+

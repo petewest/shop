@@ -5,30 +5,12 @@ options[:remote]=true if request.xhr?
 %>
 <%= form_for stock_level, options do |f| %>
   <%= render 'shared/form_error', object: f.object %>
-  <div class="col-md-6 col-sm-6 col-xs-12">
-	  <div class="form-group">
-	    <%= f.label :due_at, class: "control-label" %>
-	    <%= f.date_field :due_at, class: "form-control" %>
-	  </div>
-  </div>
-  <div class="col-md-6 col-sm-6 col-xs-12">
-	  <div class="form-group">
-	    <%= f.label :expires_at, class: "control-label" %>
-	    <%= f.date_field :expires_at, class: "form-control" %>
-	    <p class="help-block">If the items will only be available for a limited time put the end date here.  Optional.</p>
-	  </div>
-  </div>
+  <%= render 'stock_level_date_fields', f: f %>
+  <div class="clearfix"></div>
   <div class="col-md-6 col-sm-6 col-xs-12">
 	  <div class="form-group">
 	    <%= f.label :start_quantity, class: "control-label" %>
 	    <%= f.text_field :start_quantity, class: "form-control" %>
-	  </div>
-  </div>
-  <div class="col-md-6 col-sm-6 col-xs-12">
-	  <div class="checkbox">
-	    <label class="control-label">
-	    <%= f.check_box :allow_preorder %> Allow pre-order
-	    </label>
 	  </div>
   </div>
   <div class="clearfix"></div>
