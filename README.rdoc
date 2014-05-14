@@ -29,14 +29,14 @@ Basic shopping website with stock control.  Uses Amazon Web Services S3 for imag
 
 === Gift cards
 
-* Create +GiftCardProduct+ s from the Seller menu to list available gift card denominations
-* A user buying any +GiftCardProduct+ s will generate a +GiftCard+ and email them a link with a redemption code to pass on to the intended recipient
-* If the +Order+ only has +GiftCardProduct+ s as +LineItem+ s then the order will automatically progress to +dispatched+ status when the email has been sent
+* Create <tt>GiftCardProduct</tt>s from the Seller menu to list available gift card denominations
+* A user buying any <tt>GiftCardProduct</tt>s will generate a +GiftCard+ and email them a link with a redemption code to pass on to the intended recipient
+* If the +Order+ only has <tt>GiftCardProduct</tt>s as <tt>LineItem</tt>s then the order will automatically progress to +dispatched+ status when the email has been sent
 
 == Installation
 
 - Deploy code to Heroku (or your server of choice)
-- Run +rake db:seed+ to populate database with basic static data
+- Run <tt>rake db:seed</tt> to populate database with basic static data
 - Configure your Amazon S3 bucket and set up the environment variables required
 - Configure your Stripe account and set up the environment variables required
 - Add sendgrid to your Heroku deployment
