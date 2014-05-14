@@ -115,7 +115,7 @@ module ApplicationHelper
   end
 
   def css_id(item)
-    "#{item.class.name.parameterize}_#{item.new_record? ? 'new' : item.id }"
+    dom_id(item)
   end
 
   def add_fields_for_button(form, collection, options={})
